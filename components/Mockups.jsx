@@ -131,13 +131,13 @@ export function MusteriTakipPhone() {
           <rect x="160" y="140" width="58" height="55" rx="8" fill="#e2ebe2" />
           <path d={rota} fill="none" stroke="#2e8b63" strokeWidth="3.5" strokeDasharray="7 6" strokeLinecap="round" />
           <circle cx="30" cy="218" r="7" fill="#fff" stroke="#2e8b63" strokeWidth="3" />
-          {/* araç rota üzerinde ilerler (SMIL); reduced-motion'da statik kopya gösterilir */}
+          {/* araç rota üzerinde CSS motion-path ile ilerler (offset-path);
+              tarayıcı desteklemiyorsa veya reduced-motion'da statik kopya görünür */}
           <g className="arac-anim">
             <g transform="translate(-12 -12)">
               <rect width="24" height="24" rx="7" fill="#2e8b63" />
               <path d="M5 8h8v8H5zM13 10h3l2.5 2.5V16H13zM8 17.5a1.4 1.4 0 1 0 0 .01M15.5 17.5a1.4 1.4 0 1 0 0 .01" fill="none" stroke="#fff" strokeWidth="1.4" strokeLinejoin="round" />
             </g>
-            <animateMotion dur="12s" repeatCount="indefinite" path={rota} />
           </g>
           <g className="arac-statik" transform="translate(138 43)">
             <rect width="24" height="24" rx="7" fill="#2e8b63" />

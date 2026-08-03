@@ -1,7 +1,16 @@
 import Link from "next/link";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "../components/Nav";
 import { SITE_URL } from "../lib/site";
+
+// Yazı tipi self-host edilir (next/font): render bloklayan istek ve font-swap
+// kaynaklı layout kayması (CLS) ortadan kalkar.
+const inter = Inter({
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -29,15 +38,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="tr">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="tr" className={inter.variable}>
       <body>
         <Nav />
         {children}

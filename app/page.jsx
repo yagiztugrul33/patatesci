@@ -117,7 +117,7 @@ export default function Home() {
       </div>
 
       {/* ================= TÜRKİYE HARİTASI ================= */}
-      <section className="section" id="harita">
+      <section className="section cv" id="harita">
         <div className="container">
           <Reveal>
             <div className="section-head">
@@ -139,7 +139,7 @@ export default function Home() {
       </Reveal>
 
       {/* ================= ESNAF HİKAYESİ ================= */}
-      <section className="section" id="esnaf" style={{ background: "var(--bg-soft)" }}>
+      <section className="section cv" id="esnaf" style={{ background: "var(--bg-soft)" }}>
         <div className="container">
           <Reveal>
             <div className="section-head">
@@ -153,7 +153,7 @@ export default function Home() {
           </Reveal>
 
           <Story
-            renk="var(--amber)"
+            renk="var(--amber-koyu)"
             eyebrow="Esnaf · Adım 1"
             baslik="Uzmanlığınla kaydol"
             metin="Patatesçi misin, soğancı mı, genel manav mı? Kendini uzmanlığınla tanıt. Telefonun doğrulanır, araç plakan kaydedilir, künyen onaylanır — ve sana kimseye verilmeyen şey verilir: Onaylı Esnaf kimliği."
@@ -167,7 +167,7 @@ export default function Home() {
 
           <Story
             rev
-            renk="var(--kirmizi)"
+            renk="var(--kirmizi-koyu)"
             eyebrow="Esnaf · Adım 2"
             baslik="Sipariş sana düşer"
             metin="Mahallenden biri sipariş verdiğinde telefonun çalar: ne istendiği, kaç kilo olduğu, ne kazanacağın ve kaç km ötede olduğu ekranda. Uygunsan kabul et; değilsen reddet, sipariş sıradaki esnafa geçsin."
@@ -185,7 +185,7 @@ export default function Home() {
       </section>
 
       {/* ================= MÜŞTERİ HİKAYESİ ================= */}
-      <section className="section" id="musteri">
+      <section className="section cv" id="musteri">
         <div className="container">
           <Reveal>
             <div className="section-head">
@@ -195,7 +195,7 @@ export default function Home() {
           </Reveal>
 
           <Story
-            renk="var(--amber)"
+            renk="var(--amber-koyu)"
             eyebrow="Müşteri · Adım 1"
             baslik="Siparişini oluştur"
             metin="Ne lazımsa seç: 5 kilo patates, 3 kilo soğan… Fiyatlar herkese açık piyasa bandından; pazarlık yok, sürpriz yok."
@@ -212,7 +212,7 @@ export default function Home() {
           />
 
           <Story
-            renk="var(--kirmizi)"
+            renk="var(--kirmizi-koyu)"
             eyebrow="Müşteri · Adım 3"
             baslik="Canlı takip et, canlı gör"
             metin="Araç yola çıktığı andan itibaren haritada; varış süresi ekranda. Üstelik ürünü teslimden önce canlı görüntüyle görür, kaliteyi kendin onaylarsın."
@@ -230,7 +230,7 @@ export default function Home() {
       </section>
 
       {/* ================= GÜVENCE ================= */}
-      <section className="section" id="guvence" style={{ background: "var(--bg-soft)", paddingTop: 56, paddingBottom: 56 }}>
+      <section className="section cv" id="guvence" style={{ background: "var(--bg-soft)", paddingTop: 56, paddingBottom: 56 }}>
         <div className="container">
           <Reveal>
             <div className="section-head">
@@ -259,7 +259,7 @@ export default function Home() {
       </div>
 
       {/* ================= ESNAF ÇAĞRISI ================= */}
-      <section className="section cagri" id="esnaf-katil">
+      <section className="section cagri cv" id="esnaf-katil">
         <div className="container cagri-grid">
           <Reveal>
             <img src="/illus/esnaf-arac.svg" alt="Üç tekerlekli aracıyla mahalle esnafı illüstrasyonu" className="illus-yan" loading="lazy" />
@@ -284,7 +284,7 @@ export default function Home() {
       </section>
 
       {/* ================= SSS ================= */}
-      <section className="section" id="sss">
+      <section className="section cv" id="sss">
         <div className="container">
           <Reveal>
             <div className="section-head">
@@ -297,7 +297,7 @@ export default function Home() {
       </section>
 
       {/* ================= UYGULAMA YOLDA + ÖN KAYIT ================= */}
-      <section className="section" id="onkayit" style={{ background: "var(--bg-soft)" }}>
+      <section className="section cv" id="onkayit" style={{ background: "var(--bg-soft)" }}>
         <div className="container" style={{ textAlign: "center" }}>
           <Reveal>
             <div style={{ display: "flex", justifyContent: "center", marginBottom: 18 }}>

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useId, useState } from "react";
 
 export default function Waitlist({
   defaultRol = "alici",
@@ -8,6 +8,7 @@ export default function Waitlist({
   aciklama = "E-postanı bırak; uygulama yayına girdiğinde ilk sen haberdar ol.",
   buton = "Haber ver",
 }) {
+  const uid = useId();
   const [email, setEmail] = useState("");
   const [rol, setRol] = useState(defaultRol);
   const [bolge, setBolge] = useState("");
@@ -36,20 +37,20 @@ export default function Waitlist({
       <p className="muted" style={{ fontSize: ".92rem", marginBottom: 16 }}>{aciklama}</p>
       <div className="row2">
         <div className="field">
-          <label>E-posta adresi</label>
-          <input className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ornek@eposta.com" />
+          <label htmlFor={uid + "-eposta"}>E-posta adresi</label>
+          <input id={uid + "-eposta"} className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ornek@eposta.com" />
         </div>
         <div className="field">
-          <label>Seni nasıl tanıyalım?</label>
-          <select className="select" value={rol} onChange={(e) => setRol(e.target.value)}>
+          <label htmlFor={uid + "-rol"}>Seni nasıl tanıyalım?</label>
+          <select id={uid + "-rol"} className="select" value={rol} onChange={(e) => setRol(e.target.value)}>
             <option value="alici">Alıcıyım (ev / işletme)</option>
             <option value="satici">Esnafım (manav / pazarcı / üretici)</option>
           </select>
         </div>
       </div>
       <div className="field">
-        <label>İl / ilçe (isteğe bağlı)</label>
-        <input className="input" value={bolge} onChange={(e) => setBolge(e.target.value)} placeholder="Örn. İstanbul / Kadıköy" />
+        <label htmlFor={uid + "-bolge"}>İl / ilçe (isteğe bağlı)</label>
+        <input id={uid + "-bolge"} className="input" value={bolge} onChange={(e) => setBolge(e.target.value)} placeholder="Örn. İstanbul / Kadıköy" />
       </div>
       <button className="btn btn-primary full" onClick={gonder} disabled={bekle}>
         {bekle ? "Gönderiliyor…" : buton}
