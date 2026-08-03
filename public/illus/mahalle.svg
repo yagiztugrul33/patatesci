@@ -1,0 +1,95 @@
+<svg viewBox="0 0 1200 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mahalle sokağı: manav dükkanları illüstrasyonu">
+  <!-- gök -->
+  <rect width="1200" height="260" fill="#f6f8f7"/>
+  <!-- kaldırım -->
+  <rect y="228" width="1200" height="32" fill="#e5e9e6"/>
+
+  <!-- ==== dükkan 1 ==== -->
+  <g transform="translate(60 0)">
+    <rect x="0" y="70" width="240" height="158" fill="#efe7d8"/>
+    <rect x="18" y="46" width="204" height="30" rx="6" fill="#41505a"/>
+    <rect x="86" y="54" width="68" height="14" rx="7" fill="#7f929e"/>
+    <!-- tente -->
+    <g>
+      <path d="M0 92h48l-8 34H0Z" fill="#2e8b63"/>
+      <path d="M48 92h48l-8 34h-48Z" fill="#eaf3ee"/>
+      <path d="M96 92h48l-8 34H88Z" fill="#2e8b63"/>
+      <path d="M144 92h48l-8 34h-48Z" fill="#eaf3ee"/>
+      <path d="M192 92h48l-8 34h-48Z" fill="#2e8b63"/>
+    </g>
+    <rect x="26" y="140" width="80" height="88" fill="#cfd8d2"/>
+    <rect x="34" y="148" width="64" height="52" fill="#eef4f0"/>
+    <rect x="132" y="140" width="56" height="88" rx="4" fill="#41505a"/>
+    <circle cx="178" cy="186" r="4" fill="#e5e9e6"/>
+    <!-- öndeki tezgah kasaları -->
+    <rect x="24" y="204" width="56" height="24" rx="4" fill="#b98a5a" stroke="#a1744a" stroke-width="2.5"/>
+    <circle cx="38" cy="204" r="7" fill="#c25b4e"/><circle cx="52" cy="201" r="7" fill="#cf6a5d"/><circle cx="66" cy="204" r="6" fill="#c25b4e"/>
+    <rect x="196" y="204" width="56" height="24" rx="4" fill="#c99a66" stroke="#a1744a" stroke-width="2.5"/>
+    <ellipse cx="210" cy="203" rx="9" ry="6" fill="#d9b98a"/><ellipse cx="226" cy="200" rx="8" ry="6" fill="#cfa878"/><ellipse cx="242" cy="203" rx="8" ry="6" fill="#d9b98a"/>
+  </g>
+
+  <!-- ağaç -->
+  <g transform="translate(370 0)">
+    <rect x="24" y="170" width="12" height="58" rx="5" fill="#a1744a"/>
+    <circle cx="30" cy="140" r="42" fill="#3aa276"/>
+    <circle cx="6" cy="158" r="26" fill="#2e8b63"/>
+    <circle cx="56" cy="156" r="26" fill="#2e8b63"/>
+  </g>
+
+  <!-- ==== dükkan 2 (geniş) ==== -->
+  <g transform="translate(470 0)">
+    <rect x="0" y="58" width="300" height="170" fill="#e7ded0"/>
+    <rect x="22" y="34" width="256" height="30" rx="6" fill="#2e8b63"/>
+    <rect x="104" y="42" width="92" height="14" rx="7" fill="#bfe4d2"/>
+    <!-- tente -->
+    <g>
+      <path d="M0 82h60l-9 36H0Z" fill="#c25b4e"/>
+      <path d="M60 82h60l-9 36H51Z" fill="#f4efe6"/>
+      <path d="M120 82h60l-9 36h-60Z" fill="#c25b4e"/>
+      <path d="M180 82h60l-9 36h-60Z" fill="#f4efe6"/>
+      <path d="M240 82h60l-9 36h-60Z" fill="#c25b4e"/>
+    </g>
+    <!-- vitrin + kapı -->
+    <rect x="28" y="134" width="110" height="94" fill="#cfd8d2"/>
+    <rect x="36" y="142" width="94" height="56" fill="#eef4f0"/>
+    <rect x="168" y="134" width="60" height="94" rx="4" fill="#41505a"/>
+    <circle cx="218" cy="182" r="4" fill="#e5e9e6"/>
+    <!-- eğimli sebze tezgahı -->
+    <g transform="translate(240 150)">
+      <rect x="0" y="30" width="56" height="48" fill="#b98a5a"/>
+      <rect x="-4" y="18" width="64" height="18" rx="4" fill="#c99a66" transform="rotate(-6 28 27)"/>
+      <circle cx="8" cy="22" r="7" fill="#c25b4e"/><circle cx="24" cy="19" r="7" fill="#cf6a5d"/>
+      <ellipse cx="42" cy="18" rx="9" ry="6" fill="#d9b98a"/>
+    </g>
+    <rect x="30" y="204" width="60" height="24" rx="4" fill="#b98a5a" stroke="#a1744a" stroke-width="2.5"/>
+    <path d="M40 202c4-8 12-12 20-11-1 6-7 11-13 12Z" fill="#2e8b63"/>
+    <path d="M62 203c3-7 10-10 17-9-1 5-6 9-11 10Z" fill="#3aa276"/>
+  </g>
+
+  <!-- ==== dükkan 3 ==== -->
+  <g transform="translate(840 0)">
+    <rect x="0" y="78" width="220" height="150" fill="#efe7d8"/>
+    <rect x="16" y="54" width="188" height="30" rx="6" fill="#41505a"/>
+    <rect x="76" y="62" width="68" height="14" rx="7" fill="#7f929e"/>
+    <g>
+      <path d="M0 100h44l-7 32H0Z" fill="#2e8b63"/>
+      <path d="M44 100h44l-7 32H37Z" fill="#eaf3ee"/>
+      <path d="M88 100h44l-7 32H81Z" fill="#2e8b63"/>
+      <path d="M132 100h44l-7 32h-44Z" fill="#eaf3ee"/>
+      <path d="M176 100h44l-7 32h-44Z" fill="#2e8b63"/>
+    </g>
+    <rect x="22" y="146" width="72" height="82" fill="#cfd8d2"/>
+    <rect x="30" y="154" width="56" height="46" fill="#eef4f0"/>
+    <rect x="118" y="146" width="52" height="82" rx="4" fill="#41505a"/>
+    <circle cx="160" cy="190" r="4" fill="#e5e9e6"/>
+    <rect x="176" y="204" width="40" height="24" rx="4" fill="#c99a66" stroke="#a1744a" stroke-width="2.5"/>
+    <ellipse cx="188" cy="203" rx="8" ry="6" fill="#d9b98a"/><ellipse cx="204" cy="201" rx="8" ry="6" fill="#cfa878"/>
+  </g>
+
+  <!-- uzak ağaç -->
+  <g transform="translate(1105 0)">
+    <rect x="20" y="180" width="10" height="48" rx="4" fill="#a1744a"/>
+    <circle cx="25" cy="156" r="34" fill="#3aa276"/>
+    <circle cx="4" cy="170" r="20" fill="#2e8b63"/>
+  </g>
+</svg>

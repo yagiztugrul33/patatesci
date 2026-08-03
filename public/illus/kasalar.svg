@@ -1,0 +1,52 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kasalarda taze sebze illüstrasyonu">
+  <!-- zemin gölgesi -->
+  <ellipse cx="200" cy="272" rx="160" ry="16" fill="#1c2420" opacity="0.07"/>
+
+  <!-- arka kasa: domates -->
+  <g>
+    <circle cx="258" cy="132" r="15" fill="#c25b4e"/>
+    <circle cx="288" cy="126" r="15" fill="#cf6a5d"/>
+    <circle cx="316" cy="134" r="14" fill="#c25b4e"/>
+    <circle cx="274" cy="118" r="13" fill="#cf6a5d"/>
+    <circle cx="302" cy="114" r="13" fill="#c25b4e"/>
+    <path d="M272 108l4-7M300 104l3-7" stroke="#2e8b63" stroke-width="3" stroke-linecap="round"/>
+    <rect x="238" y="132" width="112" height="66" rx="8" fill="#b98a5a"/>
+    <rect x="238" y="132" width="112" height="66" rx="8" fill="none" stroke="#a1744a" stroke-width="3"/>
+    <rect x="248" y="146" width="92" height="7" rx="3.5" fill="#a1744a"/>
+    <rect x="248" y="166" width="92" height="7" rx="3.5" fill="#a1744a"/>
+  </g>
+
+  <!-- ön kasa: patates -->
+  <g>
+    <ellipse cx="118" cy="158" rx="19" ry="14" fill="#d9b98a" transform="rotate(-14 118 158)"/>
+    <ellipse cx="152" cy="150" rx="18" ry="13" fill="#cfa878" transform="rotate(9 152 150)"/>
+    <ellipse cx="186" cy="158" rx="18" ry="13" fill="#d9b98a" transform="rotate(-7 186 158)"/>
+    <ellipse cx="136" cy="140" rx="16" ry="12" fill="#cfa878" transform="rotate(12 136 140)"/>
+    <ellipse cx="170" cy="138" rx="15" ry="11" fill="#d9b98a" transform="rotate(-10 170 138)"/>
+    <circle cx="128" cy="156" r="1.8" fill="#a1744a"/>
+    <circle cx="158" cy="146" r="1.8" fill="#a1744a"/>
+    <circle cx="182" cy="156" r="1.8" fill="#a1744a"/>
+    <rect x="92" y="158" width="118" height="72" rx="8" fill="#c99a66"/>
+    <rect x="92" y="158" width="118" height="72" rx="8" fill="none" stroke="#a1744a" stroke-width="3"/>
+    <rect x="103" y="173" width="96" height="7" rx="3.5" fill="#a1744a"/>
+    <rect x="103" y="194" width="96" height="7" rx="3.5" fill="#a1744a"/>
+    <rect x="103" y="215" width="96" height="7" rx="3.5" fill="#a1744a" opacity="0.7"/>
+  </g>
+
+  <!-- yeşillik kasası (önde sağda) -->
+  <g>
+    <path d="M232 216c6-16 20-24 34-22-2 12-12 22-24 24Z" fill="#2e8b63"/>
+    <path d="M262 214c4-14 17-21 30-20-2 11-11 20-22 22Z" fill="#3aa276"/>
+    <path d="M292 218c5-13 16-19 28-18-2 10-10 18-20 20Z" fill="#2e8b63"/>
+    <rect x="222" y="216" width="110" height="52" rx="8" fill="#b98a5a"/>
+    <rect x="222" y="216" width="110" height="52" rx="8" fill="none" stroke="#a1744a" stroke-width="3"/>
+    <rect x="232" y="230" width="90" height="7" rx="3.5" fill="#a1744a"/>
+    <rect x="232" y="249" width="90" height="7" rx="3.5" fill="#a1744a"/>
+  </g>
+
+  <!-- öndeki serbest patatesler -->
+  <ellipse cx="70" cy="252" rx="17" ry="12" fill="#d9b98a" transform="rotate(-10 70 252)"/>
+  <ellipse cx="100" cy="260" rx="14" ry="10" fill="#cfa878" transform="rotate(14 100 260)"/>
+  <circle cx="66" cy="250" r="1.6" fill="#a1744a"/>
+  <circle cx="104" cy="258" r="1.6" fill="#a1744a"/>
+</svg>

@@ -1,0 +1,59 @@
+<svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Üç tekerlekli aracıyla mahalle esnafı illüstrasyonu">
+  <!-- zemin -->
+  <ellipse cx="250" cy="292" rx="200" ry="15" fill="#1c2420" opacity="0.07"/>
+
+  <!-- ==== üç tekerlekli kasa aracı (triportör) ==== -->
+  <g>
+    <!-- kasa (arka) -->
+    <rect x="60" y="150" width="180" height="92" rx="10" fill="#2e8b63"/>
+    <rect x="60" y="150" width="180" height="92" rx="10" fill="none" stroke="#25714f" stroke-width="4"/>
+    <rect x="74" y="166" width="152" height="8" rx="4" fill="#25714f"/>
+    <rect x="74" y="188" width="152" height="8" rx="4" fill="#25714f"/>
+    <!-- kasadaki sebze kasaları -->
+    <rect x="78" y="118" width="66" height="38" rx="6" fill="#b98a5a" stroke="#a1744a" stroke-width="3"/>
+    <ellipse cx="96" cy="118" rx="12" ry="9" fill="#d9b98a"/>
+    <ellipse cx="118" cy="114" rx="11" ry="8" fill="#cfa878"/>
+    <ellipse cx="134" cy="119" rx="10" ry="8" fill="#d9b98a"/>
+    <rect x="152" y="124" width="62" height="32" rx="6" fill="#c99a66" stroke="#a1744a" stroke-width="3"/>
+    <circle cx="168" cy="122" r="9" fill="#c25b4e"/>
+    <circle cx="186" cy="118" r="9" fill="#cf6a5d"/>
+    <circle cx="202" cy="123" r="8" fill="#c25b4e"/>
+    <!-- kabin (ön) -->
+    <path d="M240 242v-74a12 12 0 0 1 12-12h44l34 40v46Z" fill="#3aa276"/>
+    <path d="M240 242v-74a12 12 0 0 1 12-12h44l34 40v46Z" fill="none" stroke="#25714f" stroke-width="4"/>
+    <path d="M258 170h32l24 28h-56Z" fill="#e9f2ec"/>
+    <!-- far -->
+    <circle cx="322" cy="222" r="7" fill="#f2d98c"/>
+    <!-- tekerlekler: arka çift + ön tek -->
+    <circle cx="110" cy="258" r="26" fill="#1c2420"/>
+    <circle cx="110" cy="258" r="11" fill="#e5e9e6"/>
+    <circle cx="196" cy="258" r="26" fill="#1c2420"/>
+    <circle cx="196" cy="258" r="11" fill="#e5e9e6"/>
+    <circle cx="300" cy="262" r="22" fill="#1c2420"/>
+    <circle cx="300" cy="262" r="9" fill="#e5e9e6"/>
+    <!-- plaka -->
+    <rect x="252" y="246" width="58" height="16" rx="4" fill="#ffffff" stroke="#41505a" stroke-width="2"/>
+    <rect x="256" y="250" width="10" height="8" rx="2" fill="#2e5aa8"/>
+    <rect x="270" y="251" width="36" height="6" rx="3" fill="#41505a"/>
+  </g>
+
+  <!-- ==== esnaf figürü ==== -->
+  <g>
+    <!-- baş -->
+    <circle cx="398" cy="140" r="22" fill="#e8b98f"/>
+    <!-- kasket -->
+    <path d="M376 134a22 22 0 0 1 44 0Z" fill="#41505a"/>
+    <rect x="372" y="130" width="34" height="7" rx="3.5" fill="#33404a"/>
+    <!-- gövde + önlük -->
+    <path d="M372 168h52l-6 76h-40Z" fill="#41505a"/>
+    <path d="M382 178h32l-4 58h-24Z" fill="#2e8b63"/>
+    <path d="M382 178l16 14 16-14" fill="none" stroke="#25714f" stroke-width="3" stroke-linecap="round"/>
+    <!-- selamlayan kol -->
+    <path d="M424 176c14-8 24-20 28-34" fill="none" stroke="#e8b98f" stroke-width="13" stroke-linecap="round"/>
+    <!-- diğer kol: kasa tutar -->
+    <path d="M372 182c-10 8-16 18-18 28" fill="none" stroke="#41505a" stroke-width="13" stroke-linecap="round"/>
+    <!-- bacaklar -->
+    <path d="M384 244v40M410 244v40" stroke="#33404a" stroke-width="14" stroke-linecap="round"/>
+    <path d="M378 288h14M404 288h14" stroke="#1c2420" stroke-width="8" stroke-linecap="round"/>
+  </g>
+</svg>

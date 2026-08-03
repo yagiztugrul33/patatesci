@@ -228,6 +228,22 @@ export function IconArtiDaire(props) {
   );
 }
 
+export function IconYildiz({ size = 24, ...rest }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="currentColor" {...rest}>
+      <path d="M12 3.4l2.6 5.2 5.8.8-4.2 4.1 1 5.7-5.2-2.7-5.2 2.7 1-5.7-4.2-4.1 5.8-.8L12 3.4Z" />
+    </svg>
+  );
+}
+
+export function IconAhize(props) {
+  return (
+    <Svg {...props}>
+      <path d="M7.2 4.4c1 0 3.1 3.3 3.1 4.2 0 1.1-1.7 1.7-1.7 2.7 0 1.5 2.6 4.1 4.1 4.1 1 0 1.6-1.7 2.7-1.7.9 0 4.2 2.1 4.2 3.1 0 2-2.5 3-4.1 3-5.6 0-11.3-5.7-11.3-11.3 0-1.6 1-4.1 3-4.1Z" />
+    </Svg>
+  );
+}
+
 export function IconKonum(props) {
   return (
     <Svg {...props}>
