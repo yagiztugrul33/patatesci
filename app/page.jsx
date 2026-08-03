@@ -1,6 +1,8 @@
 import Accordion from "../components/Accordion";
 import Waitlist from "../components/Waitlist";
 import Reveal from "../components/Reveal";
+import Parallax from "../components/Parallax";
+import Sayac from "../components/Sayac";
 import TurkiyeHarita from "../components/TurkiyeHarita";
 import {
   ProductIcon,
@@ -71,7 +73,7 @@ function Story({ eyebrow, baslik, metin, phone, rev = false, ekstra = null, renk
           <p>{metin}</p>
           {ekstra}
         </div>
-        <div className="phone-wrap">{phone}</div>
+        <Parallax className="phone-wrap">{phone}</Parallax>
       </div>
     </Reveal>
   );
@@ -94,7 +96,7 @@ export default function Home() {
               kapına getirsin.
             </p>
             <div className="hero-actions" style={{ justifyContent: "flex-start" }}>
-              <a href="#onkayit" className="btn btn-primary">Uygulama çıkınca haber ver</a>
+              <a href="#onkayit" className="btn btn-primary btn-shine">Uygulama çıkınca haber ver</a>
               <a href="#esnaf-katil" className="btn btn-outline">Esnaf mısın? Aramıza katıl</a>
             </div>
             <div className="stat-row">
@@ -235,7 +237,7 @@ export default function Home() {
               <p className="eyebrow">Güvence altyapısı</p>
               <h2>Tanımadığın kimse kapına gelmez</h2>
             </div>
-            <div className="grid grid-3">
+            <div className="grid grid-3 stagger">
               <div className="card"><div className="icon ik-yesil"><IconOnay /></div><h3>Onaylı Esnaf</h3><p>Yalnızca kimliği, belgesi ve künyesi onaylanmış esnaf sipariş alabilir.</p></div>
               <div className="card"><div className="icon ik-mor"><IconKamyon /></div><h3>Plaka Kaydı</h3><p>Teslimatı yapan aracın plakası sistemde kayıtlıdır; kapına kimin geldiğini bilirsin.</p></div>
               <div className="card"><div className="icon ik-amber"><IconTarti /></div><h3>Tartı Garantisi</h3><p>Teslim edilen miktar kayıt altındadır; eksik tartıda bedel farkı iade edilir.</p></div>
@@ -250,9 +252,9 @@ export default function Home() {
       {/* ================= RAKAMLAR ŞERİDİ ================= */}
       <div className="rakamlar">
         <div className="container rakamlar-ic">
-          <div className="rakam"><b className="num">81 il</b><span>hedef kapsama alanı</span></div>
-          <div className="rakam"><b className="num">10.000+</b><span>ilk yıl esnaf hedefi</span></div>
-          <div className="rakam"><b className="num">%15</b><span>aracısız fiyat avantajı hedefi</span></div>
+          <div className="rakam"><Sayac hedef={81} sonek=" il" /><span>hedef kapsama alanı</span></div>
+          <div className="rakam"><Sayac hedef={10000} sonek="+" /><span>ilk yıl esnaf hedefi</span></div>
+          <div className="rakam"><Sayac hedef={15} onek="%" /><span>aracısız fiyat avantajı hedefi</span></div>
         </div>
       </div>
 

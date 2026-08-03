@@ -1,6 +1,7 @@
 // Tanıtım sitesindeki uygulama ekranı mockup'ları.
 // Bunlar çalışan arayüz değil, lansman reklamındaki temsili ekranlardır.
 import Phone from "./Phone";
+import EtaChip from "./EtaChip";
 import {
   ProductIcon,
   IconKamyon,
@@ -114,11 +115,12 @@ export function MusteriEslesmePhone() {
 }
 
 export function MusteriTakipPhone() {
+  const rota = "M30 218 L55 218 Q64 218 64 209 L64 138 Q64 130 72 130 L150 130 L150 55 L236 55";
   return (
     <Phone>
       <div className="track-head">
         <b>Siparişin yolda</b>
-        <span className="eta-chip num">18 dk</span>
+        <EtaChip />
       </div>
       <div style={{ position: "relative" }}>
         <svg className="track-map" viewBox="0 0 280 250" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -127,9 +129,17 @@ export function MusteriTakipPhone() {
             <path d="M0 55h280M0 130h280M0 205h280M55 0v250M150 0v250M228 0v250" />
           </g>
           <rect x="160" y="140" width="58" height="55" rx="8" fill="#e2ebe2" />
-          <path d="M30 218 L55 218 Q64 218 64 209 L64 138 Q64 130 72 130 L150 130 L150 55 L236 55" fill="none" stroke="#2e8b63" strokeWidth="3.5" strokeDasharray="7 6" strokeLinecap="round" />
+          <path d={rota} fill="none" stroke="#2e8b63" strokeWidth="3.5" strokeDasharray="7 6" strokeLinecap="round" />
           <circle cx="30" cy="218" r="7" fill="#fff" stroke="#2e8b63" strokeWidth="3" />
-          <g transform="translate(138 43)">
+          {/* araç rota üzerinde ilerler (SMIL); reduced-motion'da statik kopya gösterilir */}
+          <g className="arac-anim">
+            <g transform="translate(-12 -12)">
+              <rect width="24" height="24" rx="7" fill="#2e8b63" />
+              <path d="M5 8h8v8H5zM13 10h3l2.5 2.5V16H13zM8 17.5a1.4 1.4 0 1 0 0 .01M15.5 17.5a1.4 1.4 0 1 0 0 .01" fill="none" stroke="#fff" strokeWidth="1.4" strokeLinejoin="round" />
+            </g>
+            <animateMotion dur="12s" repeatCount="indefinite" path={rota} />
+          </g>
+          <g className="arac-statik" transform="translate(138 43)">
             <rect width="24" height="24" rx="7" fill="#2e8b63" />
             <path d="M5 8h8v8H5zM13 10h3l2.5 2.5V16H13zM8 17.5a1.4 1.4 0 1 0 0 .01M15.5 17.5a1.4 1.4 0 1 0 0 .01" fill="none" stroke="#fff" strokeWidth="1.4" strokeLinejoin="round" />
           </g>

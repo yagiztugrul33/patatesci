@@ -1,5 +1,7 @@
-// Stilize Türkiye haritası — 81 il vurgusu, iller üzerinde yayılan nokta animasyonu.
+// Stilize Türkiye haritası — 81 il vurgusu, batıdan doğuya dalga halinde yayılan
+// renkli halkalar ve dönüşümlü "yeni esnaf katıldı" bildirimleri.
 // Coğrafi olarak temsilidir; reklam görselidir.
+import { IconOnay } from "./icons";
 
 const ILLER = [
   [205, 138], [95, 112], [150, 138], [242, 178], [182, 262], [218, 322],
@@ -8,6 +10,15 @@ const ILLER = [
   [700, 122], [560, 112], [498, 96], [560, 228], [620, 180], [688, 248],
   [262, 288], [212, 200], [758, 122], [885, 152], [648, 262], [368, 232],
   [512, 190], [292, 240],
+];
+
+const RENKLER = ["var(--accent)", "var(--amber)", "var(--mor)", "var(--kirmizi)"];
+
+const BILDIRIMLER = [
+  { il: "Konya", stil: { left: "40%", top: "56%" }, gecikme: 0 },
+  { il: "İzmir", stil: { left: "10%", top: "54%" }, gecikme: 4.6 },
+  { il: "Trabzon", stil: { left: "66%", top: "16%" }, gecikme: 9.2 },
+  { il: "Adana", stil: { left: "56%", top: "66%" }, gecikme: 13.8 },
 ];
 
 export default function TurkiyeHarita() {
@@ -59,14 +70,25 @@ export default function TurkiyeHarita() {
           strokeOpacity="0.45"
           strokeLinejoin="round"
         />
-        {/* il noktaları: yayılan halka + sabit nokta */}
-        {ILLER.map(([x, y], i) => (
-          <g key={i} transform={`translate(${x} ${y})`}>
-            <circle className="il-ring" r="5" style={{ animationDelay: (i % 8) * 0.45 + "s" }} />
-            <circle className="il-dot" r="4" style={{ animationDelay: (i % 8) * 0.45 + "s" }} />
-          </g>
-        ))}
+        {/* il noktaları: batıdan doğuya dalga halinde yayılan renkli halkalar */}
+        {ILLER.map(([x, y], i) => {
+          const renk = RENKLER[i % RENKLER.length];
+          const gecikme = ((x / 980) * 2.6).toFixed(2) + "s";
+          return (
+            <g key={i} transform={`translate(${x} ${y})`}>
+              <circle className="il-ring" r="5" style={{ stroke: renk, animationDelay: gecikme }} />
+              <circle className="il-dot" r="4" style={{ fill: renk, animationDelay: gecikme }} />
+            </g>
+          );
+        })}
       </svg>
+      {/* dönüşümlü canlılık bildirimleri */}
+      {BILDIRIMLER.map((b) => (
+        <div key={b.il} className="harita-bildirim" style={{ ...b.stil, animationDelay: b.gecikme + "s" }} aria-hidden="true">
+          <span className="hb-ic"><IconOnay size={13} /></span>
+          Yeni esnaf katıldı · {b.il}
+        </div>
+      ))}
       <div className="harita-rozet">
         <b className="num">81 il</b>
         <span>hedef kapsama</span>
