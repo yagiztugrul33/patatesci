@@ -1,15 +1,29 @@
 import { NextResponse } from "next/server";
-import { addOnkayit, getOnkayitSayisi } from "../../../lib/db";
+import { onkayitEkle, onkayitSayisi } from "../../../lib/onkayitStore";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  return NextResponse.json({ toplam: getOnkayitSayisi() });
+  try {
+    return NextResponse.json({ toplam: await onkayitSayisi() });
+  } catch {
+    return NextResponse.json(
+      { error: "Şu anda ön kayıt sistemine ulaşılamıyor. Lütfen daha sonra tekrar deneyin." },
+      { status: 503 }
+    );
+  }
 }
 
 export async function POST(req) {
-  const body = await req.json();
-  const r = addOnkayit(body);
-  if (!r.ok) return NextResponse.json({ error: r.reason }, { status: 422 });
-  return NextResponse.json({ toplam: r.toplam }, { status: 201 });
+  try {
+    const body = await req.json();
+    const r = await onkayitEkle(body);
+    if (!r.ok) return NextResponse.json({ error: r.reason }, { status: 422 });
+    return NextResponse.json({ toplam: r.toplam }, { status: 201 });
+  } catch {
+    return NextResponse.json(
+      { error: "Şu anda ön kayıt sistemine ulaşılamıyor. Lütfen daha sonra tekrar deneyin." },
+      { status: 503 }
+    );
+  }
 }

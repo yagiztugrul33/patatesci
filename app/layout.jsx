@@ -1,9 +1,10 @@
 import Link from "next/link";
 import "./globals.css";
 import Nav from "../components/Nav";
+import { SITE_URL } from "../lib/site";
 
 export const metadata = {
-  metadataBase: new URL("https://patatesci.app"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "patatesçi — Türkiye'nin sebze-meyve ağı kuruluyor",
     template: "%s | patatesçi",
