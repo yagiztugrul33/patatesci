@@ -51,7 +51,7 @@ const SSS = [
 function TickerItem({ f }) {
   return (
     <span className="ticker-item num">
-      <span className="ticker-ic"><ProductIcon id={f.id} size={16} /></span>
+      <span className={"ticker-ic tic-" + f.id}><ProductIcon id={f.id} size={16} /></span>
       <b>{f.nm}</b> {fmtSayi(f.pr)} ₺
       <span className={"chg " + (f.chg >= 0 ? "up" : "down")}>
         {f.chg >= 0 ? <IconYukari size={10} /> : <IconAsagi size={10} />}
@@ -61,12 +61,12 @@ function TickerItem({ f }) {
   );
 }
 
-function Story({ eyebrow, baslik, metin, phone, rev = false, ekstra = null }) {
+function Story({ eyebrow, baslik, metin, phone, rev = false, ekstra = null, renk }) {
   return (
     <Reveal>
       <div className={"story" + (rev ? " rev" : "")}>
         <div>
-          <span className="story-eyebrow">{eyebrow}</span>
+          <span className="story-eyebrow" style={renk ? { color: renk } : undefined}>{eyebrow}</span>
           <h3>{baslik}</h3>
           <p>{metin}</p>
           {ekstra}
@@ -82,6 +82,8 @@ export default function Home() {
     <main>
       {/* ================= HERO ================= */}
       <section className="promo-hero">
+        <div className="blob blob-yesil" aria-hidden="true" />
+        <div className="blob blob-amber" aria-hidden="true" />
         <div className="container promo-grid">
           <div>
             <span className="pill">Yakında · iOS ve Android</span>
@@ -149,6 +151,7 @@ export default function Home() {
           </Reveal>
 
           <Story
+            renk="var(--amber)"
             eyebrow="Esnaf · Adım 1"
             baslik="Uzmanlığınla kaydol"
             metin="Patatesçi misin, soğancı mı, genel manav mı? Kendini uzmanlığınla tanıt. Telefonun doğrulanır, araç plakan kaydedilir, künyen onaylanır — ve sana kimseye verilmeyen şey verilir: Onaylı Esnaf kimliği."
@@ -162,6 +165,7 @@ export default function Home() {
 
           <Story
             rev
+            renk="var(--kirmizi)"
             eyebrow="Esnaf · Adım 2"
             baslik="Sipariş sana düşer"
             metin="Mahallenden biri sipariş verdiğinde telefonun çalar: ne istendiği, kaç kilo olduğu, ne kazanacağın ve kaç km ötede olduğu ekranda. Uygunsan kabul et; değilsen reddet, sipariş sıradaki esnafa geçsin."
@@ -169,6 +173,7 @@ export default function Home() {
           />
 
           <Story
+            renk="var(--mor)"
             eyebrow="Esnaf · Adım 3"
             baslik="Kazancın gün gün cebinde"
             metin="Kaç teslimat yaptın, ne kazandın, hafta nasıl gidiyor — hepsi tek ekranda. Ödemeler güvence hesabından doğrudan hesabına aktarılır; kimseye bağlı kalmazsın."
@@ -188,6 +193,7 @@ export default function Home() {
           </Reveal>
 
           <Story
+            renk="var(--amber)"
             eyebrow="Müşteri · Adım 1"
             baslik="Siparişini oluştur"
             metin="Ne lazımsa seç: 5 kilo patates, 3 kilo soğan… Fiyatlar herkese açık piyasa bandından; pazarlık yok, sürpriz yok."
@@ -196,6 +202,7 @@ export default function Home() {
 
           <Story
             rev
+            renk="var(--mor)"
             eyebrow="Müşteri · Adım 2"
             baslik="En yakın onaylı esnafla eşleş"
             metin="Sipariş, sana en yakın onaylı esnafa düşer. Kim olduğunu görürsün: adı, uzmanlığı, plakası, puanı, mesafesi. Gerekirse tek dokunuşla ararsın — numaran gizli kalır, arama uygulama üzerinden bağlanır."
@@ -203,6 +210,7 @@ export default function Home() {
           />
 
           <Story
+            renk="var(--kirmizi)"
             eyebrow="Müşteri · Adım 3"
             baslik="Canlı takip et, canlı gör"
             metin="Araç yola çıktığı andan itibaren haritada; varış süresi ekranda. Üstelik ürünü teslimden önce canlı görüntüyle görür, kaliteyi kendin onaylarsın."
@@ -228,12 +236,12 @@ export default function Home() {
               <h2>Tanımadığın kimse kapına gelmez</h2>
             </div>
             <div className="grid grid-3">
-              <div className="card"><div className="icon"><IconOnay /></div><h3>Onaylı Esnaf</h3><p>Yalnızca kimliği, belgesi ve künyesi onaylanmış esnaf sipariş alabilir.</p></div>
-              <div className="card"><div className="icon"><IconKamyon /></div><h3>Plaka Kaydı</h3><p>Teslimatı yapan aracın plakası sistemde kayıtlıdır; kapına kimin geldiğini bilirsin.</p></div>
-              <div className="card"><div className="icon"><IconTarti /></div><h3>Tartı Garantisi</h3><p>Teslim edilen miktar kayıt altındadır; eksik tartıda bedel farkı iade edilir.</p></div>
-              <div className="card"><div className="icon"><IconKamera /></div><h3>Canlı Görüntü</h3><p>Ürünü teslimden önce canlı görüntüyle görür, kaliteyi kendin onaylarsın.</p></div>
-              <div className="card"><div className="icon"><IconKilit /></div><h3>Ödeme Güvencesi</h3><p>Ödemen teslimatı onaylayana kadar güvence hesabında bekler; sorun olursa iade edilir.</p></div>
-              <div className="card"><div className="icon"><IconKalkan /></div><h3>Gizli Numara</h3><p>Aramalar uygulama üzerinden bağlanır; telefon numaran kimseyle paylaşılmaz.</p></div>
+              <div className="card"><div className="icon ik-yesil"><IconOnay /></div><h3>Onaylı Esnaf</h3><p>Yalnızca kimliği, belgesi ve künyesi onaylanmış esnaf sipariş alabilir.</p></div>
+              <div className="card"><div className="icon ik-mor"><IconKamyon /></div><h3>Plaka Kaydı</h3><p>Teslimatı yapan aracın plakası sistemde kayıtlıdır; kapına kimin geldiğini bilirsin.</p></div>
+              <div className="card"><div className="icon ik-amber"><IconTarti /></div><h3>Tartı Garantisi</h3><p>Teslim edilen miktar kayıt altındadır; eksik tartıda bedel farkı iade edilir.</p></div>
+              <div className="card"><div className="icon ik-kirmizi"><IconKamera /></div><h3>Canlı Görüntü</h3><p>Ürünü teslimden önce canlı görüntüyle görür, kaliteyi kendin onaylarsın.</p></div>
+              <div className="card"><div className="icon ik-yesil"><IconKilit /></div><h3>Ödeme Güvencesi</h3><p>Ödemen teslimatı onaylayana kadar güvence hesabında bekler; sorun olursa iade edilir.</p></div>
+              <div className="card"><div className="icon ik-mor"><IconKalkan /></div><h3>Gizli Numara</h3><p>Aramalar uygulama üzerinden bağlanır; telefon numaran kimseyle paylaşılmaz.</p></div>
             </div>
           </Reveal>
         </div>
