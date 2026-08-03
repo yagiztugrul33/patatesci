@@ -163,10 +163,11 @@ footer{border-top:1px solid var(--line);padding:40px 0 32px;color:var(--ink2);fo
 
 /* ================= TANITIM (uygulama reklamı) ================= */
 .promo-hero{padding:72px 0 56px;overflow:hidden;position:relative}
-/* hero ışık lekeleri — çok hafif, blur'lu; büyük renkli blok değil */
-.blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
-.blob-yesil{width:440px;height:440px;background:var(--accent);opacity:.09;top:-120px;right:4%}
-.blob-amber{width:380px;height:380px;background:var(--amber);opacity:.07;bottom:-140px;left:-80px}
+/* hero ışık lekeleri — blur filtresi yerine hazır-yumuşak radyal gradyan
+   (filter:blur büyük alanda pahalı rasterizasyon yapıyordu; görünüm aynı, maliyet sıfır) */
+.blob{position:absolute;border-radius:50%;pointer-events:none}
+.blob-yesil{width:560px;height:560px;background:radial-gradient(circle,rgba(46,139,99,.11) 0%,rgba(46,139,99,0) 62%);top:-160px;right:0}
+.blob-amber{width:500px;height:500px;background:radial-gradient(circle,rgba(217,119,6,.09) 0%,rgba(217,119,6,0) 62%);bottom:-180px;left:-120px}
 .promo-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;position:relative;z-index:1}
 @media(max-width:880px){.promo-grid{grid-template-columns:1fr;gap:44px}}
 .promo-hero h1{font-size:3.3rem;line-height:1.06;letter-spacing:-.032em;font-weight:700;max-width:560px;margin-top:18px}
