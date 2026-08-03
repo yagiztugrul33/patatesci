@@ -1,13 +1,7 @@
-"use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
+// Tanıtım sitesi navigasyonu — işlem yok, sadece bölümlere yönlendirme.
 export default function Nav() {
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    fetch("/api/me").then((r) => r.json()).then((d) => setUser(d.user)).catch(() => {});
-  }, []);
-
   return (
     <nav className="nav">
       <div className="container nav-inner">
@@ -15,14 +9,14 @@ export default function Nav() {
           <span className="dot" /> patatesçi
         </Link>
         <div className="nav-links">
-          <Link href="/pazar">Pazar</Link>
-          <Link href="/borsa">Borsa</Link>
-          <Link href="/sat">Satıcı Paneli</Link>
-          <Link href="/siparisler">Siparişler</Link>
+          <a href="/#esnaf">Esnaf için</a>
+          <a href="/#musteri">Nasıl çalışır</a>
+          <a href="/#guvence">Güvence</a>
+          <a href="/#sss">SSS</a>
         </div>
-        <Link href="/giris" className="btn btn-primary" style={{ padding: "9px 20px" }}>
-          {user ? user.ad.split(" ")[0] : "Giriş"}
-        </Link>
+        <a href="/#onkayit" className="btn btn-primary" style={{ padding: "9px 20px" }}>
+          Haber ver
+        </a>
       </div>
     </nav>
   );

@@ -3,9 +3,27 @@ import "./globals.css";
 import Nav from "../components/Nav";
 
 export const metadata = {
-  title: "patatesçi — Tarımsal Ürün Ticaret Platformu",
+  metadataBase: new URL("https://patatesci.app"),
+  title: {
+    default: "patatesçi — Türkiye'nin sebze-meyve ağı kuruluyor",
+    template: "%s | patatesçi",
+  },
   description:
-    "Üretici ile alıcıyı doğrudan buluşturan B2B tarımsal ürün ticaret platformu. Şeffaf piyasa fiyatı, güvenceli ödeme, canlı görüntülü doğrulama ve HKS uyumu.",
+    "Mahallenin manavı, pazarcısı, üreticisi tek uygulamada. Sipariş ver; en yakın onaylı esnaf kapına getirsin. 81 ilde kuruluyoruz — uygulama yakında.",
+  openGraph: {
+    type: "website",
+    locale: "tr_TR",
+    siteName: "patatesçi",
+    title: "patatesçi — Türkiye'nin sebze-meyve ağı kuruluyor",
+    description:
+      "Mahallenin esnafı tek uygulamada. En yakın onaylı esnaf, canlı görüntülü doğrulama, tartı garantisi. 81 ilde — uygulama yakında.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "patatesçi — Türkiye'nin sebze-meyve ağı kuruluyor",
+    description:
+      "Mahallenin esnafı tek uygulamada. 81 ilde kuruluyoruz — uygulama yakında.",
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -28,8 +46,8 @@ export default function RootLayout({ children }) {
               <div>
                 <b style={{ color: "var(--ink)" }}>patatesçi</b>
                 <p style={{ marginTop: 6, maxWidth: 320 }}>
-                  Tarımsal ürün ticaret platformu. Üretici ve alıcıyı doğrudan,
-                  güvenceli ve mevzuata uygun şekilde buluşturur.
+                  Türkiye'nin sebze-meyve ağı. Mahallenin esnafı ile alıcısını
+                  doğrudan, güvenceli ve mevzuata uygun şekilde buluşturur.
                 </p>
               </div>
               <div className="footer-links">
@@ -37,11 +55,14 @@ export default function RootLayout({ children }) {
                 <Link href="/hukuki/kullanici-sozlesmesi">Kullanıcı Sözleşmesi</Link>
                 <Link href="/hukuki/mesafeli-satis">Mesafeli Satış Sözleşmesi</Link>
                 <Link href="/hukuki/iletisim">İletişim</Link>
+                <Link href="/borsa">Demo</Link>
               </div>
             </div>
             <div className="footer-note">
-              Tüm işlemler Hal Kayıt Sistemi (HKS) bildirimi ve künye takibi ile
-              yürütülür. Ödemeler, teslimat onaylanana kadar güvence hesabında tutulur.
+              Uygulama geliştirme aşamasındadır; bu site tanıtım amaçlıdır. Tüm
+              işlemler Hal Kayıt Sistemi (HKS) bildirimi ve künye takibi ile
+              yürütülecek, ödemeler teslimat onaylanana kadar güvence hesabında
+              tutulacaktır.
             </div>
           </div>
         </footer>

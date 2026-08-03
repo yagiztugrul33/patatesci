@@ -1,26 +1,34 @@
-import Link from "next/link";
 import Accordion from "../components/Accordion";
 import Waitlist from "../components/Waitlist";
+import Reveal from "../components/Reveal";
+import TurkiyeHarita from "../components/TurkiyeHarita";
 import {
   ProductIcon,
   IconKalkan,
   IconTarti,
   IconKamera,
-  IconBelge,
-  IconKamyon,
   IconKilit,
-  IconKonum,
-  IconKutu,
   IconOnay,
+  IconKamyon,
   IconYukari,
   IconAsagi,
 } from "../components/icons";
-import { fmtSayi, fmtTLkg } from "../lib/format";
+import {
+  MusteriSiparisPhone,
+  MusteriEslesmePhone,
+  MusteriTakipPhone,
+  MusteriTeslimPhone,
+  EsnafKayitPhone,
+  EsnafSiparisPhone,
+  EsnafKazancPhone,
+  OnayliEsnafKarti,
+} from "../components/Mockups";
+import { fmtSayi } from "../lib/format";
 
 export const metadata = {
-  title: "patatesçi — Tarladan kapına, taksi çağırır gibi",
+  title: "patatesçi — Türkiye'nin sebze-meyve ağı kuruluyor",
   description:
-    "Sebze-meyvede yeni dönem: siparişini oluştur, en yakın üreticiyle eşleş, ürünü canlı görüntüyle doğrula, kapında teslim al. Mobil uygulama çok yakında.",
+    "Mahallenin manavı, pazarcısı, üreticisi tek uygulamada. Sipariş ver; en yakın onaylı esnaf kapına getirsin. 81 ilde kuruluyoruz — uygulama yakında.",
 };
 
 const FIYATLAR = [
@@ -33,11 +41,11 @@ const FIYATLAR = [
 ];
 
 const SSS = [
-  { q: "Sipariş süreci nasıl işler?", a: "Siparişinizi oluşturursunuz; konumunuza en yakın satıcı ile saniyeler içinde eşleştirilirsiniz. Ürünü teslimattan önce canlı görüntülü bağlantı üzerinden doğrularsınız." },
-  { q: "Ödeme güvenliği nasıl sağlanır?", a: "Ödemeniz peşin tahsil edilir ancak teslimat onaylanana kadar güvence hesabında tutulur. Uyuşmazlık durumunda bedel iade edilir." },
-  { q: "Fiyat avantajı nereden kaynaklanır?", a: "Aracı katmanlar kalkar: üretici daha çok kazanır, siz daha az ödersiniz. Tüm fiyatlar PTX Endeksi ile herkese açıktır; pazarlık ve sürpriz yoktur." },
-  { q: "Üretici kendi ürününü satabilir mi?", a: "Evet. Üretici ürününü doğrudan listeler; künye, Hal Kayıt Sistemi bildirimi, rüsum ve belge süreçleri platform tarafından otomatik yürütülür." },
-  { q: "Mobil uygulama ne zaman geliyor?", a: "iOS ve Android uygulamaları geliştirme aşamasındadır. Ön kayıt oluşturursanız açılışta öncelikli erişim sizde olur." },
+  { q: "patatesçi nedir?", a: "Mahallenin manavını, pazarcısını ve üreticisini alıcıyla doğrudan buluşturan bir uygulamadır. Sipariş verirsin; sana en yakın onaylı esnaf kabul eder ve kapına getirir." },
+  { q: "Neden daha ucuz?", a: "Aracı katmanlar kalkar: esnaf ve üretici daha çok kazanır, sen daha az ödersin. Fiyatlar herkese açık piyasa bandında oluşur; bandın dışına çıkan teklif sisteme giremez." },
+  { q: "Esnaf olarak nasıl katılırım?", a: "Uygulama yayına girdiğinde uzmanlığınla (patatesçi, soğancı, manav…) kaydolursun; telefonun doğrulanır, araç plakan kaydedilir, künyen onaylanır. Bu sayfadaki esnaf ön kaydını bırakırsan açılışta ilk sıraya geçersin." },
+  { q: "Güvenlik nasıl sağlanıyor?", a: "Yalnızca onaylı esnaf sipariş alabilir: plaka kayıtlı, telefon doğrulanmış, belge onaylı. Aramalar uygulama üzerinden bağlanır, numaran gizli kalır. Ödemen teslimatı onaylayana kadar güvence hesabında bekler." },
+  { q: "Ne zaman geliyor?", a: "Uygulama iOS ve Android için geliştirme aşamasındadır; 81 ilde kademeli açılış planlıyoruz. Ön kayıt bırakanlara açılış sırası önceden bildirilecek." },
 ];
 
 function TickerItem({ f }) {
@@ -53,268 +61,260 @@ function TickerItem({ f }) {
   );
 }
 
-function PhoneOrder() {
+function Story({ eyebrow, baslik, metin, phone, rev = false, ekstra = null }) {
   return (
-    <div className="phone-wrap">
-      <div className="phone">
-        <div className="screen">
-          <div className="notch"><i /></div>
-          <div className="app-ui">
-            <div className="app-top">
-              <span className="brand" style={{ fontSize: ".95rem" }}><span className="dot" /> patatesçi</span>
-              <span className="app-pin"><IconKonum size={14} /> Kadıköy</span>
-            </div>
-            <div className="app-search">Bugün ne lazım?</div>
-            {FIYATLAR.slice(0, 3).map((f) => (
-              <div className="app-item" key={f.id}>
-                <span className="app-thumb"><ProductIcon id={f.id} size={20} /></span>
-                <span className="app-item-meta">
-                  <b>{f.nm}</b>
-                  <small className="num">{fmtTLkg(f.pr)}</small>
-                </span>
-                <span className="app-add">+</span>
-              </div>
-            ))}
-            <div className="app-cta">Sipariş ver</div>
-          </div>
-          <div className="match-card">
-            <span className="match-ic"><IconKamyon size={20} /></span>
-            <span className="match-meta">
-              <b>Hasan Manav eşleşti</b>
-              <small>0,8 km · 18 dk içinde kapında</small>
-            </span>
-            <span className="match-ok"><IconOnay size={18} /></span>
-          </div>
+    <Reveal>
+      <div className={"story" + (rev ? " rev" : "")}>
+        <div>
+          <span className="story-eyebrow">{eyebrow}</span>
+          <h3>{baslik}</h3>
+          <p>{metin}</p>
+          {ekstra}
         </div>
+        <div className="phone-wrap">{phone}</div>
       </div>
-    </div>
-  );
-}
-
-function PhoneTracking() {
-  return (
-    <div className="phone-wrap">
-      <div className="phone">
-        <div className="screen">
-          <div className="notch"><i /></div>
-          <div className="track-head">
-            <b>Siparişin yolda</b>
-            <span className="eta-chip num">18 dk</span>
-          </div>
-          <svg className="track-map" viewBox="0 0 280 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect width="280" height="300" fill="#edf2ed" />
-            <g stroke="#dce4dc" strokeWidth="6">
-              <path d="M0 60h280M0 140h280M0 225h280M55 0v300M150 0v300M228 0v300" />
-            </g>
-            <rect x="160" y="150" width="58" height="64" rx="8" fill="#e2ebe2" />
-            <path d="M30 262 L55 262 Q64 262 64 253 L64 148 Q64 140 72 140 L150 140 L150 60 L236 60" fill="none" stroke="#2e8b63" strokeWidth="3.5" strokeDasharray="7 6" strokeLinecap="round" />
-            <circle cx="30" cy="262" r="7" fill="#fff" stroke="#2e8b63" strokeWidth="3" />
-            <g transform="translate(138 48)">
-              <rect width="24" height="24" rx="7" fill="#2e8b63" />
-              <path d="M5 8h8v8H5zM13 10h3l2.5 2.5V16H13zM8 17.5a1.4 1.4 0 1 0 0 .01M15.5 17.5a1.4 1.4 0 1 0 0 .01" fill="none" stroke="#fff" strokeWidth="1.4" strokeLinejoin="round" />
-            </g>
-            <g transform="translate(228 44)">
-              <path d="M8 22s-8-6.4-8-12a8 8 0 0 1 16 0c0 5.6-8 12-8 12Z" fill="#1c2420" />
-              <circle cx="8" cy="10" r="2.6" fill="#fff" />
-            </g>
-          </svg>
-          <div className="track-card">
-            <span className="match-ic"><IconKamyon size={20} /></span>
-            <span className="match-meta">
-              <b>Hasan Manav · 34 PT 1919</b>
-              <small>Canlı doğrulama tamamlandı · ödeme güvencede</small>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
+    </Reveal>
   );
 }
 
 export default function Home() {
   return (
     <main>
-      {/* ============ HERO ============ */}
+      {/* ================= HERO ================= */}
       <section className="promo-hero">
         <div className="container promo-grid">
           <div>
-            <span className="pill"><IconTelefonMini /> Mobil uygulama çok yakında</span>
-            <h1>Tarladan kapına. Taksi çağırır gibi.</h1>
+            <span className="pill">Yakında · iOS ve Android</span>
+            <h1>Türkiye'nin sebze-meyve ağı kuruluyor. <span style={{ color: "var(--accent)" }}>81 ilde.</span></h1>
             <p className="lead">
-              Siparişini oluştur; patatesçi seni en yakın üreticiyle eşleştirsin.
-              Ürünü canlı görüntüyle gör, onayla, kapında teslim al. Ödemen
-              teslimata kadar güvencede.
+              Mahallenin manavı, pazarcısı, üreticisi tek uygulamada. Sen sipariş
+              ver; en yakın onaylı esnaf kabul etsin, canlı görüntüyle göster,
+              kapına getirsin.
             </p>
             <div className="hero-actions" style={{ justifyContent: "flex-start" }}>
-              <a href="#onkayit" className="btn btn-primary">Ön kayıt ol</a>
-              <a href="#nasil" className="btn btn-outline">Nasıl çalışır?</a>
+              <a href="#onkayit" className="btn btn-primary">Uygulama çıkınca haber ver</a>
+              <a href="#esnaf-katil" className="btn btn-outline">Esnaf mısın? Aramıza katıl</a>
             </div>
             <div className="stat-row">
-              <div className="stat"><b className="num">18 dk</b><span>ortalama eşleşme</span></div>
-              <div className="stat"><b className="num">%15</b><span>aracısız fiyat avantajı</span></div>
+              <div className="stat"><b className="num">81 il</b><span>hedef kapsama</span></div>
+              <div className="stat"><b className="num">%15</b><span>aracısız fiyat hedefi</span></div>
               <div className="stat"><b className="num">%100</b><span>güvenceli ödeme</span></div>
             </div>
           </div>
-          <PhoneOrder />
+          <MusteriSiparisPhone matched />
         </div>
       </section>
 
-      {/* ============ FİYAT BANDI ============ */}
+      {/* ================= FİYAT BANDI ================= */}
       <div className="ticker" aria-hidden="true">
         <div className="ticker-inner">
           {[...FIYATLAR, ...FIYATLAR].map((f, i) => <TickerItem f={f} key={i} />)}
         </div>
       </div>
 
-      {/* ============ NASIL ÇALIŞIR ============ */}
-      <section className="section" id="nasil">
+      {/* ================= TÜRKİYE HARİTASI ================= */}
+      <section className="section" id="harita">
         <div className="container">
-          <div className="section-head">
-            <p className="eyebrow">Nasıl çalışır</p>
-            <h2>Dört adımda kapında</h2>
-          </div>
-          <div className="steps">
-            <div className="step">
-              <span className="no">01</span>
-              <div className="icon"><IconKutu /></div>
-              <h3>Sipariş ver</h3>
-              <p>Ürünleri seç, miktarı belirle. Fiyatlar herkese açık, pazarlık yok.</p>
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Lansman planı</p>
+              <h2>81 ilde kuruluyoruz</h2>
+              <p className="muted" style={{ marginTop: 10 }}>
+                Büyük şehirlerden başlayıp kademeli olarak tüm Türkiye'ye
+                açılıyoruz. Mahallen listede — ön kayıt bırakan ilk haber alır.
+              </p>
             </div>
-            <div className="step">
-              <span className="no">02</span>
-              <div className="icon"><IconKonum /></div>
-              <h3>Eşleş</h3>
-              <p>Konumuna en yakın üretici veya satıcı saniyeler içinde atanır.</p>
-            </div>
-            <div className="step">
-              <span className="no">03</span>
-              <div className="icon"><IconKamera /></div>
-              <h3>Canlı gör</h3>
-              <p>Teslimden önce ürünü kamerayla gör, kaliteyi kendin onayla.</p>
-            </div>
-            <div className="step">
-              <span className="no">04</span>
-              <div className="icon"><IconKamyon /></div>
-              <h3>Teslim al</h3>
-              <p>Araç kapına gelir. Ödeme, onayınla birlikte satıcıya geçer.</p>
-            </div>
-          </div>
+            <TurkiyeHarita />
+          </Reveal>
         </div>
       </section>
 
-      {/* ============ CANLI TAKİP (koyu) ============ */}
-      <section className="dark-section">
-        <div className="container promo-grid">
-          <PhoneTracking />
-          <div>
-            <p className="eyebrow" style={{ color: "#7fd0ab" }}>Canlı takip</p>
-            <h2 style={{ fontSize: "2.2rem", marginTop: 10 }}>Siparişin nerede, her an gör</h2>
-            <p className="muted" style={{ marginTop: 14, maxWidth: 480 }}>
-              Taksi uygulamasından alışık olduğun deneyim, sebze-meyvede: aracın
-              konumu ve tahmini varış süresi canlı; ürün kalitesi teslimden önce
-              kamerada.
-            </p>
-            <ul className="dark-list">
-              <li><span className="ic"><IconKonum size={20} /></span><span><b>Canlı konum ve varış süresi</b><br /><small>Araç yola çıktığı andan kapına kadar haritada.</small></span></li>
-              <li><span className="ic"><IconTarti size={20} /></span><span><b>Tartı garantisi</b><br /><small>Eksik tartı tespitinde bedel farkı anında iade edilir.</small></span></li>
-              <li><span className="ic"><IconKilit size={20} /></span><span><b>Güvenceli ödeme</b><br /><small>Bedel, teslimatı onaylayana kadar güvence hesabında bekler.</small></span></li>
-            </ul>
-          </div>
-        </div>
-      </section>
+      {/* ================= MAHALLE ŞERİDİ ================= */}
+      <Reveal className="mahalle-serit">
+        <img src="/illus/mahalle.svg" alt="Mahalle sokağında manav dükkanları illüstrasyonu" loading="lazy" />
+      </Reveal>
 
-      {/* ============ ŞEFFAF FİYAT ============ */}
-      <section className="section">
-        <div className="container promo-grid">
-          <div>
-            <p className="eyebrow">Şeffaf fiyat</p>
-            <h2 style={{ fontSize: "2.2rem", marginTop: 10 }}>Fiyatlar herkese açık</h2>
-            <p className="muted" style={{ marginTop: 14, maxWidth: 460 }}>
-              PTX Endeksi tüm alım-satımların ortak referansıdır. Piyasa bandı
-              dışındaki teklifler sistem tarafından otomatik reddedilir; kimse
-              kimseyi kandıramaz.
-            </p>
-            <div style={{ marginTop: 22 }}>
-              <Link href="/borsa" className="btn btn-outline">Canlı borsayı incele</Link>
+      {/* ================= ESNAF HİKAYESİ ================= */}
+      <section className="section" id="esnaf" style={{ background: "var(--bg-soft)" }}>
+        <div className="container">
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Esnaf için</p>
+              <h2>Dükkanında bekleme, mahallen seni bulsun</h2>
+              <p className="muted" style={{ marginTop: 10 }}>
+                Taksi uygulaması şoföre nasıl yolcu bulursa, patatesçi de esnafa
+                sipariş bulur. Başrol sende.
+              </p>
             </div>
-          </div>
-          <div className="price-board panel">
-            <div className="eyebrow">PTX Endeksi · ₺/kg</div>
-            {FIYATLAR.map((f) => (
-              <div className="price-row num" key={f.id}>
-                <span className="ticker-ic"><ProductIcon id={f.id} size={18} /></span>
-                <b>{f.nm}</b>
-                <span className="price-val">{fmtSayi(f.pr)}</span>
-                <span className={"chg " + (f.chg >= 0 ? "up" : "down")}>
-                  {f.chg >= 0 ? <IconYukari size={10} /> : <IconAsagi size={10} />}
-                  %{fmtSayi(Math.abs(f.chg), 1)}
-                </span>
+          </Reveal>
+
+          <Story
+            eyebrow="Esnaf · Adım 1"
+            baslik="Uzmanlığınla kaydol"
+            metin="Patatesçi misin, soğancı mı, genel manav mı? Kendini uzmanlığınla tanıt. Telefonun doğrulanır, araç plakan kaydedilir, künyen onaylanır — ve sana kimseye verilmeyen şey verilir: Onaylı Esnaf kimliği."
+            phone={
+              <div className="kayit-gorsel">
+                <EsnafKayitPhone />
+                <OnayliEsnafKarti />
               </div>
-            ))}
-          </div>
+            }
+          />
+
+          <Story
+            rev
+            eyebrow="Esnaf · Adım 2"
+            baslik="Sipariş sana düşer"
+            metin="Mahallenden biri sipariş verdiğinde telefonun çalar: ne istendiği, kaç kilo olduğu, ne kazanacağın ve kaç km ötede olduğu ekranda. Uygunsan kabul et; değilsen reddet, sipariş sıradaki esnafa geçsin."
+            phone={<EsnafSiparisPhone />}
+          />
+
+          <Story
+            eyebrow="Esnaf · Adım 3"
+            baslik="Kazancın gün gün cebinde"
+            metin="Kaç teslimat yaptın, ne kazandın, hafta nasıl gidiyor — hepsi tek ekranda. Ödemeler güvence hesabından doğrudan hesabına aktarılır; kimseye bağlı kalmazsın."
+            phone={<EsnafKazancPhone />}
+          />
         </div>
       </section>
 
-      {/* ============ GÜVENCE ============ */}
-      <section className="section" style={{ background: "var(--bg-soft)", paddingTop: 56, paddingBottom: 56 }}>
+      {/* ================= MÜŞTERİ HİKAYESİ ================= */}
+      <section className="section" id="musteri">
         <div className="container">
-          <div className="section-head">
-            <p className="eyebrow">Güvence altyapısı</p>
-            <h2>Her siparişin arkasında dört güvence</h2>
-          </div>
-          <div className="grid grid-4">
-            <div className="card"><div className="icon"><IconKalkan /></div><h3>Alıcı Güvencesi</h3><p>Ödeme, teslimat onaylanana kadar güvence hesabında tutulur; uyuşmazlıkta iade edilir.</p></div>
-            <div className="card"><div className="icon"><IconTarti /></div><h3>Tartı Garantisi</h3><p>Teslim edilen miktar kayıt altındadır; eksik tartıda bedel farkı tazmin edilir.</p></div>
-            <div className="card"><div className="icon"><IconKamera /></div><h3>Canlı Görüntülü Doğrulama</h3><p>Ürün kalitesini teslimattan önce canlı görüntülü bağlantıyla doğrularsın.</p></div>
-            <div className="card"><div className="icon"><IconBelge /></div><h3>Yasal Uyum</h3><p>HKS bildirimi, künye takibi, rüsum ve belgelendirme otomatik yürütülür.</p></div>
-          </div>
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Nasıl çalışır</p>
+              <h2>Sen sipariş ver, gerisini mahallen halletsin</h2>
+            </div>
+          </Reveal>
+
+          <Story
+            eyebrow="Müşteri · Adım 1"
+            baslik="Siparişini oluştur"
+            metin="Ne lazımsa seç: 5 kilo patates, 3 kilo soğan… Fiyatlar herkese açık piyasa bandından; pazarlık yok, sürpriz yok."
+            phone={<MusteriSiparisPhone />}
+          />
+
+          <Story
+            rev
+            eyebrow="Müşteri · Adım 2"
+            baslik="En yakın onaylı esnafla eşleş"
+            metin="Sipariş, sana en yakın onaylı esnafa düşer. Kim olduğunu görürsün: adı, uzmanlığı, plakası, puanı, mesafesi. Gerekirse tek dokunuşla ararsın — numaran gizli kalır, arama uygulama üzerinden bağlanır."
+            phone={<MusteriEslesmePhone />}
+          />
+
+          <Story
+            eyebrow="Müşteri · Adım 3"
+            baslik="Canlı takip et, canlı gör"
+            metin="Araç yola çıktığı andan itibaren haritada; varış süresi ekranda. Üstelik ürünü teslimden önce canlı görüntüyle görür, kaliteyi kendin onaylarsın."
+            phone={<MusteriTakipPhone />}
+          />
+
+          <Story
+            rev
+            eyebrow="Müşteri · Adım 4"
+            baslik="Kapında teslim al, puanla"
+            metin="Teslimatta miktar tartıyla kayıt altına alınır; eksik çıkarsa fark iade edilir. Ödemen ancak sen onayladığında esnafa geçer. Son söz: esnafını puanla, mahallenin en iyileri öne çıksın."
+            phone={<MusteriTeslimPhone />}
+          />
         </div>
       </section>
 
-      {/* ============ SSS ============ */}
-      <section className="section">
+      {/* ================= GÜVENCE ================= */}
+      <section className="section" id="guvence" style={{ background: "var(--bg-soft)", paddingTop: 56, paddingBottom: 56 }}>
         <div className="container">
-          <div className="section-head">
-            <p className="eyebrow">Sık sorulan sorular</p>
-            <h2>Merak edilenler</h2>
-          </div>
-          <Accordion items={SSS} />
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Güvence altyapısı</p>
+              <h2>Tanımadığın kimse kapına gelmez</h2>
+            </div>
+            <div className="grid grid-3">
+              <div className="card"><div className="icon"><IconOnay /></div><h3>Onaylı Esnaf</h3><p>Yalnızca kimliği, belgesi ve künyesi onaylanmış esnaf sipariş alabilir.</p></div>
+              <div className="card"><div className="icon"><IconKamyon /></div><h3>Plaka Kaydı</h3><p>Teslimatı yapan aracın plakası sistemde kayıtlıdır; kapına kimin geldiğini bilirsin.</p></div>
+              <div className="card"><div className="icon"><IconTarti /></div><h3>Tartı Garantisi</h3><p>Teslim edilen miktar kayıt altındadır; eksik tartıda bedel farkı iade edilir.</p></div>
+              <div className="card"><div className="icon"><IconKamera /></div><h3>Canlı Görüntü</h3><p>Ürünü teslimden önce canlı görüntüyle görür, kaliteyi kendin onaylarsın.</p></div>
+              <div className="card"><div className="icon"><IconKilit /></div><h3>Ödeme Güvencesi</h3><p>Ödemen teslimatı onaylayana kadar güvence hesabında bekler; sorun olursa iade edilir.</p></div>
+              <div className="card"><div className="icon"><IconKalkan /></div><h3>Gizli Numara</h3><p>Aramalar uygulama üzerinden bağlanır; telefon numaran kimseyle paylaşılmaz.</p></div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ============ UYGULAMA + ÖN KAYIT ============ */}
+      {/* ================= RAKAMLAR ŞERİDİ ================= */}
+      <div className="rakamlar">
+        <div className="container rakamlar-ic">
+          <div className="rakam"><b className="num">81 il</b><span>hedef kapsama alanı</span></div>
+          <div className="rakam"><b className="num">10.000+</b><span>ilk yıl esnaf hedefi</span></div>
+          <div className="rakam"><b className="num">%15</b><span>aracısız fiyat avantajı hedefi</span></div>
+        </div>
+      </div>
+
+      {/* ================= ESNAF ÇAĞRISI ================= */}
+      <section className="section cagri" id="esnaf-katil">
+        <div className="container cagri-grid">
+          <Reveal>
+            <img src="/illus/esnaf-arac.svg" alt="Üç tekerlekli aracıyla mahalle esnafı illüstrasyonu" className="illus-yan" loading="lazy" />
+          </Reveal>
+          <Reveal delay={120}>
+            <p className="eyebrow">Esnaf çağrısı</p>
+            <h2 style={{ fontSize: "2.2rem", marginTop: 8 }}>Mahallenin patatesçisi ol</h2>
+            <p className="muted" style={{ margin: "14px 0 22px", maxWidth: 460 }}>
+              Manav, pazarcı, seyyar satıcı, üretici — mahallende ilk kaydolan
+              esnaf ol, açılışta bölgenin siparişleri önce sana düşsün. Ön kayıt
+              ücretsizdir, bağlayıcı değildir.
+            </p>
+            <Waitlist
+              defaultRol="satici"
+              etiket="Esnaf ön kaydı"
+              baslik="Aramıza katıl"
+              aciklama="Uygulama bölgende açıldığında ilk davet sana gelsin."
+              buton="Esnaf ön kaydı bırak"
+            />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ================= SSS ================= */}
+      <section className="section" id="sss">
+        <div className="container">
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Sık sorulan sorular</p>
+              <h2>Merak edilenler</h2>
+            </div>
+            <Accordion items={SSS} />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ================= UYGULAMA YOLDA + ÖN KAYIT ================= */}
       <section className="section" id="onkayit" style={{ background: "var(--bg-soft)" }}>
         <div className="container" style={{ textAlign: "center" }}>
-          <p className="eyebrow">Erken erişim</p>
-          <h2 style={{ fontSize: "2.2rem", marginTop: 8 }}>Uygulama yolda</h2>
-          <p className="muted" style={{ maxWidth: 480, margin: "14px auto 24px" }}>
-            Bugün web'de tanıtımdayız; iOS ve Android uygulamaları geliştirme
-            aşamasında. Ön kayıt oluştur, açılışta öncelik senin olsun.
-          </p>
-          <div className="store-badges">
-            <span className="store-badge">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15.5 7.5c1.8 0 3 .9 3.8 2.1-2 1.2-2.4 4.3.4 5.6-.7 1.9-2.1 4.3-3.9 4.3-1.1 0-1.5-.7-2.9-.7s-1.9.7-2.9.7c-1.9 0-4.5-4-4.5-7.4 0-3 1.9-4.6 3.9-4.6 1.1 0 2 .7 2.7.7.7 0 1.9-.7 3.4-.7Z" /><path d="M14.8 4.2c.6-.8.9-1.7.8-2.7-1 .1-1.9.6-2.6 1.4-.6.7-1 1.7-.8 2.6 1 0 1.9-.5 2.6-1.3Z" /></svg>
-              <span><small>YAKINDA</small><b>App Store</b></span>
-            </span>
-            <span className="store-badge">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" aria-hidden="true"><path d="M5 3.5v17L18.5 12 5 3.5Z" /><path d="M5 3.5 14.8 14M5 20.5 14.8 10" /></svg>
-              <span><small>YAKINDA</small><b>Google Play</b></span>
-            </span>
-          </div>
-          <div style={{ marginTop: 32 }}>
-            <Waitlist />
-          </div>
+          <Reveal>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 18 }}>
+              <img src="/illus/kasalar.svg" alt="Kasalarda taze sebze illüstrasyonu" style={{ width: 260, maxWidth: "70%" }} loading="lazy" />
+            </div>
+            <p className="eyebrow">Erken erişim</p>
+            <h2 style={{ fontSize: "2.2rem", marginTop: 8 }}>Uygulama yolda</h2>
+            <p className="muted" style={{ maxWidth: 480, margin: "14px auto 24px" }}>
+              iOS ve Android uygulamaları geliştirme aşamasında. E-postanı bırak,
+              yayına girdiği gün ilk haberi sen al.
+            </p>
+            <div className="store-badges">
+              <span className="store-badge">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15.5 7.5c1.8 0 3 .9 3.8 2.1-2 1.2-2.4 4.3.4 5.6-.7 1.9-2.1 4.3-3.9 4.3-1.1 0-1.5-.7-2.9-.7s-1.9.7-2.9.7c-1.9 0-4.5-4-4.5-7.4 0-3 1.9-4.6 3.9-4.6 1.1 0 2 .7 2.7.7.7 0 1.9-.7 3.4-.7Z" /><path d="M14.8 4.2c.6-.8.9-1.7.8-2.7-1 .1-1.9.6-2.6 1.4-.6.7-1 1.7-.8 2.6 1 0 1.9-.5 2.6-1.3Z" /></svg>
+                <span><small>YAKINDA</small><b>App Store</b></span>
+              </span>
+              <span className="store-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" aria-hidden="true"><path d="M5 3.5v17L18.5 12 5 3.5Z" /><path d="M5 3.5 14.8 14M5 20.5 14.8 10" /></svg>
+                <span><small>YAKINDA</small><b>Google Play</b></span>
+              </span>
+            </div>
+            <div style={{ marginTop: 32 }}>
+              <Waitlist />
+            </div>
+          </Reveal>
         </div>
       </section>
     </main>
-  );
-}
-
-function IconTelefonMini() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-      <rect x="7" y="3" width="10" height="18" rx="2.4" />
-      <path d="M11 18.4h2" />
-    </svg>
   );
 }
