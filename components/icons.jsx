@@ -228,6 +228,24 @@ export function IconArtiDaire(props) {
   );
 }
 
+export function IconKonum(props) {
+  return (
+    <Svg {...props}>
+      <path d="M12 21s-6.5-5.3-6.5-10a6.5 6.5 0 0 1 13 0c0 4.7-6.5 10-6.5 10Z" />
+      <circle cx="12" cy="10.6" r="2.3" />
+    </Svg>
+  );
+}
+
+export function IconTelefon(props) {
+  return (
+    <Svg {...props}>
+      <rect x="7" y="3" width="10" height="18" rx="2.4" />
+      <path d="M10.5 5.2h3M11 18.4h2" />
+    </Svg>
+  );
+}
+
 export function IconYukari(props) {
   return (
     <Svg {...props}>
