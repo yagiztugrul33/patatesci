@@ -15,24 +15,24 @@ const inter = Inter({
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "patatesçi — Türkiye'nin sebze-meyve ağı kuruluyor",
+    default: "patatesçi — Tarladan işletmene, aracısız toptan tedarik",
     template: "%s | patatesçi",
   },
   description:
-    "Mahallenin manavı, pazarcısı, üreticisi tek uygulamada. Sipariş ver; en yakın onaylı esnaf kapına getirsin. 81 ilde kuruluyoruz — uygulama yakında.",
+    "Üreticiden esnafa, restorana, markete ve ihracatçıya doğrudan toptan sebze-meyve. Hasat ilanı, tarladan canlı video, peşin-güvenceli ödeme, künye/HKS uyumu. 81 ilde kuruluyor.",
   openGraph: {
     type: "website",
     locale: "tr_TR",
     siteName: "patatesçi",
-    title: "patatesçi — Türkiye'nin sebze-meyve ağı kuruluyor",
+    title: "patatesçi — Tarladan işletmene, aracısız toptan tedarik",
     description:
-      "Mahallenin esnafı tek uygulamada. En yakın onaylı esnaf, canlı görüntülü doğrulama, tartı garantisi. 81 ilde — uygulama yakında.",
+      "Hasat ilanı, tarladan canlı video, peşin-güvenceli ödeme. Komisyoncu yok, vade yok. 81 ilde kuruluyor — uygulama yakında.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "patatesçi — Türkiye'nin sebze-meyve ağı kuruluyor",
+    title: "patatesçi — Tarladan işletmene, aracısız toptan tedarik",
     description:
-      "Mahallenin esnafı tek uygulamada. 81 ilde kuruluyoruz — uygulama yakında.",
+      "Üreticiden işletmeye doğrudan toptan tedarik. 81 ilde kuruluyor — uygulama yakında.",
   },
 };
 
@@ -48,8 +48,8 @@ export default function RootLayout({ children }) {
               <div>
                 <b style={{ color: "var(--ink)" }}>patatesçi</b>
                 <p style={{ marginTop: 6, maxWidth: 320 }}>
-                  Türkiye'nin sebze-meyve ağı. Mahallenin esnafı ile alıcısını
-                  doğrudan, güvenceli ve mevzuata uygun şekilde buluşturur.
+                  Tarladan işletmeye toptan tedarik ağı. Üretici ile toptan
+                  alıcıyı doğrudan, güvenceli ve mevzuata uygun şekilde buluşturur.
                 </p>
               </div>
               <div className="footer-links">

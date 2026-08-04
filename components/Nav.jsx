@@ -9,8 +9,8 @@ export default function Nav() {
           <span className="dot" /> patatesçi
         </Link>
         <div className="nav-links">
-          <a href="/#esnaf">Esnaf için</a>
-          <a href="/#musteri">Nasıl çalışır</a>
+          <a href="/#uretici">Üretici için</a>
+          <a href="/#toptan">Toptan alım</a>
           <a href="/#guvence">Güvence</a>
           <a href="/#sss">SSS</a>
         </div>

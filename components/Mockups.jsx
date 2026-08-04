@@ -201,15 +201,15 @@ export function ToptanIlanPhone() {
           <div className="ilan-ust">
             <span className="app-thumb"><ProductIcon id="patates" size={22} /></span>
             <span className="esnaf-meta">
-              <b>Patates · 1. kalite</b>
-              <small className="muted">Hasat: bu hafta</small>
+              <b>Patates (Agria) · 1. kalite</b>
+              <small className="muted">Adana · Hasat: bu hafta</small>
             </span>
             <span className="tag pos" style={{ padding: "3px 8px" }}>Canlı video</span>
           </div>
           <div className="kimlik-satirlar" style={{ margin: "12px 0" }}>
             <div><small>Miktar</small><b className="num">5 ton</b></div>
             <div><small>Tarla fiyatı</small><b className="num">14,00 ₺/kg</b></div>
-            <div><small>Asgari</small><b className="num">100 kg</b></div>
+            <div><small>Asgari</small><b className="num">1 ton</b></div>
           </div>
           <div className="ilan-uretici">
             <span className="avatar" style={{ width: 30, height: 30, fontSize: ".68rem" }}>AÇ</span>
@@ -253,16 +253,16 @@ export function UreticiIlanPhone() {
           <b style={{ fontSize: ".95rem" }}>Hasat ilanı</b>
           <span className="app-pin">2 dakika</span>
         </div>
-        <small className="form-etiket">Ürün ve kalite</small>
+        <small className="form-etiket">Ürün / çeşit / kalite</small>
         <div className="chip-grid">
           <span className="chip on">Patates</span>
-          <span className="chip">Soğan</span>
+          <span className="chip on">Agria</span>
           <span className="chip on">1. kalite</span>
         </div>
         <small className="form-etiket">Miktar / fiyat</small>
         <div className="form-satir num"><span>5 ton</span><span>14,00 ₺/kg</span></div>
-        <small className="form-etiket">Hasat tarihi</small>
-        <div className="form-satir num"><span>12 Ağustos</span><span className="ok-mini"><IconOnay size={14} /> Uygun</span></div>
+        <small className="form-etiket">Hasat / ambalaj</small>
+        <div className="form-satir num"><span>12 Ağustos</span><span>Çuval (25 kg)</span></div>
         <small className="form-etiket">Tarladan video</small>
         <div className="form-satir"><span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconKamera size={15} /> Canlı çekim</span><span className="ok-mini"><IconOnay size={14} /> Çekildi</span></div>
         <div className="app-cta" style={{ marginBottom: 4 }}>İlanı yayınla</div>
@@ -306,7 +306,7 @@ export function UreticiOdemePhone() {
         <div style={{ marginTop: 12 }}>
           <div className="surec-satir"><span>Teklif kabul edildi</span><span className="ok-mini"><IconOnay size={14} /> Tamam</span></div>
           <div className="surec-satir"><span>Ödeme güvenceye alındı</span><span className="ok-mini"><IconOnay size={14} /> Tamam</span></div>
-          <div className="surec-satir"><span>Yükleme</span><span className="bekliyor num">Bugün 14:00</span></div>
+          <div className="surec-satir"><span>Kantar fişi yüklendi</span><span className="ok-mini"><IconOnay size={14} /> 5.020 kg</span></div>
           <div className="surec-satir"><span>Teslim onayı</span><span className="bekliyor">Hesabına aktarım</span></div>
         </div>
         <div className="app-cta" style={{ marginTop: 12, marginBottom: 4 }}>Yüklemeyi başlat</div>

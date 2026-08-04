@@ -86,7 +86,7 @@ export default function TurkiyeHarita() {
       {BILDIRIMLER.map((b) => (
         <div key={b.il} className="harita-bildirim" style={{ ...b.stil, animationDelay: b.gecikme + "s" }} aria-hidden="true">
           <span className="hb-ic"><IconOnay size={13} /></span>
-          Yeni esnaf katıldı · {b.il}
+          Yeni üretici katıldı · {b.il}
         </div>
       ))}
       <div className="harita-rozet">

@@ -6,31 +6,35 @@ import Sayac from "../components/Sayac";
 import TurkiyeHarita from "../components/TurkiyeHarita";
 import {
   ProductIcon,
-  IconKalkan,
   IconTarti,
   IconKamera,
   IconKilit,
   IconOnay,
   IconKamyon,
+  IconBelge,
+  IconGrafik,
+  IconKalkan,
   IconYukari,
   IconAsagi,
 } from "../components/icons";
 import {
+  ToptanIlanPhone,
+  UreticiIlanPhone,
+  UreticiTekliflerPhone,
+  UreticiOdemePhone,
+  AliciPazarPhone,
+  CanliVideoPhone,
+  TasimaPhone,
+  ToptanTeslimPhone,
+  TopluAlimPhone,
   MusteriSiparisPhone,
-  MusteriEslesmePhone,
-  MusteriTakipPhone,
-  MusteriTeslimPhone,
-  EsnafKayitPhone,
-  EsnafSiparisPhone,
-  EsnafKazancPhone,
-  OnayliEsnafKarti,
 } from "../components/Mockups";
 import { fmtSayi } from "../lib/format";
 
 export const metadata = {
-  title: "patatesçi — Türkiye'nin sebze-meyve ağı kuruluyor",
+  title: "patatesçi — Tarladan işletmene, aracısız toptan tedarik",
   description:
-    "Mahallenin manavı, pazarcısı, üreticisi tek uygulamada. Sipariş ver; en yakın onaylı esnaf kapına getirsin. 81 ilde kuruluyoruz — uygulama yakında.",
+    "Üreticiden esnafa, restorana, markete ve ihracatçıya doğrudan toptan sebze-meyve. Hasat ilanı, tarladan canlı video, peşin-güvenceli ödeme, künye/HKS uyumu. 81 ilde kuruluyor — uygulama yakında.",
 };
 
 const FIYATLAR = [
@@ -43,11 +47,12 @@ const FIYATLAR = [
 ];
 
 const SSS = [
-  { q: "patatesçi nedir?", a: "Mahallenin manavını, pazarcısını ve üreticisini alıcıyla doğrudan buluşturan bir uygulamadır. Sipariş verirsin; sana en yakın onaylı esnaf kabul eder ve kapına getirir." },
-  { q: "Neden daha ucuz?", a: "Aracı katmanlar kalkar: esnaf ve üretici daha çok kazanır, sen daha az ödersin. Fiyatlar herkese açık piyasa bandında oluşur; bandın dışına çıkan teklif sisteme giremez." },
-  { q: "Esnaf olarak nasıl katılırım?", a: "Uygulama yayına girdiğinde uzmanlığınla (patatesçi, soğancı, manav…) kaydolursun; telefonun doğrulanır, araç plakan kaydedilir, künyen onaylanır. Bu sayfadaki esnaf ön kaydını bırakırsan açılışta ilk sıraya geçersin." },
-  { q: "Güvenlik nasıl sağlanıyor?", a: "Yalnızca onaylı esnaf sipariş alabilir: plaka kayıtlı, telefon doğrulanmış, belge onaylı. Aramalar uygulama üzerinden bağlanır, numaran gizli kalır. Ödemen teslimatı onaylayana kadar güvence hesabında bekler." },
-  { q: "Ne zaman geliyor?", a: "Uygulama iOS ve Android için geliştirme aşamasındadır; 81 ilde kademeli açılış planlıyoruz. Ön kayıt bırakanlara açılış sırası önceden bildirilecek." },
+  { q: "patatesçi nedir?", a: "Üreticiyi toptan alıcıyla (esnaf, restoran, market, ihracatçı) doğrudan buluşturan tarladan tedarik platformudur. Üretici hasadını ilana koyar; alıcı tarladan canlı videoyla malı görür, peşin-güvenceli öder, teslimde tartı kontrolüyle onaylar." },
+  { q: "Hal'den neden daha uygun?", a: "Komisyoncu ve aracı katmanları kalkar: üretici daha çok kazanır, alıcı tarla fiyatına yaklaşır. Fiyatlar herkese açık ilanlarla oluşur; pazarlık kapalı kapılar ardında dönmez." },
+  { q: "Üretici olarak nasıl satarım?", a: "Hasadını 2 dakikada ilana koyarsın: ürün, miktar, fiyat, hasat tarihi, tarladan video. Teklifler sana gelir; en iyisini seçersin. Ödeme peşin tahsil edilip güvenceye alınır — vade yok, çek yok; teslim onayında paran hesabında." },
+  { q: "Toptan alıcı olarak güvencem ne?", a: "Malı görmeden ödemezsin: tarladan canlı video ile kaliteyi kendin onaylarsın. Ödemen teslim onayına kadar güvence hesabında bekler; varışta kantar kontrolü yapılır, eksik çıkarsa fark iade edilir. Sevkiyat aracının plakası kayıtlıdır. Asgari işlem 1 tondur; mahalle toplu alımları bu kuralın istisnasıdır." },
+  { q: "Kapıya teslimat ne zaman?", a: "Sırada. Önce tarladan toptan ağı kuruyoruz; mahalle toplu alımları ve kapıya teslimat bu ağın üzerinde açılacak. Ön kayıt bırakırsan bölgende açıldığı gün haber alırsın." },
+  { q: "Ne zaman geliyor?", a: "Uygulama iOS ve Android için geliştirme aşamasındadır; 81 ilde kademeli açılış planlıyoruz. Ön kayıt bırakan üretici ve işletmelere açılış sırası önceden bildirilecek." },
 ];
 
 function TickerItem({ f }) {
@@ -82,34 +87,34 @@ function Story({ eyebrow, baslik, metin, phone, rev = false, ekstra = null, renk
 export default function Home() {
   return (
     <main>
-      {/* ================= HERO ================= */}
+      {/* ================= HERO — TOPTAN ================= */}
       <section className="promo-hero">
         <div className="blob blob-yesil" aria-hidden="true" />
         <div className="blob blob-amber" aria-hidden="true" />
         <div className="container promo-grid">
           <div>
-            <span className="pill">Yakında · iOS ve Android</span>
-            <h1>Türkiye'nin sebze-meyve ağı kuruluyor. <span style={{ color: "var(--accent)" }}>81 ilde.</span></h1>
+            <span className="pill">Yakında · iOS ve Android — ön kayıt açık</span>
+            <h1>Tarladan işletmene. <span style={{ color: "var(--accent)" }}>Tonuyla, aracısız.</span></h1>
             <p className="lead">
-              Mahallenin manavı, pazarcısı, üreticisi tek uygulamada. Sen sipariş
-              ver; en yakın onaylı esnaf kabul etsin, canlı görüntüyle göster,
-              kapına getirsin.
+              Esnaf, restoran, market, sanayici ve ihracatçı için üreticiden
+              doğrudan toptan tedarik. Hasat ilanını gör, tarladan canlı videoyla
+              malı incele, peşin-güvenceli öde.
             </p>
             <div className="hero-actions" style={{ justifyContent: "flex-start" }}>
               <a href="#onkayit" className="btn btn-primary btn-shine">Uygulama çıkınca haber ver</a>
-              <a href="#esnaf-katil" className="btn btn-outline">Esnaf mısın? Aramıza katıl</a>
+              <a href="#esnaf-katil" className="btn btn-outline">Üretici veya işletmeysen katıl</a>
             </div>
             <div className="stat-row">
               <div className="stat"><b className="num">81 il</b><span>hedef kapsama</span></div>
-              <div className="stat"><b className="num">%15</b><span>aracısız fiyat hedefi</span></div>
+              <div className="stat"><b className="num">0</b><span>komisyoncu, vade, çek</span></div>
               <div className="stat"><b className="num">%100</b><span>güvenceli ödeme</span></div>
             </div>
           </div>
-          <MusteriSiparisPhone matched />
+          <ToptanIlanPhone />
         </div>
       </section>
 
-      {/* ================= FİYAT BANDI ================= */}
+      {/* ================= TARLA FİYAT BANDI ================= */}
       <div className="ticker" aria-hidden="true">
         <div className="ticker-inner">
           {[...FIYATLAR, ...FIYATLAR].map((f, i) => <TickerItem f={f} key={i} />)}
@@ -122,13 +127,126 @@ export default function Home() {
           <Reveal>
             <div className="section-head">
               <p className="eyebrow">Lansman planı</p>
-              <h2>81 ilde kuruluyoruz</h2>
+              <h2>81 ilde toptan ağı kuruluyor</h2>
               <p className="muted" style={{ marginTop: 10 }}>
-                Büyük şehirlerden başlayıp kademeli olarak tüm Türkiye'ye
-                açılıyoruz. Mahallen listede — ön kayıt bırakan ilk haber alır.
+                Üretim bölgelerinden başlayıp kademeli olarak tüm Türkiye'ye
+                açılıyoruz. Bölgen listede — ön kayıt bırakan ilk haber alır.
               </p>
             </div>
             <TurkiyeHarita />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ================= ÜRETİCİ HİKAYESİ (başrol) ================= */}
+      <section className="section cv" id="uretici" style={{ background: "var(--bg-soft)" }}>
+        <div className="container">
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Üretici için</p>
+              <h2>Hasadını tarladan sat, paran güvencede</h2>
+              <p className="muted" style={{ marginTop: 10 }}>
+                Komisyoncu yok, vade yok, çek yok. İlanını koy, teklifini seç;
+                teslim onayında paran hesabında.
+              </p>
+            </div>
+          </Reveal>
+
+          <Story
+            renk="var(--amber-koyu)"
+            eyebrow="Üretici · Adım 1"
+            baslik="Hasadını 2 dakikada ilana koy"
+            metin="Çeşit, ton, ₺/kg, hasat tarihi, ambalaj (dökme/çuval/kasa) — ve tarladan canlı video çekimi. İlanın künye/HKS bilgilerinle birlikte tüm Türkiye'deki alıcılara açılır."
+            phone={<UreticiIlanPhone />}
+          />
+
+          <Story
+            rev
+            renk="var(--mor)"
+            eyebrow="Üretici · Adım 2"
+            baslik="Teklifler sana gelsin, en iyisini seç"
+            metin="Market, restoran, ihracatçı — kim talip olduysa teklifi ekranında. Kabul ettiğin anda alıcının ödemesi peşin tahsil edilir ve güvence hesabına alınır."
+            phone={<UreticiTekliflerPhone />}
+          />
+
+          <Story
+            renk="var(--kirmizi-koyu)"
+            eyebrow="Üretici · Adım 3"
+            baslik="Yükle, teslim et — paran hesabında"
+            metin="Yüklemede kantar fişi sisteme işlenir; teslim onaylandığı an bedel güvence hesabından doğrudan hesabına geçer. Kimsenin çekini beklemezsin, kimseye vade açmazsın."
+            phone={<UreticiOdemePhone />}
+          />
+        </div>
+      </section>
+
+      {/* ================= TOPTAN ALICI HİKAYESİ ================= */}
+      <section className="section cv" id="toptan">
+        <div className="container">
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Toptan alıcı için</p>
+              <h2>Malı tarladan al, aradaki farkı sen kazan</h2>
+              <p className="muted" style={{ marginTop: 10 }}>
+                Esnaf, restoran, market, ihracatçı — hal fiyatı değil, tarla
+                fiyatı.
+              </p>
+            </div>
+          </Reveal>
+
+          <Story
+            renk="var(--amber-koyu)"
+            eyebrow="Alıcı · Adım 1"
+            baslik="İhtiyacını yaz veya ilanları gez"
+            metin="2 ton patates mi lazım? Talebini yaz ya da bölge bölge hasat ilanlarını incele: miktar, tarla fiyatı, kalite, künye durumu — hepsi açık."
+            phone={<AliciPazarPhone />}
+          />
+
+          <Story
+            rev
+            renk="var(--mor)"
+            eyebrow="Alıcı · Adım 2"
+            baslik="Malı tarladan canlı videoyla gör"
+            metin="Üretici sana tarladan canlı yayın açar; kaliteyi kendi gözünle doğrularsın. Görmediğin mala ödeme yapmazsın."
+            phone={<CanliVideoPhone />}
+          />
+
+          <Story
+            renk="var(--kirmizi-koyu)"
+            eyebrow="Alıcı · Adım 3"
+            baslik="Taşımayı seç, peşin-güvenceli öde"
+            metin="Üreticinin plakalı aracı, tarladan gel-al veya anlaşmalı nakliyeci — sana uyanı seç. Ödemen teslim onayına kadar güvence hesabında bekler."
+            phone={<TasimaPhone />}
+          />
+
+          <Story
+            rev
+            eyebrow="Alıcı · Adım 4"
+            baslik="Teslimde tartı kontrolü, sonra onay"
+            metin="Mal kapında tartılır, beyanla karşılaştırılır; eksik çıkarsa fark otomatik iade edilir. Sen onayladığında ödeme üreticiye geçer."
+            phone={<ToptanTeslimPhone />}
+          />
+        </div>
+      </section>
+
+      {/* ================= BELGE OTOMASYONU ================= */}
+      <section className="section cv" id="belge" style={{ background: "var(--bg-soft)" }}>
+        <div className="container">
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Belge otomasyonu</p>
+              <h2>Evrak işini biz hallederiz</h2>
+              <p className="muted" style={{ marginTop: 10 }}>
+                Sen malına bak; künyeden rüsuma bürokrasi platformda otomatik yürür.
+              </p>
+            </div>
+            <div className="grid grid-3 stagger">
+              <div className="card"><div className="icon ik-yesil"><IconOnay /></div><h3>HKS Bildirimi & Künye</h3><p>Her işlemin Hal Kayıt Sistemi bildirimi ve künye eşleşmesi otomatik yapılır.</p></div>
+              <div className="card"><div className="icon ik-mor"><IconKamyon /></div><h3>e-İrsaliye Takibi</h3><p>Sevkiyatın e-irsaliyesi düzenlenir, plaka kaydıyla eşleştirilir ve arşivlenir.</p></div>
+              <div className="card"><div className="icon ik-amber"><IconBelge /></div><h3>Müstahsil / e-Fatura</h3><p>Üreticiye müstahsil makbuzu, işletmeye e-fatura — satış kapanışında otomatik kesilir.</p></div>
+              <div className="card"><div className="icon ik-kirmizi"><IconTarti /></div><h3>Kantar Fişi Arşivi</h3><p>Yükleme ve varış kantar fişleri siparişe iliştirilir; tartı uyuşmazlığında kanıt hazırdır.</p></div>
+              <div className="card"><div className="icon ik-yesil"><IconGrafik /></div><h3>Rüsum Hesabı & Muafiyeti</h3><p>Rüsum otomatik hesaplanır; üretici kanalı muafiyetleri kuruşu kuruşuna uygulanır.</p></div>
+              <div className="card"><div className="icon ik-mor"><IconKalkan /></div><h3>Teslim Tutanağı & İtiraz</h3><p>Her teslim tutanakla kapanır; itiraz süreci kayıtlı belgeler üzerinden yürür.</p></div>
+            </div>
           </Reveal>
         </div>
       </section>
@@ -138,112 +256,53 @@ export default function Home() {
         <img src="/illus/mahalle.svg" alt="Mahalle sokağında manav dükkanları illüstrasyonu" loading="lazy" />
       </Reveal>
 
-      {/* ================= ESNAF HİKAYESİ ================= */}
-      <section className="section cv" id="esnaf" style={{ background: "var(--bg-soft)" }}>
+      {/* ================= MAHALLE TOPLU ALIMI (köprü) ================= */}
+      <section className="section cv" id="toplu" style={{ background: "var(--bg-soft)" }}>
         <div className="container">
-          <Reveal>
-            <div className="section-head">
-              <p className="eyebrow">Esnaf için</p>
-              <h2>Dükkanında bekleme, mahallen seni bulsun</h2>
-              <p className="muted" style={{ marginTop: 10 }}>
-                Taksi uygulaması şoföre nasıl yolcu bulursa, patatesçi de esnafa
-                sipariş bulur. Başrol sende.
-              </p>
-            </div>
-          </Reveal>
-
           <Story
             renk="var(--amber-koyu)"
-            eyebrow="Esnaf · Adım 1"
-            baslik="Uzmanlığınla kaydol"
-            metin="Patatesçi misin, soğancı mı, genel manav mı? Kendini uzmanlığınla tanıt. Telefonun doğrulanır, araç plakan kaydedilir, künyen onaylanır — ve sana kimseye verilmeyen şey verilir: Onaylı Esnaf kimliği."
-            phone={
-              <div className="kayit-gorsel">
-                <EsnafKayitPhone />
-                <OnayliEsnafKarti />
+            eyebrow="Mahalle toplu alımı"
+            baslik="10 komşu, tek tarla siparişi"
+            metin="Mahalleden 10 kişi 10'ar kilo istedi mi, sistem bunları tek 100 kiloluk palet siparişinde birleştirir — asgari 1 ton kuralının tek istisnası. Mahalle esnafı dağıtımı üstlenir ve dağıtım ücretini kazanır; herkes tarla fiyatına yaklaşır."
+            phone={<TopluAlimPhone />}
+          />
+        </div>
+      </section>
+
+      {/* ================= KAPIYA TESLİMAT — SIRADA ================= */}
+      <section className="section cv" id="kapiya">
+        <div className="container">
+          <Story
+            rev
+            eyebrow="Yol haritası"
+            baslik="Kapına teslimat"
+            metin="Toptan ağ kurulduğunda sıra buna gelecek: taksi çağırır gibi sebze-meyve siparişi, en yakın esnaftan kapına. Ön kayıt bırak; bölgende açıldığı gün ilk sen dene."
+            ekstra={
+              <div style={{ display: "flex", gap: 12, alignItems: "center", marginTop: 16, flexWrap: "wrap" }}>
+                <span className="tag sirada">Sırada</span>
+                <a href="#onkayit" className="btn btn-outline">Ön kayıt bırak</a>
               </div>
             }
-          />
-
-          <Story
-            rev
-            renk="var(--kirmizi-koyu)"
-            eyebrow="Esnaf · Adım 2"
-            baslik="Sipariş sana düşer"
-            metin="Mahallenden biri sipariş verdiğinde telefonun çalar: ne istendiği, kaç kilo olduğu, ne kazanacağın ve kaç km ötede olduğu ekranda. Uygunsan kabul et; değilsen reddet, sipariş sıradaki esnafa geçsin."
-            phone={<EsnafSiparisPhone />}
-          />
-
-          <Story
-            renk="var(--mor)"
-            eyebrow="Esnaf · Adım 3"
-            baslik="Kazancın gün gün cebinde"
-            metin="Kaç teslimat yaptın, ne kazandın, hafta nasıl gidiyor — hepsi tek ekranda. Ödemeler güvence hesabından doğrudan hesabına aktarılır; kimseye bağlı kalmazsın."
-            phone={<EsnafKazancPhone />}
+            phone={<MusteriSiparisPhone matched />}
           />
         </div>
       </section>
 
-      {/* ================= MÜŞTERİ HİKAYESİ ================= */}
-      <section className="section cv" id="musteri">
-        <div className="container">
-          <Reveal>
-            <div className="section-head">
-              <p className="eyebrow">Nasıl çalışır</p>
-              <h2>Sen sipariş ver, gerisini mahallen halletsin</h2>
-            </div>
-          </Reveal>
-
-          <Story
-            renk="var(--amber-koyu)"
-            eyebrow="Müşteri · Adım 1"
-            baslik="Siparişini oluştur"
-            metin="Ne lazımsa seç: 5 kilo patates, 3 kilo soğan… Fiyatlar herkese açık piyasa bandından; pazarlık yok, sürpriz yok."
-            phone={<MusteriSiparisPhone />}
-          />
-
-          <Story
-            rev
-            renk="var(--mor)"
-            eyebrow="Müşteri · Adım 2"
-            baslik="En yakın onaylı esnafla eşleş"
-            metin="Sipariş, sana en yakın onaylı esnafa düşer. Kim olduğunu görürsün: adı, uzmanlığı, plakası, puanı, mesafesi. Gerekirse tek dokunuşla ararsın — numaran gizli kalır, arama uygulama üzerinden bağlanır."
-            phone={<MusteriEslesmePhone />}
-          />
-
-          <Story
-            renk="var(--kirmizi-koyu)"
-            eyebrow="Müşteri · Adım 3"
-            baslik="Canlı takip et, canlı gör"
-            metin="Araç yola çıktığı andan itibaren haritada; varış süresi ekranda. Üstelik ürünü teslimden önce canlı görüntüyle görür, kaliteyi kendin onaylarsın."
-            phone={<MusteriTakipPhone />}
-          />
-
-          <Story
-            rev
-            eyebrow="Müşteri · Adım 4"
-            baslik="Kapında teslim al, puanla"
-            metin="Teslimatta miktar tartıyla kayıt altına alınır; eksik çıkarsa fark iade edilir. Ödemen ancak sen onayladığında esnafa geçer. Son söz: esnafını puanla, mahallenin en iyileri öne çıksın."
-            phone={<MusteriTeslimPhone />}
-          />
-        </div>
-      </section>
-
-      {/* ================= GÜVENCE ================= */}
+      {/* ================= GÜVENCE (toptan dili) ================= */}
       <section className="section cv" id="guvence" style={{ background: "var(--bg-soft)", paddingTop: 56, paddingBottom: 56 }}>
         <div className="container">
           <Reveal>
             <div className="section-head">
               <p className="eyebrow">Güvence altyapısı</p>
-              <h2>Tanımadığın kimse kapına gelmez</h2>
+              <h2>Ton ton mal, kuruş kuruş güvence</h2>
             </div>
             <div className="grid grid-3 stagger">
-              <div className="card"><div className="icon ik-yesil"><IconOnay /></div><h3>Onaylı Esnaf</h3><p>Yalnızca kimliği, belgesi ve künyesi onaylanmış esnaf sipariş alabilir.</p></div>
-              <div className="card"><div className="icon ik-mor"><IconKamyon /></div><h3>Plaka Kaydı</h3><p>Teslimatı yapan aracın plakası sistemde kayıtlıdır; kapına kimin geldiğini bilirsin.</p></div>
-              <div className="card"><div className="icon ik-amber"><IconTarti /></div><h3>Tartı Garantisi</h3><p>Teslim edilen miktar kayıt altındadır; eksik tartıda bedel farkı iade edilir.</p></div>
-              <div className="card"><div className="icon ik-kirmizi"><IconKamera /></div><h3>Canlı Görüntü</h3><p>Ürünü teslimden önce canlı görüntüyle görür, kaliteyi kendin onaylarsın.</p></div>
-              <div className="card"><div className="icon ik-yesil"><IconKilit /></div><h3>Ödeme Güvencesi</h3><p>Ödemen teslimatı onaylayana kadar güvence hesabında bekler; sorun olursa iade edilir.</p></div>
-              <div className="card"><div className="icon ik-mor"><IconKalkan /></div><h3>Gizli Numara</h3><p>Aramalar uygulama üzerinden bağlanır; telefon numaran kimseyle paylaşılmaz.</p></div>
+              <div className="card"><div className="icon ik-yesil"><IconOnay /></div><h3>Onaylı Üretici</h3><p>Yalnızca künyesi ve HKS kaydı doğrulanmış üretici ilan verebilir; kimden aldığını bilirsin.</p></div>
+              <div className="card"><div className="icon ik-mor"><IconKamyon /></div><h3>Plaka Kaydı</h3><p>Sevkiyatı yapan aracın plakası sipariş kaydındadır; yükün nerede, kimde — bellidir.</p></div>
+              <div className="card"><div className="icon ik-amber"><IconTarti /></div><h3>Tartı Garantisi</h3><p>Ton bazında beyan-teslim karşılaştırması yapılır; eksik tartıda bedel farkı iade edilir.</p></div>
+              <div className="card"><div className="icon ik-kirmizi"><IconKamera /></div><h3>Tarladan Canlı Video</h3><p>Malı satın almadan önce tarladan canlı yayında görür, kaliteyi kendin onaylarsın.</p></div>
+              <div className="card"><div className="icon ik-yesil"><IconKilit /></div><h3>Ödeme Güvencesi</h3><p>Peşin-güvenceli model: alıcı vade beklemez, üretici çek riski taşımaz; bedel teslim onayında aktarılır.</p></div>
+              <div className="card"><div className="icon ik-mor"><IconBelge /></div><h3>Künye & HKS Uyumu</h3><p>Künye, Hal Kayıt Sistemi bildirimi, rüsum ve belgelendirme platformda otomatik yürütülür.</p></div>
             </div>
           </Reveal>
         </div>
@@ -253,31 +312,32 @@ export default function Home() {
       <div className="rakamlar">
         <div className="container rakamlar-ic">
           <div className="rakam"><Sayac hedef={81} sonek=" il" /><span>hedef kapsama alanı</span></div>
-          <div className="rakam"><Sayac hedef={10000} sonek="+" /><span>ilk yıl esnaf hedefi</span></div>
-          <div className="rakam"><Sayac hedef={15} onek="%" /><span>aracısız fiyat avantajı hedefi</span></div>
+          <div className="rakam"><Sayac hedef={100000} sonek=" ton" /><span>ilk yıl işlem hacmi hedefi</span></div>
+          <div className="rakam"><Sayac hedef={25} onek="%" /><span>tarla fiyatı avantajı hedefi (azami)</span></div>
         </div>
       </div>
 
-      {/* ================= ESNAF ÇAĞRISI ================= */}
+      {/* ================= ESNAF ÇAĞRISI (çift rol) ================= */}
       <section className="section cagri cv" id="esnaf-katil">
         <div className="container cagri-grid">
           <Reveal>
             <img src="/illus/esnaf-arac.svg" alt="Üç tekerlekli aracıyla mahalle esnafı illüstrasyonu" className="illus-yan" loading="lazy" />
           </Reveal>
           <Reveal delay={120}>
-            <p className="eyebrow">Esnaf çağrısı</p>
+            <p className="eyebrow">Üretici ve işletme çağrısı</p>
             <h2 style={{ fontSize: "2.2rem", marginTop: 8 }}>Mahallenin patatesçisi ol</h2>
             <p className="muted" style={{ margin: "14px 0 22px", maxWidth: 460 }}>
-              Manav, pazarcı, seyyar satıcı, üretici — mahallende ilk kaydolan
-              esnaf ol, açılışta bölgenin siparişleri önce sana düşsün. Ön kayıt
-              ücretsizdir, bağlayıcı değildir.
+              Esnafsan iki kazanç kapın var: malını halden değil tarladan al —
+              aradaki farkı sen kazan. Üstüne mahalle toplu alımlarının
+              dağıtımını üstlen, dağıtım ücretini de sen al. Üreticiysen hasadını
+              aracısız sat. Ön kayıt ücretsizdir, bağlayıcı değildir.
             </p>
             <Waitlist
-              defaultRol="satici"
-              etiket="Esnaf ön kaydı"
+              defaultRol="toptan"
+              etiket="Üretici / işletme ön kaydı"
               baslik="Aramıza katıl"
               aciklama="Uygulama bölgende açıldığında ilk davet sana gelsin."
-              buton="Esnaf ön kaydı bırak"
+              buton="Ön kayıt bırak"
             />
           </Reveal>
         </div>
@@ -305,9 +365,10 @@ export default function Home() {
             </div>
             <p className="eyebrow">Erken erişim</p>
             <h2 style={{ fontSize: "2.2rem", marginTop: 8 }}>Uygulama yolda</h2>
-            <p className="muted" style={{ maxWidth: 480, margin: "14px auto 24px" }}>
-              iOS ve Android uygulamaları geliştirme aşamasında. E-postanı bırak,
-              yayına girdiği gün ilk haberi sen al.
+            <p className="muted" style={{ maxWidth: 500, margin: "14px auto 24px" }}>
+              iOS ve Android uygulamaları geliştirme aşamasında; toptan ağ önce
+              üretici ve işletmelere açılacak. E-postanı bırak, yayına girdiği
+              gün ilk haberi sen al.
             </p>
             <div className="store-badges">
               <span className="store-badge">
@@ -320,7 +381,7 @@ export default function Home() {
               </span>
             </div>
             <div style={{ marginTop: 32 }}>
-              <Waitlist />
+              <Waitlist defaultRol="toptan" />
             </div>
           </Reveal>
         </div>

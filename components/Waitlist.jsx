@@ -45,6 +45,7 @@ export default function Waitlist({
           <select id={uid + "-rol"} className="select" value={rol} onChange={(e) => setRol(e.target.value)}>
             <option value="uretici">Üreticiyim (çiftçi / kooperatif)</option>
             <option value="toptan">Toptan alıcıyım (esnaf / işletme)</option>
+            <option value="nakliyeci">Nakliyeciyim</option>
             <option value="tuketici">Son tüketiciyim</option>
           </select>
         </div>

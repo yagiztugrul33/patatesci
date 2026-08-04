@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 // Paylaşım kartı (Open Graph görseli) — SVG/JSX'ten build sırasında PNG üretilir.
 export const runtime = "edge";
-export const alt = "patatesçi — Türkiye'nin sebze-meyve ağı kuruluyor";
+export const alt = "patatesçi — Tarladan işletmene, aracısız toptan tedarik";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -26,11 +26,11 @@ export default function Image() {
           <div style={{ width: "22px", height: "22px", borderRadius: "999px", background: "#2e8b63", display: "flex" }} />
           <div style={{ fontSize: "42px", fontWeight: 700, display: "flex" }}>patatesçi</div>
         </div>
-        <div style={{ fontSize: "76px", fontWeight: 700, marginTop: "34px", lineHeight: 1.12, maxWidth: "980px", display: "flex" }}>
-          Türkiye'nin sebze-meyve ağı kuruluyor.
+        <div style={{ fontSize: "76px", fontWeight: 700, marginTop: "34px", lineHeight: 1.12, maxWidth: "1000px", display: "flex" }}>
+          Tarladan işletmene. Tonuyla, aracısız.
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "18px", marginTop: "30px" }}>
-          <div style={{ fontSize: "40px", color: "#7fd0ab", display: "flex" }}>81 ilde</div>
+          <div style={{ fontSize: "40px", color: "#7fd0ab", display: "flex" }}>Toptan tedarik · 81 il</div>
           <div style={{ width: "8px", height: "8px", borderRadius: "999px", background: "#7fd0ab", display: "flex" }} />
           <div style={{ fontSize: "40px", color: "#9db3a6", display: "flex" }}>Uygulama yakında</div>
         </div>
