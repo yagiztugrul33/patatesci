@@ -46,14 +46,8 @@ const FIYATLAR = [
   { id: "havuc", nm: "Havuç", pr: 21.8, chg: 1.1 },
 ];
 
-const SSS = [
-  { q: "patatesci nedir?", a: "Üreticiyi toptan alıcıyla (esnaf, restoran, market, ihracatçı) doğrudan buluşturan tarladan tedarik platformudur. Üretici hasadını ilana koyar; alıcı tarladan canlı videoyla malı görür, peşin-güvenceli öder, teslimde tartı kontrolüyle onaylar." },
-  { q: "Hal'den neden daha uygun?", a: "Komisyoncu ve aracı katmanları kalkar: üretici daha çok kazanır, alıcı tarla fiyatına yaklaşır. Fiyatlar herkese açık ilanlarla oluşur; pazarlık kapalı kapılar ardında dönmez." },
-  { q: "Üretici olarak nasıl satarım?", a: "Hasadını 2 dakikada ilana koyarsın: ürün, miktar, fiyat, hasat tarihi, tarladan video. Teklifler sana gelir; en iyisini seçersin. Ödeme peşin tahsil edilip güvenceye alınır — vade yok, çek yok; teslim onayında paran hesabında." },
-  { q: "Toptan alıcı olarak güvencem ne?", a: "Malı görmeden ödemezsin: tarladan canlı video ile kaliteyi kendin onaylarsın. Ödemen teslim onayına kadar güvence hesabında bekler; varışta kantar kontrolü yapılır, eksik çıkarsa fark iade edilir. Sevkiyat aracının plakası kayıtlıdır. Asgari işlem 1 tondur; mahalle toplu alımları bu kuralın istisnasıdır." },
-  { q: "Kapıya teslimat ne zaman?", a: "Sırada. Önce tarladan toptan ağı kuruyoruz; mahalle toplu alımları ve kapıya teslimat bu ağın üzerinde açılacak. Ön kayıt bırakırsan bölgende açıldığı gün haber alırsın." },
-  { q: "Ne zaman geliyor?", a: "Uygulama iOS ve Android için geliştirme aşamasındadır; 81 ilde kademeli açılış planlıyoruz. Ön kayıt bırakan üretici ve işletmelere açılış sırası önceden bildirilecek." },
-];
+// SSS artık senaryo kataloğundan üretilen ortak kaynaktan gelir (lib/sss.mjs)
+import { SSS } from "../lib/sss.mjs";
 
 function TickerItem({ f }) {
   return (

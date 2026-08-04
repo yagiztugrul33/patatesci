@@ -1,5 +1,5 @@
 // Ceza-nakliye birim testleri — node tests/ceza.test.mjs
-import { nakliyeHesapla, eksikTartiCezasi, iptalCezasi, haksizRedCezasi, kaliteIhlali, komisyonHesapla, skorUygula } from "../lib/ceza.mjs";
+import { nakliyeHesapla, eksikTartiCezasi, iptalCezasi, haksizRedCezasi, kaliteIhlali, komisyonHesapla, skorUygula, yolFiresiToleransi, kismiIade, orneklemNet } from "../lib/ceza.mjs";
 
 let basarili = 0, hatali = 0;
 function esit(ad, gercek, beklenen) {
@@ -15,12 +15,26 @@ esit("Nallıhan→Sincan 15t (tır 2.4)", nakliyeHesapla({ km: 132, ton: 15 }).t
 esit("Gel-al = 0", nakliyeHesapla({ km: 80, ton: 5, gelAl: true }).tutar, 0);
 esit("Araç sınıfı 15t = Tır", nakliyeHesapla({ km: 10, ton: 15 }).arac, "Tır");
 
-// --- Eksik tartı (B2/B3): ±%1 tolerans; aşan eksiğin 2 katı iade ---
-const t1 = eksikTartiCezasi({ beyanTon: 5, gelenTon: 4.9, fiyat: 39 }); // 100 kg eksik, tolerans 50 kg
-esit("Eksik tartı ihlal (5t beyan, 4.9t gelen)", t1.ihlal, true);
+// --- Yol firesi toleransları (TP-2, ürün bazlı) ---
+esit("Yol firesi patates %0,5", yolFiresiToleransi("patates"), 0.005);
+esit("Yol firesi domates %1,5", yolFiresiToleransi("domates"), 0.015);
+esit("Yol firesi yeşillik %3", yolFiresiToleransi("yesillik"), 0.03);
+
+// --- Eksik tartı (B2/B3): ürün bazlı tolerans; aşan eksiğin 2 katı iade ---
+const t1 = eksikTartiCezasi({ beyanTon: 5, gelenTon: 4.9, fiyat: 39, urun: "patates" }); // 100 kg eksik, tolerans 25 kg
+esit("Eksik tartı ihlal (patates 5t→4.9t)", t1.ihlal, true);
 esit("Eksik tartı iade = 100kg × 39₺ × 2", t1.iade, 7800);
-const t2 = eksikTartiCezasi({ beyanTon: 5, gelenTon: 4.96, fiyat: 39 }); // 40 kg eksik < 50 kg tolerans
-esit("Tolerans içi eksik ihlal degil", t2.ihlal, false);
+const t2 = eksikTartiCezasi({ beyanTon: 5, gelenTon: 4.98, fiyat: 39, urun: "patates" }); // 20 kg < 25 kg tolerans
+esit("Patates tolerans içi (20 kg) ihlal degil", t2.ihlal, false);
+const t3 = eksikTartiCezasi({ beyanTon: 5, gelenTon: 4.93, fiyat: 40, urun: "domates" }); // 70 kg < 75 kg tolerans
+esit("Domates tolerans içi (70 kg) ihlal degil", t3.ihlal, false);
+
+// --- Kısmi iade formülü (%20 çürük) ---
+esit("Kısmi iade %20 × 195.000", kismiIade({ tutar: 195000, bozukOran: 0.2 }).iade, 39000);
+
+// --- Örneklem protokolü (TP-3): 5 çuval, 25kg çuval, dara 0.15 ---
+const on = orneklemNet({ olcumlerKg: [25.2, 24.9, 25.1, 25.0, 24.8], toplamAmbalaj: 200, daraKg: 0.15 });
+esit("Örneklem net = (ort 25.0 − 0.15) × 200", on.netKg, Math.round((25.0 - 0.15) * 200));
 
 // --- İptal kademeleri (B3) ---
 esit("Satıcı yükleme öncesi iptal %2 (70.000)", iptalCezasi({ taraf: "satici", asama: "yukleme_oncesi", tutar: 70000 }).ceza, 1400);

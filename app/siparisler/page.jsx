@@ -54,6 +54,26 @@ export default function Siparisler() {
 
   const [iptalPaneli, setIptalPaneli] = useState(null); // sipariş id
   const [iptalOnay, setIptalOnay] = useState(false);
+  // Teslim Anı Protokolü sihirbazı (TA): adımlar tamamlanmadan imza aktifleşmez
+  const [teslimPaneli, setTeslimPaneli] = useState(null);
+  const [teslimAdim, setTeslimAdim] = useState([false, false, false, false]);
+  // İtiraz sihirbazı (İS): sorun tipi → kanıt kontrol listesi → sonuç uyarısı → gönder
+  const [itirazPaneli, setItirazPaneli] = useState(null);
+  const [itirazTip, setItirazTip] = useState("Kalite (sınıf/kusur)");
+  const [itirazKanit, setItirazKanit] = useState([false, false, false]);
+  const [itirazOnay, setItirazOnay] = useState(false);
+
+  const TESLIM_ADIMLARI = [
+    "Plaka ve sürücü kimliği doğrulandı (uyuşmazsa TESLİM ETME)",
+    "Boşaltım kesintisiz videoya alındı (katman itirazı hakkı için zorunlu)",
+    "Tartı kontrolü yapıldı (siparişteki Tartı Doğrulama Planı'na göre)",
+    "3 rastgele kasa/çuval açıldı ve uygulama kamerasıyla kaydedildi",
+  ];
+  const ITIRAZ_KANITLARI = [
+    "Uygulama kamerasıyla foto çekildi (konum+saat damgalı — galeriden yükleme yok)",
+    "Boşaltım videosu mevcut (katman iddiasında zorunlu)",
+    "Kantar fişi / örneklem kaydı eklendi (tartı iddiasında zorunlu)",
+  ];
 
   const aksiyon = async (id, aks) => {
     setHata("");
@@ -137,14 +157,89 @@ export default function Siparisler() {
                 </div>
               )}
 
+              {o.tartiPlani && !["tamamlandi", "karar", "iptal_yukleme_oncesi", "yolda_iptal"].includes(o.durum) && (
+                <p className="muted" style={{ fontSize: ".78rem", background: "var(--bg-soft)", borderRadius: 10, padding: "8px 12px", marginBottom: 12 }}>
+                  <b>Tartı Doğrulama Planı:</b> {o.tartiPlani}
+                </p>
+              )}
+
               {aks && !["itiraz", "tamamlandi", "hakem_incelemede", "karar", "iptal_yukleme_oncesi", "yolda_iptal"].includes(o.durum) && (
                 <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                  <button className="btn btn-primary" onClick={() => aksiyon(o.id, "ileri")}>{aks}</button>
                   {o.durum === "teslim_edildi" ? (
-                    <button className="btn btn-outline" onClick={() => aksiyon(o.id, "itiraz")}>Varışta reddet (hakem süreci)</button>
+                    <>
+                      <button className="btn btn-primary" onClick={() => { setTeslimPaneli(teslimPaneli === o.id ? null : o.id); setTeslimAdim([false, false, false, false]); }}>Teslim sihirbazını başlat</button>
+                      <button className="btn btn-outline" onClick={() => { setItirazPaneli(itirazPaneli === o.id ? null : o.id); setItirazKanit([false, false, false]); setItirazOnay(false); }}>İtiraz sihirbazı (imza öncesi)</button>
+                    </>
                   ) : (
-                    <button className="btn btn-outline" onClick={() => { setIptalPaneli(iptalPaneli === o.id ? null : o.id); setIptalOnay(false); }}>İptal et</button>
+                    <>
+                      <button className="btn btn-primary" onClick={() => aksiyon(o.id, "ileri")}>{aks}</button>
+                      <button className="btn btn-outline" onClick={() => { setIptalPaneli(iptalPaneli === o.id ? null : o.id); setIptalOnay(false); }}>İptal et</button>
+                    </>
                   )}
+                </div>
+              )}
+
+              {teslimPaneli === o.id && o.durum === "teslim_edildi" && (
+                <div style={{ marginTop: 12, border: "1px solid var(--line)", borderRadius: 12, padding: 14 }}>
+                  <b style={{ fontSize: ".9rem" }}>Teslim Anı Protokolü (TA) — zorunlu kontrol sihirbazı</b>
+                  <div style={{ margin: "10px 0" }}>
+                    {TESLIM_ADIMLARI.map((adim, i) => (
+                      <label key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: ".82rem", color: "var(--ink2)", marginBottom: 6 }}>
+                        <input type="checkbox" checked={teslimAdim[i]} onChange={(e) => setTeslimAdim((a) => a.map((x, j) => (j === i ? e.target.checked : x)))} />
+                        <span>{i + 1}. {adim}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <p className="muted" style={{ fontSize: ".78rem", marginBottom: 10 }}>
+                    İmza = görünür her şeyin KESİN KABULÜ (konum+saat damgalı); ödeme imzayla
+                    üreticiye geçer. İmza sonrası yalnız gizli ayıp itirazı (6 saat) açılabilir.
+                  </p>
+                  <button className="btn btn-primary" disabled={!teslimAdim.every(Boolean)} onClick={() => aksiyon(o.id, "ileri")}>
+                    {teslimAdim.every(Boolean) ? "Dijital irsaliyeyi imzala — kesin kabul" : "Önce tüm adımları tamamla"}
+                  </button>
+                </div>
+              )}
+
+              {itirazPaneli === o.id && o.durum === "teslim_edildi" && (
+                <div style={{ marginTop: 12, border: "1px solid var(--amber)", borderRadius: 12, padding: 14, background: "var(--amber-soft)" }}>
+                  <b style={{ fontSize: ".9rem" }}>İtiraz Sihirbazı (İS) — 3 dokunuş</b>
+                  <div className="field" style={{ margin: "10px 0" }}>
+                    <label>1. Sorun tipi</label>
+                    <select className="select" value={itirazTip} onChange={(e) => setItirazTip(e.target.value)}>
+                      <option>Kalite (sınıf/kusur)</option>
+                      <option>Tartı (eksik)</option>
+                      <option>Katman hilesi (üst iyi, alt kötü)</option>
+                      <option>Farklı çeşit/ürün</option>
+                    </select>
+                  </div>
+                  <label style={{ fontSize: ".8rem", fontWeight: 600, color: "var(--ink2)" }}>2. Kanıt kontrol listesi</label>
+                  <div style={{ margin: "6px 0 10px" }}>
+                    {ITIRAZ_KANITLARI.map((k, i) => (
+                      <label key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: ".8rem", color: "var(--ink2)", marginBottom: 5 }}>
+                        <input type="checkbox" checked={itirazKanit[i]} onChange={(e) => setItirazKanit((a) => a.map((x, j) => (j === i ? e.target.checked : x)))} />
+                        <span>{k}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <p className="num" style={{ fontSize: ".8rem", color: "var(--kirmizi-koyu)", marginBottom: 8 }}>
+                    3. Sonuç uyarısı: hakem seni HAKSIZ bulursa %5 ceza ({Math.round(o.tutar * 0.05).toLocaleString("tr-TR")} ₺)
+                    + çift yön nakliye ödersin, bedel üreticiye geçer ve skorun 15 puan düşer.
+                    Kanıtı eksik taraf aleyhine karine işler. Pencere: boşaltımdan 6 saat.
+                  </p>
+                  <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: ".82rem", marginBottom: 10 }}>
+                    <input type="checkbox" checked={itirazOnay} onChange={(e) => setItirazOnay(e.target.checked)} />
+                    Sonuçları okudum, kabul ediyorum.
+                  </label>
+                  <button className="btn btn-primary" disabled={!itirazOnay || !itirazKanit[0]} onClick={() => aksiyon(o.id, "itiraz")}>İtirazı gönder — hakeme git</button>
+                </div>
+              )}
+
+              {o.durum === "tamamlandi" && o.imzaTs && (Date.now() - o.imzaTs) < 6 * 3600000 && (
+                <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+                  <button className="btn btn-outline" onClick={() => aksiyon(o.id, "gizli-ayip")}>Gizli ayıp bildir (yalnız uygulama kamerası kanıtıyla)</button>
+                  <span className="muted num" style={{ fontSize: ".78rem" }}>
+                    Kalan pencere: ~{Math.max(0, Math.ceil(6 - (Date.now() - o.imzaTs) / 3600000))} saat (imzadan itibaren 6 saat)
+                  </span>
                 </div>
               )}
 

@@ -1,0 +1,16 @@
+{
+  "aciklama": "Ankara pilot — anlaşmalı kantar ağı DEMO listesi. Tüm kayıtlar 'anlaşma sağlanacak' statüsündedir; damga tarihleri temsilidir.",
+  "ilke": "Platform kantar taşımaz, kantar ağını sertifikalar.",
+  "kantarlar": [
+    { "ilce": "Polatlı", "ad": "Polatlı TMO Kantarı", "kapasiteTon": 60, "damga": "2026 damgalı", "durum": "anlaşma sağlanacak" },
+    { "ilce": "Polatlı", "ad": "Polatlı OSB Kantarı", "kapasiteTon": 80, "damga": "2026 damgalı", "durum": "anlaşma sağlanacak" },
+    { "ilce": "Beypazarı", "ad": "Beypazarı Sebze Hali Kantarı", "kapasiteTon": 40, "damga": "2026 damgalı", "durum": "anlaşma sağlanacak" },
+    { "ilce": "Nallıhan", "ad": "Nallıhan Belediye Kantarı", "kapasiteTon": 40, "damga": "2025 damgalı", "durum": "anlaşma sağlanacak" },
+    { "ilce": "Haymana", "ad": "Haymana Tarım Kredi Kantarı", "kapasiteTon": 60, "damga": "2026 damgalı", "durum": "anlaşma sağlanacak" },
+    { "ilce": "Kızılcahamam", "ad": "Kızılcahamam Giriş Kantarı", "kapasiteTon": 40, "damga": "2026 damgalı", "durum": "anlaşma sağlanacak" },
+    { "ilce": "Ayaş", "ad": "Ayaş Domates Hali Kantarı", "kapasiteTon": 40, "damga": "2026 damgalı", "durum": "anlaşma sağlanacak" },
+    { "ilce": "Çubuk", "ad": "Çubuk Sanayi Kantarı", "kapasiteTon": 60, "damga": "2026 damgalı", "durum": "anlaşma sağlanacak" },
+    { "ilce": "Yenimahalle", "ad": "Ankara Toptancı Hali Kantarı", "kapasiteTon": 80, "damga": "2026 damgalı", "durum": "anlaşma sağlanacak" },
+    { "ilce": "Gölbaşı", "ad": "Gölbaşı Çevreyolu Kantarı", "kapasiteTon": 60, "damga": "2026 damgalı", "durum": "anlaşma sağlanacak" }
+  ]
+}
