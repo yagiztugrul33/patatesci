@@ -1,12 +1,13 @@
 import Link from "next/link";
+import Logo from "./Logo";
 
 // Tanıtım sitesi navigasyonu — işlem yok, sadece bölümlere yönlendirme.
 export default function Nav() {
   return (
     <nav className="nav">
       <div className="container nav-inner">
-        <Link href="/" className="brand">
-          <span className="dot" /> patatesci
+        <Link href="/" aria-label="patatesci ana sayfa" style={{ display: "inline-flex" }}>
+          <Logo variant="compact" size={26} />
         </Link>
         <div className="nav-links">
           <a href="/#uretici">Üretici için</a>

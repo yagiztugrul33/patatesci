@@ -1,6 +1,7 @@
 // Tanıtım sitesindeki uygulama ekranı mockup'ları.
 // Bunlar çalışan arayüz değil, lansman reklamındaki temsili ekranlardır.
 import Phone from "./Phone";
+import { LogoMark } from "./Logo";
 import EtaChip from "./EtaChip";
 import {
   ProductIcon,
@@ -58,7 +59,7 @@ export function MusteriSiparisPhone({ matched = false }) {
     <Phone>
       <div className="app-ui">
         <div className="app-top">
-          <span className="brand" style={{ fontSize: ".95rem" }}><span className="dot" /> patatesci</span>
+          <span className="brand" style={{ fontSize: ".95rem" }}><LogoMark size={16} /> patatesci</span>
           <span className="app-pin"><IconKonum size={14} /> Kadıköy</span>
         </div>
         <div className="app-search">Bugün ne lazım?</div>
@@ -194,7 +195,7 @@ export function ToptanIlanPhone() {
     <Phone>
       <div className="app-ui">
         <div className="app-top">
-          <span className="brand" style={{ fontSize: ".95rem" }}><span className="dot" /> patatesci</span>
+          <span className="brand" style={{ fontSize: ".95rem" }}><LogoMark size={16} /> patatesci</span>
           <span className="app-pin"><IconKonum size={14} /> Adana</span>
         </div>
         <div className="ilan-karti">
@@ -326,7 +327,7 @@ export function AliciPazarPhone() {
     <Phone>
       <div className="app-ui">
         <div className="app-top">
-          <span className="brand" style={{ fontSize: ".95rem" }}><span className="dot" /> patatesci</span>
+          <span className="brand" style={{ fontSize: ".95rem" }}><LogoMark size={16} /> patatesci</span>
           <span className="app-pin">Toptan</span>
         </div>
         <div className="app-search">İhtiyacını yaz: örn. 2 ton patates</div>

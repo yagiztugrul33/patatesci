@@ -1,0 +1,13 @@
+<svg width="280" height="88" viewBox="0 0 280 88" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="patatesci logosu (açık varyant, koyu zemin için) — Tarladan işletmene.">
+  <g transform="translate(2 12) scale(0.9)">
+    <path d="M32 59C32 59 13 42 13 28 13 17.5 21.5 9.5 32 9.5s19 8 19 18.5C51 42 32 59 32 59Z" fill="none" stroke="#7fd0ab" stroke-width="4.5" stroke-linejoin="round"/>
+    <ellipse cx="32" cy="28.5" rx="9.5" ry="7" transform="rotate(-14 32 28.5)" fill="none" stroke="#7fd0ab" stroke-width="3.4"/>
+    <circle cx="28.6" cy="27.2" r="1.1" fill="#7fd0ab"/>
+    <circle cx="34.4" cy="30.8" r="1.1" fill="#7fd0ab"/>
+    <circle cx="35.8" cy="25.6" r="1.1" fill="#7fd0ab"/>
+    <path d="M32 9.5V4.8" stroke="#f0a84b" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M32 5c0-2.7 2.2-4.3 5.4-4.3 0 2.7-2.2 4.3-5.4 4.3Z" fill="#f0a84b"/>
+  </g>
+  <text x="66" y="49" font-family="Inter,-apple-system,'Segoe UI',Arial,sans-serif" font-size="34" font-weight="700" letter-spacing="-0.7" fill="#ffffff">patatesci</text>
+  <text x="68" y="74" font-family="Inter,-apple-system,'Segoe UI',Arial,sans-serif" font-size="15" font-weight="500" fill="#9db3a6">Tarladan işletmene.</text>
+</svg>

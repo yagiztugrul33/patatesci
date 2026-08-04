@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "../components/Nav";
+import Logo from "../components/Logo";
 import { SITE_URL } from "../lib/site";
 
 // Yazı tipi self-host edilir (next/font): render bloklayan istek ve font-swap
@@ -46,8 +47,8 @@ export default function RootLayout({ children }) {
           <div className="container">
             <div className="footer-grid">
               <div>
-                <b style={{ color: "var(--ink)" }}>patatesci</b>
-                <p style={{ marginTop: 6, maxWidth: 320 }}>
+                <Logo variant="full" slogan="eve" size={24} />
+                <p style={{ marginTop: 10, maxWidth: 320 }}>
                   Tarladan işletmeye toptan tedarik ağı. Üretici ile toptan
                   alıcıyı doğrudan, güvenceli ve mevzuata uygun şekilde buluşturur.
                 </p>
