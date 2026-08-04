@@ -137,7 +137,55 @@ export default function TicaretKurallari() {
           sipariş dosyasında arşivlenir.
         </p>
 
-        <h2 style={{ fontSize: "1.3rem", margin: "26px 0 8px" }}>6. Hal fiyat referansı (Ankara pilot)</h2>
+        <h2 style={{ fontSize: "1.3rem", margin: "26px 0 8px" }}>6. Tartı doğrulama protokolü (üç katman)</h2>
+        <p>
+          Tartı planı <b>işlem öncesi</b> sipariş özetinde yazılıdır. <b>TP-1 —
+          Anlaşmalı kantar ağı</b> (tam yüklerde): rotadaki son anlaşmalı kantar
+          teslim tartısıdır; damgalı fiş + konum/saat damgalı video zorunlu,
+          alıcı isterse hazır bulunur. İlke: "Platform kantar taşımaz, kantar
+          ağını sertifikalar." Ücret: fark toleranstaysa satıcı, aşıldıysa
+          itiraz eden öder; uyuşmazlıkta üçüncü karar kantarı kesindir. 3516
+          sayılı Ölçüler ve Ayar Kanunu gereği kantarlar damgalıdır; damgasız
+          tartım yok hükmündedir. <b>TP-2 — Yol firesi (ürün bazlı):</b>
+          patates/soğan/havuç %0,5 · domates/biber/salatalık %1,5 · yeşillik
+          %3; tolerans içi fark doğal firedir, aşan eksikte eksiğin 2 katı
+          iade. Islanmayla YÜKSEK çıkan tartıda net = min(beyan, varış).
+          <b> TP-3 — Örneklem:</b> çuvallı malda sürücüdeki damgalı asma
+          kantarla rastgele 5 çuval; uygulama ortalama × adet − dara hesaplar.
+        </p>
+
+        <h2 style={{ fontSize: "1.3rem", margin: "26px 0 8px" }}>7. İtiraz sihirbazı ve boşaltım videosu</h2>
+        <p>
+          İtiraz 3 dokunuştur: sorun tipi → kanıt adımları → gönder. Kanıt
+          yalnız uygulama içi kamerayla alınır (konum+saat damgalı;
+          <b> galeriden yükleme yok</b>). Pencere boşaltımdan 6 saattir;
+          kullanılmış mala itiraz reddedilir. Hakem 48 saatte gerekçeli yazılı
+          karar verir; 1 kez üst itiraz hakkı vardır (yeni kanıt şartıyla);
+          süre aşarsa platform hesap verir. <b>Boşaltım videosu:</b> 1 tondan
+          büyük teslimlerde kesintisiz video zorunludur (katman hilesine
+          karşı); çekilmezse katman itirazı hakkı düşer.
+        </p>
+
+        <h2 style={{ fontSize: "1.3rem", margin: "26px 0 8px" }}>8. Teslim anı protokolü</h2>
+        <p>
+          Zorunlu kontrol sihirbazı: <b>plaka doğrula → boşaltım videosu →
+          tartı kontrolü → 3 rastgele kasa açımı → dijital irsaliye imzası</b>
+          (konum+saat damgalı). Adımlar tamamlanmadan imza etkinleşmez.
+          <b> İmza, görünür her şeyin kesin kabulüdür; ödeme imzayla üreticiye
+          geçer.</b> İmzalanmadan araç ayrılırsa teslim geçersizdir (sürücü
+          ihlali). Tek istisna gizli ayıptır (TTK ayıp ihbarına paralel):
+          imzadan itibaren 6 saat, yalnız uygulama kamerası kesim/açma
+          videosuyla.
+        </p>
+
+        <h2 style={{ fontSize: "1.3rem", margin: "26px 0 8px" }}>9. Çift taraflı görünür skor</h2>
+        <p>
+          Satıcıda tam-tartı + kalite skoru; alıcıda haklı-itiraz + teslim-alma
+          skoru. Herkes 100'den başlar; 60 altı askı, 40 altı ihraç; 6 ay temiz
+          sicil +10. Skorlar profilde <b>herkese görünür</b>.
+        </p>
+
+        <h2 style={{ fontSize: "1.3rem", margin: "26px 0 8px" }}>10. Hal fiyat referansı (Ankara pilot)</h2>
         <p>
           Piyasa bandının merkezi, Ankara Büyükşehir Belediyesi Toptancı Hal
           Müdürlüğü günlük listesindeki eşleşen ürünün asgari-azami orta

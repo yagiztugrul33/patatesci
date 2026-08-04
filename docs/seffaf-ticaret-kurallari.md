@@ -182,6 +182,83 @@ müstahsil makbuzu/e-fatura, e-irsaliye, kantar fişi, rüsum satırı.
 **Cezaların tahsil sırası:** (1) ilgili işlemin güvence tutarı →
 (2) teminat → (3) bakiye borç (ödenmeden yeni işlem yok).
 
+## TP. Tartı Doğrulama Protokolü (üç katman)
+
+Tartı planı **işlem öncesi** sipariş özetinde yazılıdır — sürpriz yok.
+
+**TP-1 · Anlaşmalı kantar ağı (tam yüklerde, >3 ton):**
+Rotadaki **son anlaşmalı kantar** teslim tartısıdır; damgalı fiş + konum/saat
+damgalı video zorunludur, alıcı isterse tartımda hazır bulunur. İlke:
+**"Platform kantar taşımaz, kantar ağını sertifikalar."** Ücret kuralı: fark
+tolerans içindeyse kantar ücretini satıcı öder (yük onun beyanı); tolerans
+aşıldıysa itiraz eden öder. Uyuşmazlıkta üçüncü **karar kantarı** kesindir
+(ücreti haksız çıkandan). Mevzuat notu: 3516 sayılı Ölçüler ve Ayar Kanunu
+gereği kantarlar periyodik muayene ve **damgaya** tabidir; damgasız cihazla
+tartım **yok hükmündedir** ve damgalı kantar fişi işlem kanıtı olarak esas
+alınır (damga süresi dolmuş alet kullanana idari yaptırım uygulanır).
+
+**TP-2 · Yol firesi toleransı (ürün bazlı):**
+
+| Ürün grubu | Tolerans |
+|---|---|
+| Patates, soğan, havuç (dayanıklı) | %0,5 |
+| Domates, biber, salatalık | %1,5 |
+| Yeşillik | %3 |
+
+Yükleme–varış farkı tolerans içindeyse doğal firedir, net = varış tartısı.
+Aşan eksik "eksik tartı ihlali"dir (eksiğin 2 katı iade). Islanma vb. nedenle
+varış tartısı YÜKSEK çıkarsa net = min(beyan, varış) — kimse suya para ödemez.
+
+**TP-3 · Örneklem protokolü (çuvallı/kasalı mal, ≤3 ton veya ambalajlı):**
+Sürücüdeki **damgalı asma kantarla rastgele 5 çuval** tartılır; uygulama
+ortalama × ambalaj adedi − standart dara ile neti hesaplar. Örneklem neti
+beyanın %1'inden fazla altındaysa eksik tartı hükümleri uygulanır.
+
+## İS. İtiraz Sihirbazı
+
+- **3 dokunuş:** sorun tipini seç → kanıt adımlarını tamamla → gönder.
+- Kanıt yalnız **uygulama içi kamerayla** çekilir (konum + saat damgalı);
+  **galeriden yükleme yoktur** — kanıt sahteciliğini keser.
+- Pencere: **boşaltımdan 6 saat**. Kullanılmış/işlenmiş mala itiraz reddedilir.
+- Hakem kararı **48 saat**, gerekçeli ve yazılı; **1 kez üst itiraz** hakkı
+  (yeni kanıt şartıyla). Hakem süreyi aşarsa platform hesap verir: taraflara
+  işlem puanı iadesi ve hızlandırılmış karar zorunluluğu.
+- Her adımda kullanıcıya "bu aşamada haklı çıkmazsan ne olur" net gösterilir
+  ve onay kutusuyla kabul alınır.
+
+## BV. Boşaltım Videosu Kuralı
+
+1 tondan büyük teslimlerde boşaltım **kesintisiz video** ile kaydedilir
+(katman hilesine karşı: üst kasa iyi, alt kasa kötü). Alıcı boşaltım videosu
+çekmezse **katman itirazı hakkı düşer**; yalnız görünür kısım için genel
+kalite itirazı kalır.
+
+## SK. Çift Taraflı Skor (herkese açık)
+
+- **Satıcı profili:** tam-tartı skoru + kalite skoru (beyan-teslim uyumu).
+- **Alıcı profili:** haklı-itiraz skoru + teslim-alma skoru.
+- İki taraf da 100'den başlar; ihlaller B3 matrisindeki puanları düşürür.
+  60 altı askı, 40 altı ihraç, 6 ay temiz sicil +10.
+- Skorlar profilde **herkese görünür** — şeffaflık pazarlık gücüdür.
+
+## TA. Teslim Anı Protokolü
+
+Teslimde zorunlu **kontrol sihirbazı** (uygulama sırayla zorlar):
+1. **Plaka doğrula** — kayıtlı plaka/kimlik uyuşmazsa TESLİM EDİLMEZ.
+2. **Boşaltım videosu** (>1 ton, kesintisiz).
+3. **Tartı kontrolü** — TP'deki plana göre (kantar fişi veya örneklem).
+4. **3 rastgele kasa/çuval açımı** — uygulama rastgele seçtirir.
+5. **Dijital irsaliye imzası** — konum + saat damgalı.
+
+**İMZA = görünür her şeyin KESİN KABULÜDÜR; ödeme imzayla üreticiye geçer.**
+İmza öncesi itiraz aynı ekrandan açılır. Adımlar tamamlanmadan imza butonu
+etkinleşmez. İmzalanmadan araç ayrılırsa teslim geçersizdir (sürücü ihlali).
+
+**Tek istisna — gizli ayıp** (TTK ayıp ihbarı düzenine paralel): dışarıdan
+görünmeyen ayıp için imzadan itibaren **6 saat** içinde, yalnız uygulama
+kamerasının kesim/açma videosuyla itiraz açılabilir. Süre kaçarsa itiraz
+otomatik reddedilir.
+
 ## Hal Fiyat Referansı (Ankara pilot)
 
 - Kaynak: **Ankara Büyükşehir Belediyesi Toptancı Hal Müdürlüğü** günlük
