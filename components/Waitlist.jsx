@@ -2,7 +2,7 @@
 import { useId, useState } from "react";
 
 export default function Waitlist({
-  defaultRol = "alici",
+  defaultRol = "toptan",
   etiket = "Erken erişim",
   baslik = "Uygulama çıkınca haber ver",
   aciklama = "E-postanı bırak; uygulama yayına girdiğinde ilk sen haberdar ol.",
@@ -43,8 +43,9 @@ export default function Waitlist({
         <div className="field">
           <label htmlFor={uid + "-rol"}>Seni nasıl tanıyalım?</label>
           <select id={uid + "-rol"} className="select" value={rol} onChange={(e) => setRol(e.target.value)}>
-            <option value="alici">Alıcıyım (ev / işletme)</option>
-            <option value="satici">Esnafım (manav / pazarcı / üretici)</option>
+            <option value="uretici">Üreticiyim (çiftçi / kooperatif)</option>
+            <option value="toptan">Toptan alıcıyım (esnaf / işletme)</option>
+            <option value="tuketici">Son tüketiciyim</option>
           </select>
         </div>
       </div>

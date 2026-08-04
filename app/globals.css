@@ -455,6 +455,28 @@ footer{border-top:1px solid var(--line);padding:40px 0 32px;color:var(--ink2);fo
   .harita-bildirim{font-size:.66rem;padding:5px 9px;left:12px!important;right:auto!important;top:auto!important;bottom:6px!important}
 }
 
+/* ================= TOPTAN EKRAN PARÇALARI ================= */
+.ilan-karti{border:1.5px solid var(--accent);border-radius:16px;padding:14px;box-shadow:0 10px 26px rgba(46,139,99,.12)}
+.ilan-ust{display:flex;align-items:center;gap:10px}
+.ilan-uretici{display:flex;align-items:center;gap:8px;font-size:.76rem;color:var(--ink2);margin-bottom:12px}
+.ilan-uretici .ok-mini{margin-left:auto}
+.cift-buton{display:flex;gap:8px}
+.teklif-satir{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:.8rem;margin-bottom:8px}
+.teklif-satir small{color:var(--ink2)}
+.teklif-sag{display:inline-flex;align-items:center;gap:8px}
+.surec-satir{display:flex;align-items:center;justify-content:space-between;font-size:.8rem;padding:8px 0;border-bottom:1px solid var(--line);color:var(--ink)}
+.surec-satir:last-child{border-bottom:none}
+.bekliyor{font-size:.72rem;font-weight:600;color:var(--amber-koyu);background:var(--amber-soft);border-radius:8px;padding:3px 8px}
+.video-alan{position:relative;background:#101413;border-radius:14px;height:150px;display:grid;place-items:center;color:#cfe0d6;margin-bottom:12px}
+.video-alan small{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-size:.68rem;color:#9db3a6}
+.video-alan .pip-canli{top:10px;left:10px}
+.radio-satir{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:.8rem;margin-bottom:8px}
+.radio-satir.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.radio-nokta{width:16px;height:16px;border-radius:50%;border:2px solid var(--line);flex:none}
+.radio-satir.on .radio-nokta{border-color:var(--accent-strong);background:var(--accent-strong);box-shadow:inset 0 0 0 3px #fff}
+.radio-meta small{color:var(--ink2)}
+.tag.sirada{color:var(--amber-koyu);background:var(--amber-soft);border-color:transparent}
+
 /* fold altındaki bölümler görünene kadar render edilmez — ekran dışı
    animasyonların (harita halkaları, SMIL araç) style/layout maliyeti sıfırlanır */
 .cv{content-visibility:auto;contain-intrinsic-size:auto 700px}
