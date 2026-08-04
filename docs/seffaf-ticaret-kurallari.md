@@ -259,6 +259,26 @@ görünmeyen ayıp için imzadan itibaren **6 saat** içinde, yalnız uygulama
 kamerasının kesim/açma videosuyla itiraz açılabilir. Süre kaçarsa itiraz
 otomatik reddedilir.
 
+## GK. Güvence Katmanları (sigorta + teminat)
+
+Ayrıntı ve kaynaklar: `docs/sigorta-ve-teminat.md`. Özet tablo:
+
+| Aşama | Risk | Araç | Kim öder |
+|---|---|---|---|
+| İlan | Sahte ilan / hasat afeti | KYC + teminat; TARSİM teşviki (rozet, devlet desteği %50, patates dahil sayılı üründe %70) | Satıcı / üretici |
+| Yol | Hasar-kayıp | Sevkiyat başına emtia nakliyat sigortası (1 ton üzeri **varsayılan açık**, yazılı feragatle kapatılır); nakliyeci kusurunda taşıyıcı sorumluluk poliçesine rücu | Prim: alıcı (ayrı kalem) |
+| Yol | Nakliyeci kusuru | Onboarding şartı: K1 belgesi + sorumluluk poliçesi ibrazı | Nakliyeci |
+| Ödeme | Ters ibraz / arıza | Güvence hesabı + imzalı irsaliye kanıt seti + siber sigorta | Platform / haksız taraf |
+| Teminat | Büyük hacim | Kesin banka teminat mektubu (banka teyitli, tutar ≥ nakit teminat; piyasa komisyonu ~%1,25–2,5+BSMV) nakit teminata ikame | Mektup sahibi |
+
+- Teminat iadesi: çıkışta son teslimden **30 gün** sonra, açık itiraz/borç yoksa.
+- **DBS / açık hesap: RET** — vade yok ilkesi; alacak sigortası bu yüzden
+  gereksizdir (bilinçli tercih).
+- Sigorta aracılık payı: 5684 gereği lisanssız **alınmaz**; anlaşmalı acente
+  ortaklığı modeli uygulanır.
+- Gel-al ve bilinçli sigorta feragati: yol riski alıcıya yazılı uyarı + onay
+  kutusuyla geçer (sistemin kabul edilmiş iki açık riski).
+
 ## Hal Fiyat Referansı (Ankara pilot)
 
 - Kaynak: **Ankara Büyükşehir Belediyesi Toptancı Hal Müdürlüğü** günlük

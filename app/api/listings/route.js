@@ -15,8 +15,9 @@ export async function POST(req) {
   if (user.rol !== "satici")
     return NextResponse.json({ error: "İlan vermek için satıcı hesabı gerekli." }, { status: 403 });
   const body = await req.json();
-  if (!body.urun || !body.fiyat || !body.stok) {
-    return NextResponse.json({ error: "Ürün, fiyat ve stok zorunlu." }, { status: 400 });
+  // ton bazlı model: stokTon esas; eski istemcilerden gelen stok (kg) da kabul edilir
+  if (!body.urun || !body.fiyat || (!body.stokTon && !body.stok)) {
+    return NextResponse.json({ error: "Ürün, fiyat ve stok (ton) zorunlu." }, { status: 400 });
   }
   const tip = body.tip || user.tip;
   if ((tip === "toptanci" || tip === "manav") && !body.kunye) {

@@ -6,7 +6,8 @@
 > protokolü), İS (itiraz sihirbazı), BV (boşaltım videosu), TA (teslim anı
 > protokolü), SK (skor), HK (hakem süreci).
 
-Sürüm 0.2 · Toplam 64 senaryo. Boş hücre = bitmemiş iş (kapsama testi düşürür).
+Sürüm 0.3 · Toplam 72 senaryo (S65–S72: sigorta & teminat). Boş hücre =
+bitmemiş iş (kapsama testi düşürür). GK = Güvence Katmanları bölümü.
 
 ## TARTI
 
@@ -107,6 +108,19 @@ Sürüm 0.2 · Toplam 64 senaryo. Boş hücre = bitmemiş iş (kapsama testi dü
 | S58 | Gizli ayıp 6 saatlik pencereyi kaçırdı | Pencere sayacı imza anından işler | TA | İtiraz otomatik red; ödeme satıcıda kalır | İtiraz sihirbazı (sayaç) |
 | S59 | Rotadaki anlaşmalı kantara uğramayı satıcı/sürücü reddetti | Tartı planı sipariş kaydında bağlayıcıdır | TP-1, TA | Yükleme ihlali: alıcının tartı itirazında karine satıcı aleyhine + skor −10 | Sipariş takip |
 | S60 | Alıcı 3 rastgele kasa açımını yapmadan imzaladı | Kontrol listesi tamamlanmadan imza butonu açılmaz (uygulama zorlar) | TA | Uygulama akışı gereği oluşamaz; oluştuysa (çevrimdışı istisna) imza yine kesin kabuldür | Teslim sihirbazı |
+
+## SİGORTA & TEMİNAT
+
+| No | Senaryo (durum) | Kim haklı — nasıl belirlenir | Kural | Yaptırım / sonuç | Ekran |
+|---|---|---|---|---|---|
+| S65 | Sigortalı sevkiyatta yolda hasar (devrilme, kaza) | Hasar tutanağı + boşaltım/teslim kayıtları; poliçe devrede | GK, KK-B4 | Nakliyat poliçesi mal bedelini öder; alıcıya bedel iadesi/yeniden tedarik; taraflara ceza yok | Sipariş takip → hasar bildirimi |
+| S66 | Alıcı sigortayı KAPATMIŞTI, yolda hasar oldu | Feragat onayı kayıtlı (yazılı uyarı + onay kutusu) | GK | Yol riski alıcıda: bedel iade edilmez; nakliyeci kusuru kanıtlanırsa yalnız sorumluluk poliçesine rücu | Sipariş özeti (feragat kaydı) |
+| S67 | TARSİM'li üreticinin mücbir sebep iptali | TARSİM hasar kaydı + resmi afet belgesi 24 saatte | GK, KK-B3 | Cezasız iptal; alıcıya anında iade; üretici TARSİM tazminatıyla ayakta — rozetli üreticiye skor etkisi yok | İtiraz sihirbazı → mücbir |
+| S68 | Teminat mektubu ibrazı (nakit teminat yerine) | Kesin mektup + veren şubeden banka teyidi; tutar ≥ nakit teminat | GK, KK-B5 | Teyitsiz mektup geçersiz; teyitliyse nakit teminata tam ikame | Profil → teminat |
+| S69 | Sahte/geçersiz poliçe veya mektup şüphesi | Sigorta şirketi/banka teyidi zorunlu; teyit çıkmazsa sahtecilik | GK, SK | Kalıcı ihraç + teminattan tazmin + resmi makama bildirim | Yönetim / hakem |
+| S70 | "Sigorta primini ben ödemem" ihtilafı | Prim kuralı işlem ÖNCESİ maliyet dökümünde yazılı: varsayılan alıcı öder | GK | Döküm onaylandıysa itiraz reddedilir; kapatmak isteyen alıcı feragat onayı verir | Şeffaf Maliyet Dökümü |
+| S71 | Kısmi hasar (yükün %30'u ezildi) | Boşaltım videosu + hasar tutanağı; sigortalıysa eksper süreci | GK, KK-B3 | Sigortalıysa poliçeden kısmi tazmin; sigortasızsa kısmi iade formülü riski üstlenen tarafa işler | İtiraz sihirbazı → kısmi hasar |
+| S72 | Sigorta şirketi hasarı REDDETTİ (kloz dışı) | Red gerekçesi yazılı alınır; kusur analizi hakeme döner | GK, HK | Kusur nakliyecideyse sorumluluk poliçesi/nakliyeci öder; kimsede değilse (bilinçli açık risk listesindeyse) risk sahibinde kalır — gerekçe sipariş dosyasına yazılır | Hakem paneli |
 
 ## EK (kendi bulduğumuz sınır durumlar)
 

@@ -31,7 +31,7 @@ console.log("Kural referansı dağılımı:", JSON.stringify(kategoriler));
 if (satirlar.length < 60) { console.log("KALDI: senaryo sayısı 60'ın altında"); hatali++; }
 
 // Zorunlu kapsam anahtar kelimeleri kataloğun bir yerinde geçmeli
-const zorunlu = ["katman", "kısmi", "çifte satış", "mücbir", "chargeback", "şantaj", "KVKK", "gizli ayıp", "karar kantarı", "örneklem", "yol firesi", "fikrini değiştirdi", "imzalamadan araç", "6 saat", "kantara uğramayı"];
+const zorunlu = ["katman", "kısmi", "çifte satış", "mücbir", "chargeback", "şantaj", "KVKK", "gizli ayıp", "karar kantarı", "örneklem", "yol firesi", "fikrini değiştirdi", "imzalamadan araç", "6 saat", "kantara uğramayı", "sigortayı kapat", "TARSİM", "teminat mektubu", "sahte/geçersiz poliçe", "sigorta primini", "kısmi hasar", "sigorta şirketi hasarı reddett", "yolda hasar"];
 for (const z of zorunlu) {
   if (!md.toLowerCase().includes(z.toLowerCase())) { console.log(`KALDI: zorunlu kapsam eksik → "${z}"`); hatali++; }
 }

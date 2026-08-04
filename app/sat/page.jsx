@@ -10,6 +10,10 @@ export default function Sat() {
   const [type, setType] = useState("uretici");
   const [organik, setOrganik] = useState(false);
   const [kantar, setKantar] = useState(true);
+  const [tarsim, setTarsim] = useState(false);
+  // Nakliyeci başvuru demosu (onboarding şartları: K1 + sorumluluk poliçesi)
+  const [nakForm, setNakForm] = useState({ plaka: "", k1: "", police: "" });
+  const [nakMsg, setNakMsg] = useState("");
   const [kunye, setKunye] = useState("");
   const [satici, setSatici] = useState("");
   const [form, setForm] = useState({ urun: "patates", cesit: "Agria", fiyat: "14", stokTon: "5", kalite: "1. Sınıf", kalibre: "35–55 mm", ambalaj: "Dökme", hasat: "12 Ağustos", il: "Polatlı", minTon: "1" });
@@ -29,7 +33,7 @@ export default function Sat() {
       const r = await fetch("/api/listings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, tip: type, organik, kantar, kunye, satici: satici || "Üretici" }),
+        body: JSON.stringify({ ...form, tip: type, organik, kantar, tarsim, kunye, satici: satici || "Üretici" }),
       });
       const d = await r.json();
       if (!r.ok) setHata(d.error || "İşlem tamamlanamadı. Lütfen tekrar deneyin.");
@@ -70,6 +74,9 @@ export default function Sat() {
             )}
             <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: ".88rem", color: "var(--ink2)" }}>
               <input type="checkbox" checked={organik} onChange={(e) => setOrganik(e.target.checked)} /> Organik tarım sertifikası mevcut
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: ".88rem", color: "var(--ink2)", marginTop: 6 }}>
+              <input type="checkbox" checked={tarsim} onChange={(e) => setTarsim(e.target.checked)} /> TARSİM poliçem var (rozet + mücbir sebepte güven avantajı)
             </label>
 
             <div style={{ borderTop: "1px solid var(--line)", margin: "22px 0" }} />
@@ -165,9 +172,33 @@ export default function Sat() {
                   </div>
                   <div className="price num">{fmtTL(sonuc.fiyat)}</div>
                 </div>
-                <p className="hint ok" style={{ marginTop: 10, textAlign: "center" }}>İlanınız kaydedildi ve Pazar bölümünde yayına alındı (ilan no: {sonuc.id}).</p>
+                <p className="hint ok" style={{ marginTop: 10, textAlign: "center" }}>
+                  İlanınız kaydedildi ve yayına alındı (ilan no: {sonuc.id}).
+                  {sonuc.tarsim ? " TARSİM'li üretici rozeti eklendi." : ""}
+                </p>
               </>
             )}
+
+            <div className="panel" style={{ marginTop: 18 }}>
+              <span className="tag">Nakliyeci başvurusu (demo)</span>
+              <p className="muted" style={{ fontSize: ".82rem", margin: "10px 0" }}>
+                Onboarding şartları: K1 yetki belgesi + taşıyıcı mali sorumluluk
+                poliçesi ibrazı. Poliçesiz nakliyeci sevkiyat alamaz.
+              </p>
+              <div className="field"><label>Araç plakası</label><input className="input" value={nakForm.plaka} onChange={(e) => setNakForm((f) => ({ ...f, plaka: e.target.value }))} placeholder="06 ABC 123" /></div>
+              <div className="row2">
+                <div className="field"><label>K1 belge no</label><input className="input" value={nakForm.k1} onChange={(e) => setNakForm((f) => ({ ...f, k1: e.target.value }))} placeholder="K1-XXXXXX" /></div>
+                <div className="field"><label>Sorumluluk poliçe no</label><input className="input" value={nakForm.police} onChange={(e) => setNakForm((f) => ({ ...f, police: e.target.value }))} placeholder="Poliçe no" /></div>
+              </div>
+              <button
+                className="btn btn-outline full"
+                disabled={!nakForm.plaka || !nakForm.k1 || !nakForm.police}
+                onClick={() => setNakMsg("Başvurunuz alındı (demo). Belgeler doğrulandıktan sonra sevkiyat alabilirsiniz; poliçe teyidi sigorta şirketinden yapılır.")}
+              >
+                {nakForm.plaka && nakForm.k1 && nakForm.police ? "Başvuruyu gönder (demo)" : "K1 ve poliçe ibrazı zorunlu"}
+              </button>
+              {nakMsg && <p className="hint ok" style={{ marginTop: 10 }}>{nakMsg}</p>}
+            </div>
           </div>
         </div>
       </div>

@@ -163,6 +163,28 @@ export default function Siparisler() {
                 </p>
               )}
 
+              {/* Şeffaf Maliyet Dökümü (GK/B5): her kalem işlem öncesi görünür */}
+              <div className="num" style={{ fontSize: ".78rem", color: "var(--ink2)", background: "var(--bg-soft)", borderRadius: 10, padding: "8px 12px", marginBottom: 12 }}>
+                <b style={{ color: "var(--ink)" }}>Şeffaf Maliyet Dökümü:</b>{" "}
+                Mal bedeli {o.tutar.toLocaleString("tr-TR")} ₺ · Komisyon (%3, satıcıdan) {Math.round(o.tutar * 0.03).toLocaleString("tr-TR")} ₺ ·
+                Belge/uyum bedeli (alıcıdan) 250 ₺ · Nakliye {(o.nakliye || 0).toLocaleString("tr-TR")} ₺ ·
+                Sevkiyat sigortası {o.sigorta?.aktif ? `${o.sigorta.prim.toLocaleString("tr-TR")} ₺ (temsili binde ${o.sigorta.oran * 1000}, alıcıdan)` : o.sigorta?.feragat ? "KAPATILDI — yol riski alıcıda" : "—"}
+                {o.sigorta?.aktif && ["goruntulu_onay_bekliyor", "odeme_guvencede"].includes(o.durum) && (
+                  <>
+                    {" "}
+                    <button
+                      className="btn btn-outline"
+                      style={{ padding: "3px 10px", fontSize: ".7rem", marginLeft: 6 }}
+                      onClick={() => {
+                        if (window.confirm("UYARI: Sevkiyat sigortasını kapatırsan yoldaki hasar/kayıp riski SANA geçer; hasar durumunda bedel iade edilmez (yalnız nakliyeci kusuru kanıtlanırsa rücu mümkündür). Kapatmayı onaylıyor musun?")) {
+                          aksiyon(o.id, "sigorta-kapat");
+                        }
+                      }}
+                    >Sigortayı kapat</button>
+                  </>
+                )}
+              </div>
+
               {aks && !["itiraz", "tamamlandi", "hakem_incelemede", "karar", "iptal_yukleme_oncesi", "yolda_iptal"].includes(o.durum) && (
                 <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                   {o.durum === "teslim_edildi" ? (

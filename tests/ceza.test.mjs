@@ -1,5 +1,5 @@
 // Ceza-nakliye birim testleri — node tests/ceza.test.mjs
-import { nakliyeHesapla, eksikTartiCezasi, iptalCezasi, haksizRedCezasi, kaliteIhlali, komisyonHesapla, skorUygula, yolFiresiToleransi, kismiIade, orneklemNet } from "../lib/ceza.mjs";
+import { nakliyeHesapla, eksikTartiCezasi, iptalCezasi, haksizRedCezasi, kaliteIhlali, komisyonHesapla, skorUygula, yolFiresiToleransi, kismiIade, orneklemNet, sigortaPrimi } from "../lib/ceza.mjs";
 
 let basarili = 0, hatali = 0;
 function esit(ad, gercek, beklenen) {
@@ -50,6 +50,10 @@ esit("Haksız redde bedel satıcıya", hr.bedelSaticiya, true);
 
 // --- Kalite ihlali: 1. Sınıf (1.0) beyan → 2. Sınıf (0.85) teslim = %15 indirim ---
 esit("Kalite ihlali indirimi (70.000)", kaliteIhlali({ tutar: 70000, beyanKatsayi: 1.0, gercekKatsayi: 0.85 }).indirim, 10500);
+
+// --- Sevkiyat sigortası primi (GK, temsili binde 2) ---
+esit("Sigorta primi 195.000 × binde 2", sigortaPrimi({ tutar: 195000 }).prim, 390);
+esit("Sigorta primi temsili etiketli", sigortaPrimi({ tutar: 195000 }).temsili, true);
 
 // --- Komisyon (B5): %3 satıcı + 250₺ alıcı ---
 esit("Komisyon %3", komisyonHesapla({ tutar: 70000 }).komisyon, 2100);
