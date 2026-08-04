@@ -6,8 +6,10 @@
 > protokolü), İS (itiraz sihirbazı), BV (boşaltım videosu), TA (teslim anı
 > protokolü), SK (skor), HK (hakem süreci).
 
-Sürüm 0.3 · Toplam 72 senaryo (S65–S72: sigorta & teminat). Boş hücre =
-bitmemiş iş (kapsama testi düşürür). GK = Güvence Katmanları bölümü.
+Sürüm 0.4 · Toplam 80 senaryo (S65–S72: sigorta & teminat; S73–S80: teslimat
+seviyeleri & teklif ciddiyeti). Boş hücre = bitmemiş iş (kapsama testi
+düşürür). GK = Güvence Katmanları, TS = Teslimat Seviyeleri, TC = Teklif
+Ciddiyeti bölümleri.
 
 ## TARTI
 
@@ -121,6 +123,19 @@ bitmemiş iş (kapsama testi düşürür). GK = Güvence Katmanları bölümü.
 | S70 | "Sigorta primini ben ödemem" ihtilafı | Prim kuralı işlem ÖNCESİ maliyet dökümünde yazılı: varsayılan alıcı öder | GK | Döküm onaylandıysa itiraz reddedilir; kapatmak isteyen alıcı feragat onayı verir | Şeffaf Maliyet Dökümü |
 | S71 | Kısmi hasar (yükün %30'u ezildi) | Boşaltım videosu + hasar tutanağı; sigortalıysa eksper süreci | GK, KK-B3 | Sigortalıysa poliçeden kısmi tazmin; sigortasızsa kısmi iade formülü riski üstlenen tarafa işler | İtiraz sihirbazı → kısmi hasar |
 | S72 | Sigorta şirketi hasarı REDDETTİ (kloz dışı) | Red gerekçesi yazılı alınır; kusur analizi hakeme döner | GK, HK | Kusur nakliyecideyse sorumluluk poliçesi/nakliyeci öder; kimsede değilse (bilinçli açık risk listesindeyse) risk sahibinde kalır — gerekçe sipariş dosyasına yazılır | Hakem paneli |
+
+## TESLİMAT SEVİYELERİ & TEKLİF CİDDİYETİ
+
+| No | Senaryo (durum) | Kim haklı — nasıl belirlenir | Kural | Yaptırım / sonuç | Ekran |
+|---|---|---|---|---|---|
+| S73 | S2 (boşaltma) ödendi ama araç üstü bırakıldı gitti | Teslim videosundaki "boşaltmayı kim yaptı" adımı kanıt | TS | Taahhüt ihlali: hizmet bedelinin iadesi + aynı tutar ceza (2 kat etkisi) + satıcı skor −10 | Teslim sihirbazı → 5. adım |
+| S74 | Yanlış kat beyanı (2. kat dedi, 5. kat çıktı) | Beyan sözleşmede yazılı; gerçek kat teslimde tespit | TS | Gerçek bedel farkı + %25 ceza alıcıdan; hizmet yeni bedelle verilir | Sipariş özeti → beyan farkı |
+| S75 | Asansör "var" beyan edildi, teslim günü bozuktu | Beyan anındaki durum değil fiili durum esas (hamal merdiven çıkacak) | TS | Asansörsüz tarife farkı alıcıdan; %25 ceza uygulanmaz (kasıt yok), tekrarında beyan kuralı işler | Teslim sihirbazı |
+| S76 | S3/S4 seçildi ama teslim noktasında hamal bulunamadı (satıcı organizasyonu) | Hizmeti organize etme yükümlülüğü bedeli alan taraftadır | TS | Alıcı isterse: bedel iadesi + araç üstü teslime dönüş; beklemeye bağlı bozulma satıcıdan | Sipariş takip |
+| S77 | Bloke için güvence bakiyesi yetersiz | Teklif formu blokeyi önden hesaplar ve bakiye kontrolü yapar | TC | Teklif yayınlanamaz; kullanıcıya eksik tutar gösterilir | Borsa teklif formu |
+| S78 | Aynı kullanıcının birden çok açık teklifi (çifte bloke) | Her teklif kendi blokesini ayrı taşır | TC | Toplam bloke = tekliflerin toplamı; bakiye yetmiyorsa yeni teklif açılamaz | Profil → bloke geçmişi |
+| S79 | Skor 92 + 5 tamamlanmış işlem — indirimli bloke | Köklü üye koşulu: skor ≥ 90 VE ≥ 3 tamamlanmış işlem | TC | Bloke %2 uygulanır; koşul düşerse sonraki teklifte %5'e döner | Borsa teklif formu |
+| S80 | Eşleşme anında alıcı ödemeyi tamamlamadı | Ödeme penceresi kayıtlı; süre aşımı otomatik | TC | Blokeden %2 "yalandan teklif" kesintisi + skor −10; eşleşme bozulur, satıcı teklifi öne döner | Siparişler (otomatik) |
 
 ## EK (kendi bulduğumuz sınır durumlar)
 

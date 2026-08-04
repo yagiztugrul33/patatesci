@@ -1,5 +1,5 @@
 // Ceza-nakliye birim testleri — node tests/ceza.test.mjs
-import { nakliyeHesapla, eksikTartiCezasi, iptalCezasi, haksizRedCezasi, kaliteIhlali, komisyonHesapla, skorUygula, yolFiresiToleransi, kismiIade, orneklemNet, sigortaPrimi } from "../lib/ceza.mjs";
+import { nakliyeHesapla, eksikTartiCezasi, iptalCezasi, haksizRedCezasi, kaliteIhlali, komisyonHesapla, skorUygula, yolFiresiToleransi, kismiIade, orneklemNet, sigortaPrimi, teslimatBedeli, yanlisBeyanCezasi, taahhutIhlali, blokeHesapla, yalanTeklifCezasi } from "../lib/ceza.mjs";
 
 let basarili = 0, hatali = 0;
 function esit(ad, gercek, beklenen) {
@@ -50,6 +50,22 @@ esit("Haksız redde bedel satıcıya", hr.bedelSaticiya, true);
 
 // --- Kalite ihlali: 1. Sınıf (1.0) beyan → 2. Sınıf (0.85) teslim = %15 indirim ---
 esit("Kalite ihlali indirimi (70.000)", kaliteIhlali({ tutar: 70000, beyanKatsayi: 1.0, gercekKatsayi: 0.85 }).indirim, 10500);
+
+// --- Teslimat hizmet seviyeleri (TS, temsili tarife) ---
+esit("S1 araç üstü = 0", teslimatBedeli({ seviye: "S1", ton: 5 }).bedel, 0);
+esit("S2 boşaltma 5t × 400", teslimatBedeli({ seviye: "S2", ton: 5 }).bedel, 2000);
+esit("S3 depo 5t × 1000", teslimatBedeli({ seviye: "S3", ton: 5 }).bedel, 5000);
+esit("S4 2.kat asansörlü: 5000 + 5×150×2", teslimatBedeli({ seviye: "S4", ton: 5, kat: 2, asansor: true }).bedel, 5000 + 1500);
+esit("S4 2.kat ASANSÖRSÜZ: 5000 + 5×300×2", teslimatBedeli({ seviye: "S4", ton: 5, kat: 2, asansor: false }).bedel, 5000 + 3000);
+const yb = yanlisBeyanCezasi({ beyanBedel: 6500, gercekBedel: 8000 }); // 2 kat dedi 5.kat çıktı örneği
+esit("Yanlış beyan: fark 1500 + %25", yb.toplam, 1500 + 375);
+esit("Taahhüt ihlali S2 (2000₺): iade+ceza=4000", taahhutIhlali({ hizmetBedeli: 2000 }).toplam, 4000);
+
+// --- Teklif ciddiyeti (TC) ---
+esit("Bloke %5 (195.000)", blokeHesapla({ tutar: 195000 }).bloke, 9750);
+esit("Yeni üye (skor 100, 0 işlem) indirimsiz", blokeHesapla({ tutar: 195000, skor: 100, tamamlanmisIslem: 0 }).oran, 0.05);
+esit("Köklü üye (skor 92, 5 işlem) %2", blokeHesapla({ tutar: 195000, skor: 92, tamamlanmisIslem: 5 }).bloke, 3900);
+esit("Yalandan teklif %2", yalanTeklifCezasi({ tutar: 195000 }).ceza, 3900);
 
 // --- Sevkiyat sigortası primi (GK, temsili binde 2) ---
 esit("Sigorta primi 195.000 × binde 2", sigortaPrimi({ tutar: 195000 }).prim, 390);

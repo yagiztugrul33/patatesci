@@ -16,8 +16,20 @@ export default function Borsa() {
   const [fiyat, setFiyat] = useState("");
   const [ton, setTon] = useState("5");
   const [kim, setKim] = useState("");
+  const [seviye, setSeviye] = useState("S1");
+  const [kat, setKat] = useState("0");
+  const [asansor, setAsansor] = useState(true);
+  const [blokeOnay, setBlokeOnay] = useState(false);
   const [msg, setMsg] = useState("");
   const [hata, setHata] = useState("");
+
+  const SEVIYELER = [
+    ["S0", "S0 · Gel-al (0 ₺)"],
+    ["S1", "S1 · Adres teslim, araç üstü (varsayılan)"],
+    ["S2", "S2 · +Boşaltma (400 ₺/ton, temsili)"],
+    ["S3", "S3 · +Depoya taşıma, zemin kat (1.000 ₺/ton, temsili)"],
+    ["S4", "S4 · Kata taşıma (S3 + kat ücreti)"],
+  ];
 
   const load = useCallback(async () => {
     const [m, o, h] = await Promise.all([
@@ -61,7 +73,7 @@ export default function Borsa() {
     const r = await fetch("/api/offers", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ yon, urun: sel, kalite, fiyat, ton, kim: kim || (yon === "sat" ? "Satıcı" : "Alıcı") }),
+      body: JSON.stringify({ yon, urun: sel, kalite, fiyat, ton, seviye: yon === "al" ? seviye : "S1", kat: Number(kat) || 0, asansor, kim: kim || (yon === "sat" ? "Satıcı" : "Alıcı") }),
     });
     const d = await r.json();
     if (!r.ok) { setHata(d.error || "Teklif kabul edilmedi."); return; }
@@ -191,8 +203,34 @@ export default function Borsa() {
               <div className="field"><label>Miktar (ton)</label><input className="input num" value={ton} onChange={(e) => setTon(e.target.value)} placeholder="Asgari 1" /></div>
             </div>
             <div className="field"><label>Ad / unvan (isteğe bağlı)</label><input className="input" value={kim} onChange={(e) => setKim(e.target.value)} placeholder={yon === "sat" ? "Üretici veya işletme unvanı" : "İşletme unvanı"} /></div>
-            <div className={"hint " + (gecerli ? "ok" : "bad")} style={{ marginBottom: 12 }}>{bandNot}</div>
-            <button className="btn btn-primary full" onClick={submit} disabled={!gecerli}>Teklifi yayınla</button>
+            {yon === "al" && (
+              <>
+                <div className="field"><label>Teslimat seviyesi (işlem öncesi seçilir, sözleşmeye yazılır)</label>
+                  <select className="select" value={seviye} onChange={(e) => setSeviye(e.target.value)}>
+                    {SEVIYELER.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+                  </select>
+                </div>
+                {seviye === "S4" && (
+                  <div className="row2">
+                    <div className="field"><label>Kat beyanı</label><input className="input num" value={kat} onChange={(e) => setKat(e.target.value)} placeholder="Örn. 2" /></div>
+                    <div className="field"><label>Asansör</label>
+                      <select className="select" value={asansor ? "var" : "yok"} onChange={(e) => setAsansor(e.target.value === "var")}>
+                        <option value="var">Var</option><option value="yok">Yok (asansörsüz tarife)</option>
+                      </select>
+                    </div>
+                  </div>
+                )}
+                {seviye === "S4" && <p className="hint bad" style={{ marginBottom: 8 }}>Yanlış kat/asansör beyanında fark + %25 ceza alıcıya yazılır.</p>}
+              </>
+            )}
+            <div className={"hint " + (gecerli ? "ok" : "bad")} style={{ marginBottom: 8 }}>{bandNot}</div>
+            {gecerli && (
+              <label className="num" style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: ".8rem", color: "var(--ink2)", marginBottom: 12 }}>
+                <input type="checkbox" checked={blokeOnay} onChange={(e) => setBlokeOnay(e.target.checked)} />
+                <span>Teklifim için <b>{Math.round(f * parseFloat(ton) * 1000 * 0.05).toLocaleString("tr-TR")} ₺</b> (tutarın %5'i) güvence hesabımda bloke edilecek — ödeme değildir; eşleşmezse anında çözülür, eşleşirse bedele mahsup edilir. Eşleşme sonrası cayma cezaları blokeden tahsil edilir. Onaylıyorum.</span>
+              </label>
+            )}
+            <button className="btn btn-primary full" onClick={submit} disabled={!gecerli || !blokeOnay}>Teklifi yayınla</button>
             {msg && <p className="hint ok" style={{ marginTop: 12 }}>{msg}</p>}
             {hata && <p className="hint bad" style={{ marginTop: 12 }}>{hata}</p>}
           </div>

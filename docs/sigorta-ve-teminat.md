@@ -138,3 +138,8 @@ Bunlar dışında "açıkta ve çözümsüz" satır yoktur.
 6. Güvence hesabındaki bakiyenin sigortalanabilirliği / emanet hesabı statüsü.
 7. Boşaltım-yükleme sırasındaki hasarın (araç üstü vinç/forklift) hangi
    poliçeye girdiği.
+8. Hammaliye/boşaltma piyasa tarifesi (₺/ton indirme, ₺/ton-kat taşıma):
+   resmi/oda tarifesi bulunamadı; nakliyat firmalarının kat/asansörün fiyatı
+   etkilediği bilgisi dışında sayısal dayanak yok — demo tarifesi TEMSİLİDİR
+   (S2 400 ₺/ton, S3 1.000 ₺/ton, kat başına 150/300 ₺/ton). Brokere değil,
+   yerel hammaliye/nakliye esnaf odalarına sorulacak.

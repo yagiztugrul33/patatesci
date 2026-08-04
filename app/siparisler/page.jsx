@@ -56,7 +56,8 @@ export default function Siparisler() {
   const [iptalOnay, setIptalOnay] = useState(false);
   // Teslim Anı Protokolü sihirbazı (TA): adımlar tamamlanmadan imza aktifleşmez
   const [teslimPaneli, setTeslimPaneli] = useState(null);
-  const [teslimAdim, setTeslimAdim] = useState([false, false, false, false]);
+  const [teslimAdim, setTeslimAdim] = useState([false, false, false, false, false]);
+  const [sozlesmePaneli, setSozlesmePaneli] = useState(null);
   // İtiraz sihirbazı (İS): sorun tipi → kanıt kontrol listesi → sonuç uyarısı → gönder
   const [itirazPaneli, setItirazPaneli] = useState(null);
   const [itirazTip, setItirazTip] = useState("Kalite (sınıf/kusur)");
@@ -68,6 +69,7 @@ export default function Siparisler() {
     "Boşaltım kesintisiz videoya alındı (katman itirazı hakkı için zorunlu)",
     "Tartı kontrolü yapıldı (siparişteki Tartı Doğrulama Planı'na göre)",
     "3 rastgele kasa/çuval açıldı ve uygulama kamerasıyla kaydedildi",
+    "Boşaltma/taşımayı KİMİN yaptığı videoda görünüyor (teslimat seviyesi taahhüdünün kanıtı)",
   ];
   const ITIRAZ_KANITLARI = [
     "Uygulama kamerasıyla foto çekildi (konum+saat damgalı — galeriden yükleme yok)",
@@ -150,6 +152,30 @@ export default function Siparisler() {
                 {o.gecmis.map((g, i) => <li key={i}>· {g}</li>)}
               </ul>
 
+              {o.sozlesme && !["iptal_yukleme_oncesi", "yolda_iptal"].includes(o.durum) && (
+                <div style={{ marginBottom: 12 }}>
+                  <button className="btn btn-outline" style={{ padding: "6px 14px", fontSize: ".8rem" }} onClick={() => setSozlesmePaneli(sozlesmePaneli === o.id ? null : o.id)}>
+                    Satış Özeti Sözleşmesi {o.sozlesme.onaySatici && o.sozlesme.onayAlici ? "(iki taraf onaylı)" : "(onay bekliyor)"}
+                  </button>
+                  {sozlesmePaneli === o.id && (
+                    <div className="num" style={{ marginTop: 8, border: "1px solid var(--line)", borderRadius: 12, padding: 14, fontSize: ".8rem", color: "var(--ink2)" }}>
+                      <b style={{ color: "var(--ink)" }}>SATIŞ ÖZETİ SÖZLEŞMESİ (demo — avukat onayı öncesi taslak şablon)</b><br />
+                      Taraflar: {o.satici} (satıcı) — {o.alici} (alıcı) · Ürün: {o.nm} ({o.kalite}) · Miktar: {o.ton} ton · Birim: {o.fiyat} ₺/kg · Toplam: {o.tutar.toLocaleString("tr-TR")} ₺<br />
+                      Teslimat seviyesi: {o.teslimat?.ad || "S1"} ({(o.teslimat?.bedel || 0).toLocaleString("tr-TR")} ₺{o.teslimat?.kat ? `, ${o.teslimat.kat}. kat, asansör ${o.teslimat.asansor ? "var" : "yok"}` : ""}) ·
+                      Tartı planı: {o.tartiPlani || "—"}<br />
+                      Sigorta: {o.sigorta?.aktif ? `açık (${o.sigorta.prim.toLocaleString("tr-TR")} ₺)` : "kapalı/feragat"} · Nakliye: {(o.nakliye || 0).toLocaleString("tr-TR")} ₺<br />
+                      İptal-ceza matrisi ve hakem şartı: Şeffaf Ticaret Kuralları (B3, İS, TA) bu sözleşmenin ayrılmaz ekidir.<br />
+                      Onay: satıcı {o.sozlesme.onaySatici ? new Date(o.sozlesme.onaySatici).toLocaleString("tr-TR") : "—"} · alıcı {o.sozlesme.onayAlici ? new Date(o.sozlesme.onayAlici).toLocaleString("tr-TR") : "—"}
+                      <div style={{ marginTop: 10 }}>
+                        {((user?.id === o.saticiId && !o.sozlesme.onaySatici) || (user?.id === o.aliciId && !o.sozlesme.onayAlici)) && (
+                          <button className="btn btn-primary" style={{ padding: "6px 16px", fontSize: ".8rem" }} onClick={() => aksiyon(o.id, "sozlesme-onay")}>Sözleşmeyi onayla (saat damgalı)</button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {o.durum === "hakem_incelemede" && (
                 <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                   <button className="btn btn-outline" onClick={() => aksiyon(o.id, "karar-alici-hakli")}>Hakem simülasyonu: alıcı haklı (demo)</button>
@@ -168,7 +194,8 @@ export default function Siparisler() {
                 <b style={{ color: "var(--ink)" }}>Şeffaf Maliyet Dökümü:</b>{" "}
                 Mal bedeli {o.tutar.toLocaleString("tr-TR")} ₺ · Komisyon (%3, satıcıdan) {Math.round(o.tutar * 0.03).toLocaleString("tr-TR")} ₺ ·
                 Belge/uyum bedeli (alıcıdan) 250 ₺ · Nakliye {(o.nakliye || 0).toLocaleString("tr-TR")} ₺ ·
-                Sevkiyat sigortası {o.sigorta?.aktif ? `${o.sigorta.prim.toLocaleString("tr-TR")} ₺ (temsili binde ${o.sigorta.oran * 1000}, alıcıdan)` : o.sigorta?.feragat ? "KAPATILDI — yol riski alıcıda" : "—"}
+                Sevkiyat sigortası {o.sigorta?.aktif ? `${o.sigorta.prim.toLocaleString("tr-TR")} ₺ (temsili binde ${o.sigorta.oran * 1000}, alıcıdan)` : o.sigorta?.feragat ? "KAPATILDI — yol riski alıcıda" : "—"} ·
+                Teslimat: {o.teslimat ? `${o.teslimat.ad} — ${o.teslimat.bedel.toLocaleString("tr-TR")} ₺${o.teslimat.kat ? ` (${o.teslimat.kat}. kat, asansör ${o.teslimat.asansor ? "var" : "yok"})` : ""} (temsili tarife)` : "S1 (araç üstü)"}
                 {o.sigorta?.aktif && ["goruntulu_onay_bekliyor", "odeme_guvencede"].includes(o.durum) && (
                   <>
                     {" "}
@@ -189,7 +216,7 @@ export default function Siparisler() {
                 <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                   {o.durum === "teslim_edildi" ? (
                     <>
-                      <button className="btn btn-primary" onClick={() => { setTeslimPaneli(teslimPaneli === o.id ? null : o.id); setTeslimAdim([false, false, false, false]); }}>Teslim sihirbazını başlat</button>
+                      <button className="btn btn-primary" onClick={() => { setTeslimPaneli(teslimPaneli === o.id ? null : o.id); setTeslimAdim([false, false, false, false, false]); }}>Teslim sihirbazını başlat</button>
                       <button className="btn btn-outline" onClick={() => { setItirazPaneli(itirazPaneli === o.id ? null : o.id); setItirazKanit([false, false, false]); setItirazOnay(false); }}>İtiraz sihirbazı (imza öncesi)</button>
                     </>
                   ) : (

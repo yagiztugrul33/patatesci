@@ -259,6 +259,50 @@ görünmeyen ayıp için imzadan itibaren **6 saat** içinde, yalnız uygulama
 kamerasının kesim/açma videosuyla itiraz açılabilir. Süre kaçarsa itiraz
 otomatik reddedilir.
 
+## TS. Teslimat Hizmet Seviyeleri
+
+Her siparişte teslimat seviyesi **işlem öncesi** seçilir, ayrı kalem olarak
+Şeffaf Maliyet Dökümü'ne girer ve Satış Özeti Sözleşmesi'ne otomatik yazılır.
+
+| Seviye | Kapsam | Tarife (TEMSİLİ — DOĞRULANAMADI listesinde) |
+|---|---|---|
+| S0 Gel-al | Alıcı tarladan/depodan alır | 0 ₺ |
+| S1 Adres teslim (araç üstü) | **Varsayılan** — araç adrese gelir, boşaltma ALICIDA | 0 ₺ |
+| S2 +Boşaltma | Kamyondan indirme dahil | 400 ₺/ton |
+| S3 +Depoya/içeri taşıma | İndirme + depo/işyeri içine taşıma (**zemin kat varsayımı**) | 1.000 ₺/ton |
+| S4 Kata taşıma | S3 + kat başına ek | +150 ₺/ton-kat (asansörlü) · +300 ₺/ton-kat (asansörsüz) |
+
+- Alıcı sipariş formunda **kat/asansör beyanı** verir. **Yanlış beyan =
+  gerçek bedel farkı + %25 ceza** alıcıdan (hamal kapıda sürprizle
+  karşılaşmasın); beyan sözleşmeye yazılır.
+- **Taahhüt ihlali:** seçilen seviye verilmezse (S2 dendi, araç üstü bırakıldı)
+  hizmet kaleminin **iadesi + aynı tutar ceza** (2 kat etkisi) + skor −10.
+  Kanıt: teslim sihirbazı videosundaki "boşaltmayı kim yaptı" adımı. İlke:
+  **taahhüdünü yerine getirmeyen, parasını cezalı öder.**
+
+## TC. Teklif Ciddiyet Sistemi (%5 bloke)
+
+- Teklif veren (alıcı VEYA satıcı), teklif tutarının **%5'ini** güvence
+  hesabında **bloke** eder — ödeme değildir: eşleşmezse anında çözülür,
+  eşleşirse toplam bedele mahsup edilir.
+- Eşleşme sonrası cayma cezaları (B3 matrisi aynen) **blokeden tahsil** edilir
+  — matris değişmez, tahsilat garantiye biner.
+- **Yalandan teklif cezası:** eşleşme anında ödemeyi tamamlamayan alıcı
+  blokeden **%2** kesinti + skor −10; ilanı olmayan/stoksuz teklif veren
+  satıcıda **%2 + askı**.
+- **Köklü üye indirimi:** skor ≥ 90 VE en az 3 tamamlanmış işlem → bloke
+  **%2**'ye iner.
+- UI kuralı: teklif formunda "X ₺ bloke edilecek" uyarısı + onay kutusu
+  zorunludur; bloke/çözülme geçmişi profilde görünür.
+
+## SZ. Satış Özeti Sözleşmesi
+
+Her eşleşmede otomatik üretilir ve iki tarafça uygulama içinde **saat damgalı**
+onaylanır. İçerik: taraflar, ürün/çeşit/kalite/kalibre, ton, ₺/kg, teslimat
+seviyesi (S0–S4) + adres/kat/asansör beyanı, tartı doğrulama planı, sigorta
+durumu, nakliye, toplam, iptal-ceza matrisi özeti ve hakem şartı. Şablon:
+`/hukuki/satis-sozlesmesi` (avukat onayı öncesi taslak).
+
 ## GK. Güvence Katmanları (sigorta + teminat)
 
 Ayrıntı ve kaynaklar: `docs/sigorta-ve-teminat.md`. Özet tablo:
