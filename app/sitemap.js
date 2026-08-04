@@ -5,6 +5,7 @@ export default function sitemap() {
   const simdi = new Date();
   const sayfalar = [
     { yol: "", oncelik: 1, siklik: "weekly" },
+    { yol: "/hukuki/ticaret-kurallari", oncelik: 0.5, siklik: "monthly" },
     { yol: "/hukuki/kvkk", oncelik: 0.3, siklik: "monthly" },
     { yol: "/hukuki/kullanici-sozlesmesi", oncelik: 0.3, siklik: "monthly" },
     { yol: "/hukuki/mesafeli-satis", oncelik: 0.3, siklik: "monthly" },
