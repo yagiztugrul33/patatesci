@@ -32,7 +32,7 @@ import {
 import { fmtSayi } from "../lib/format";
 
 export const metadata = {
-  title: "patatesçi — Tarladan işletmene, aracısız toptan tedarik",
+  title: "patatesci — Tarladan işletmene, aracısız toptan tedarik",
   description:
     "Üreticiden esnafa, restorana, markete ve ihracatçıya doğrudan toptan sebze-meyve. Hasat ilanı, tarladan canlı video, peşin-güvenceli ödeme, künye/HKS uyumu. 81 ilde kuruluyor — uygulama yakında.",
 };
@@ -47,7 +47,7 @@ const FIYATLAR = [
 ];
 
 const SSS = [
-  { q: "patatesçi nedir?", a: "Üreticiyi toptan alıcıyla (esnaf, restoran, market, ihracatçı) doğrudan buluşturan tarladan tedarik platformudur. Üretici hasadını ilana koyar; alıcı tarladan canlı videoyla malı görür, peşin-güvenceli öder, teslimde tartı kontrolüyle onaylar." },
+  { q: "patatesci nedir?", a: "Üreticiyi toptan alıcıyla (esnaf, restoran, market, ihracatçı) doğrudan buluşturan tarladan tedarik platformudur. Üretici hasadını ilana koyar; alıcı tarladan canlı videoyla malı görür, peşin-güvenceli öder, teslimde tartı kontrolüyle onaylar." },
   { q: "Hal'den neden daha uygun?", a: "Komisyoncu ve aracı katmanları kalkar: üretici daha çok kazanır, alıcı tarla fiyatına yaklaşır. Fiyatlar herkese açık ilanlarla oluşur; pazarlık kapalı kapılar ardında dönmez." },
   { q: "Üretici olarak nasıl satarım?", a: "Hasadını 2 dakikada ilana koyarsın: ürün, miktar, fiyat, hasat tarihi, tarladan video. Teklifler sana gelir; en iyisini seçersin. Ödeme peşin tahsil edilip güvenceye alınır — vade yok, çek yok; teslim onayında paran hesabında." },
   { q: "Toptan alıcı olarak güvencem ne?", a: "Malı görmeden ödemezsin: tarladan canlı video ile kaliteyi kendin onaylarsın. Ödemen teslim onayına kadar güvence hesabında bekler; varışta kantar kontrolü yapılır, eksik çıkarsa fark iade edilir. Sevkiyat aracının plakası kayıtlıdır. Asgari işlem 1 tondur; mahalle toplu alımları bu kuralın istisnasıdır." },
@@ -325,7 +325,7 @@ export default function Home() {
           </Reveal>
           <Reveal delay={120}>
             <p className="eyebrow">Üretici ve işletme çağrısı</p>
-            <h2 style={{ fontSize: "2.2rem", marginTop: 8 }}>Mahallenin patatesçisi ol</h2>
+            <h2 style={{ fontSize: "2.2rem", marginTop: 8 }}>Mahallenin patatesci'si ol</h2>
             <p className="muted" style={{ margin: "14px 0 22px", maxWidth: 460 }}>
               Esnafsan iki kazanç kapın var: malını halden değil tarladan al —
               aradaki farkı sen kazan. Üstüne mahalle toplu alımlarının

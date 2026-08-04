@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Kullanıcı Sözleşmesi | patatesçi — Tarımsal Ürün Ticaret Platformu",
-  description: "patatesçi platformu kullanıcı sözleşmesi.",
+  title: "Kullanıcı Sözleşmesi | patatesci — Tarımsal Ürün Ticaret Platformu",
+  description: "patatesci platformu kullanıcı sözleşmesi.",
 };
 
 export default function KullaniciSozlesmesi() {

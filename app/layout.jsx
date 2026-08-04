@@ -15,22 +15,22 @@ const inter = Inter({
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "patatesçi — Tarladan işletmene, aracısız toptan tedarik",
-    template: "%s | patatesçi",
+    default: "patatesci — Tarladan işletmene, aracısız toptan tedarik",
+    template: "%s | patatesci",
   },
   description:
     "Üreticiden esnafa, restorana, markete ve ihracatçıya doğrudan toptan sebze-meyve. Hasat ilanı, tarladan canlı video, peşin-güvenceli ödeme, künye/HKS uyumu. 81 ilde kuruluyor.",
   openGraph: {
     type: "website",
     locale: "tr_TR",
-    siteName: "patatesçi",
-    title: "patatesçi — Tarladan işletmene, aracısız toptan tedarik",
+    siteName: "patatesci",
+    title: "patatesci — Tarladan işletmene, aracısız toptan tedarik",
     description:
       "Hasat ilanı, tarladan canlı video, peşin-güvenceli ödeme. Komisyoncu yok, vade yok. 81 ilde kuruluyor — uygulama yakında.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "patatesçi — Tarladan işletmene, aracısız toptan tedarik",
+    title: "patatesci — Tarladan işletmene, aracısız toptan tedarik",
     description:
       "Üreticiden işletmeye doğrudan toptan tedarik. 81 ilde kuruluyor — uygulama yakında.",
   },
@@ -46,7 +46,7 @@ export default function RootLayout({ children }) {
           <div className="container">
             <div className="footer-grid">
               <div>
-                <b style={{ color: "var(--ink)" }}>patatesçi</b>
+                <b style={{ color: "var(--ink)" }}>patatesci</b>
                 <p style={{ marginTop: 6, maxWidth: 320 }}>
                   Tarladan işletmeye toptan tedarik ağı. Üretici ile toptan
                   alıcıyı doğrudan, güvenceli ve mevzuata uygun şekilde buluşturur.

@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Borsa | patatesçi — Tarımsal Ürün Ticaret Platformu",
+  title: "Borsa | patatesci — Tarımsal Ürün Ticaret Platformu",
   description:
     "Tarımsal ürünlerde canlı piyasa fiyatları, PTX Endeksi, emir defteri ve teklif işlemleri. Şeffaf fiyat, güvenceli işlem.",
   robots: { index: false, follow: false },

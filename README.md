@@ -1,4 +1,4 @@
-# patatesçi — Tarımsal Ürün Ticaret Platformu
+# patatesci — Tarımsal Ürün Ticaret Platformu
 
 Sebze-meyve toptan ticaretinin dijital altyapısı. Konum bazlı satıcı eşleştirme,
 canlı görüntülü ürün doğrulama, peşin ve güvenceli (escrow) ödeme. Üretici kendi

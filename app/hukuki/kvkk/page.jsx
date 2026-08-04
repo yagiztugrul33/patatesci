@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "KVKK Aydınlatma Metni | patatesçi — Tarımsal Ürün Ticaret Platformu",
-  description: "patatesçi platformu kişisel verilerin korunması aydınlatma metni.",
+  title: "KVKK Aydınlatma Metni | patatesci — Tarımsal Ürün Ticaret Platformu",
+  description: "patatesci platformu kişisel verilerin korunması aydınlatma metni.",
 };
 
 export default function Kvkk() {

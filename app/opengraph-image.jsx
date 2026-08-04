@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 // Paylaşım kartı (Open Graph görseli) — SVG/JSX'ten build sırasında PNG üretilir.
 export const runtime = "edge";
-export const alt = "patatesçi — Tarladan işletmene, aracısız toptan tedarik";
+export const alt = "patatesci — Tarladan işletmene, aracısız toptan tedarik";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -24,7 +24,7 @@ export default function Image() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <div style={{ width: "22px", height: "22px", borderRadius: "999px", background: "#2e8b63", display: "flex" }} />
-          <div style={{ fontSize: "42px", fontWeight: 700, display: "flex" }}>patatesçi</div>
+          <div style={{ fontSize: "42px", fontWeight: 700, display: "flex" }}>patatesci</div>
         </div>
         <div style={{ fontSize: "76px", fontWeight: 700, marginTop: "34px", lineHeight: 1.12, maxWidth: "1000px", display: "flex" }}>
           Tarladan işletmene. Tonuyla, aracısız.

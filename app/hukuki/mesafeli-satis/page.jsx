@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Mesafeli Satış Sözleşmesi | patatesçi — Tarımsal Ürün Ticaret Platformu",
-  description: "patatesçi platformu mesafeli satış sözleşmesi.",
+  title: "Mesafeli Satış Sözleşmesi | patatesci — Tarımsal Ürün Ticaret Platformu",
+  description: "patatesci platformu mesafeli satış sözleşmesi.",
 };
 
 export default function MesafeliSatis() {

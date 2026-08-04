@@ -6,7 +6,7 @@ export default function Nav() {
     <nav className="nav">
       <div className="container nav-inner">
         <Link href="/" className="brand">
-          <span className="dot" /> patatesçi
+          <span className="dot" /> patatesci
         </Link>
         <div className="nav-links">
           <a href="/#uretici">Üretici için</a>

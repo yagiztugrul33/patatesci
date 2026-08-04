@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "İletişim | patatesçi — Tarımsal Ürün Ticaret Platformu",
-  description: "patatesçi platformu iletişim bilgileri.",
+  title: "İletişim | patatesci — Tarımsal Ürün Ticaret Platformu",
+  description: "patatesci platformu iletişim bilgileri.",
 };
 
 export default function Iletisim() {

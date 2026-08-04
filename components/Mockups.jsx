@@ -58,7 +58,7 @@ export function MusteriSiparisPhone({ matched = false }) {
     <Phone>
       <div className="app-ui">
         <div className="app-top">
-          <span className="brand" style={{ fontSize: ".95rem" }}><span className="dot" /> patatesçi</span>
+          <span className="brand" style={{ fontSize: ".95rem" }}><span className="dot" /> patatesci</span>
           <span className="app-pin"><IconKonum size={14} /> Kadıköy</span>
         </div>
         <div className="app-search">Bugün ne lazım?</div>
@@ -80,7 +80,7 @@ export function MusteriSiparisPhone({ matched = false }) {
           <span className="match-ic"><IconKamyon size={20} /></span>
           <span className="match-meta">
             <b>Mehmet Usta eşleşti</b>
-            <small>Patatesçi · 1,2 km · 18 dk içinde kapında</small>
+            <small>Dağıtım ortağı · 1,2 km · 18 dk içinde kapında</small>
           </span>
           <span className="match-ok"><IconOnay size={18} /></span>
         </div>
@@ -99,7 +99,7 @@ export function MusteriEslesmePhone() {
             <span className="avatar">MU</span>
             <span className="esnaf-meta">
               <b>Mehmet Usta</b>
-              <small><span className="tag pos" style={{ padding: "2px 8px" }}>Patatesçi</span></small>
+              <small><span className="tag pos" style={{ padding: "2px 8px" }}>Dağıtım ortağı</span></small>
             </span>
             <span className="puan num"><IconYildiz size={13} /> 4,9</span>
           </div>
@@ -194,7 +194,7 @@ export function ToptanIlanPhone() {
     <Phone>
       <div className="app-ui">
         <div className="app-top">
-          <span className="brand" style={{ fontSize: ".95rem" }}><span className="dot" /> patatesçi</span>
+          <span className="brand" style={{ fontSize: ".95rem" }}><span className="dot" /> patatesci</span>
           <span className="app-pin"><IconKonum size={14} /> Adana</span>
         </div>
         <div className="ilan-karti">
@@ -326,7 +326,7 @@ export function AliciPazarPhone() {
     <Phone>
       <div className="app-ui">
         <div className="app-top">
-          <span className="brand" style={{ fontSize: ".95rem" }}><span className="dot" /> patatesçi</span>
+          <span className="brand" style={{ fontSize: ".95rem" }}><span className="dot" /> patatesci</span>
           <span className="app-pin">Toptan</span>
         </div>
         <div className="app-search">İhtiyacını yaz: örn. 2 ton patates</div>
@@ -442,7 +442,7 @@ export function EsnafKayitPhone() {
         </div>
         <small className="form-etiket">Uzmanlığın</small>
         <div className="chip-grid">
-          <span className="chip on">Patatesçi</span>
+          <span className="chip on">Patates uzmanı</span>
           <span className="chip">Soğancı</span>
           <span className="chip">Domatesçi</span>
           <span className="chip">Manav (genel)</span>
@@ -471,7 +471,7 @@ export function OnayliEsnafKarti() {
         <span className="kimlik-rozet"><IconKalkan size={14} /> ONAYLI ESNAF</span>
       </div>
       <div className="kimlik-satirlar">
-        <div><small>Uzmanlık</small><b>Patatesçi</b></div>
+        <div><small>Uzmanlık</small><b>patatesci</b></div>
         <div><small>Araç</small><b className="num">34 ABC 123</b></div>
         <div><small>Puan</small><b className="num"><IconYildiz size={13} /> 4,9</b></div>
       </div>
