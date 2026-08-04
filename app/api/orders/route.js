@@ -13,8 +13,8 @@ export async function GET() {
 export async function POST(req) {
   const user = getUserByToken(cookies().get("pt_token")?.value);
   if (!user) return NextResponse.json({ error: "Bu işlem için giriş yapmanız gerekmektedir." }, { status: 401 });
-  const { id, aksiyon } = await req.json();
-  const r = updateOrder(id, aksiyon);
+  const { id, aksiyon, gelenTon } = await req.json();
+  const r = updateOrder(id, aksiyon, { userId: user.id, gelenTon });
   if (!r.ok) return NextResponse.json({ error: r.reason }, { status: 422 });
   return NextResponse.json({ order: r.order });
 }

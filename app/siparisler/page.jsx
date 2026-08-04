@@ -8,17 +8,34 @@ const DURUM_ETIKET = {
   goruntulu_onay_bekliyor: { t: "Görüntülü doğrulama bekleniyor", n: 1, I: IconKamera },
   odeme_guvencede: { t: "Ödeme güvencede — hazırlanıyor", n: 2, I: IconKilit },
   yolda: { t: "Sevkiyatta", n: 3, I: IconKamyon },
-  teslim_edildi: { t: "Teslim edildi — kontrol bekleniyor", n: 4, I: IconKutu },
+  teslim_edildi: { t: "Teslim edildi — kantar kontrolü bekleniyor", n: 4, I: IconKutu },
   tamamlandi: { t: "Tamamlandı — ödeme satıcıya aktarıldı", n: 5, I: IconOnay },
   itiraz: { t: "İtiraz — ödeme donduruldu", n: 0, I: IconUyari },
+  hakem_incelemede: { t: "Hakem incelemesinde — kanıt penceresi açık", n: 0, I: IconUyari },
+  karar: { t: "Hakem kararı verildi (gerekçeli)", n: 0, I: IconOnay },
+  iptal_yukleme_oncesi: { t: "İptal edildi — yükleme öncesi", n: 0, I: IconUyari },
+  yolda_iptal: { t: "İptal edildi — mal yoldayken", n: 0, I: IconUyari },
 };
 
 const AKSIYON_ETIKET = {
   goruntulu_onay_bekliyor: "Ürünü doğruladım, onayla ve öde",
   odeme_guvencede: "Sevkiyata çıktım (satıcı)",
   yolda: "Teslim ettim (satıcı)",
-  teslim_edildi: "Teslim aldım, ödemeyi aktar",
+  teslim_edildi: "Kantar uyumlu — teslim aldım, ödemeyi aktar",
 };
+
+// İptal cezası ön bilgisi (kural kitabı B3) — işlem yapılmadan ÖNCE gösterilir
+function iptalOnBilgi(o, userId) {
+  const taraf = userId === o.saticiId ? "satici" : "alici";
+  let oran, asama;
+  if (o.durum === "goruntulu_onay_bekliyor" || o.durum === "odeme_guvencede") {
+    asama = "yükleme öncesi"; oran = taraf === "satici" ? 0.02 : 0.01;
+  } else if (o.durum === "yolda") {
+    asama = "mal yoldayken"; oran = 0.05;
+  } else return null;
+  const ceza = Math.round(o.tutar * oran) + (o.durum === "yolda" ? (o.nakliye || 0) : 0);
+  return { taraf, asama, oran, ceza };
+}
 
 export default function Siparisler() {
   const router = useRouter();
@@ -35,6 +52,9 @@ export default function Siparisler() {
   }, [router]);
   useEffect(() => { load(); }, [load]);
 
+  const [iptalPaneli, setIptalPaneli] = useState(null); // sipariş id
+  const [iptalOnay, setIptalOnay] = useState(false);
+
   const aksiyon = async (id, aks) => {
     setHata("");
     const r = await fetch("/api/orders", {
@@ -44,6 +64,7 @@ export default function Siparisler() {
     });
     const d = await r.json();
     if (!r.ok) { setHata(d.error || "İşlem gerçekleştirilemedi."); return; }
+    setIptalPaneli(null); setIptalOnay(false);
     load();
   };
 
@@ -91,7 +112,7 @@ export default function Siparisler() {
                   </div>
                   <div className="price num">{fmtTL(o.tutar, 0)}</div>
                 </div>
-                <span className={"tag" + (o.durum === "itiraz" ? " neg" : o.durum === "tamamlandi" ? " pos" : "")}>
+                <span className={"tag" + (["itiraz", "hakem_incelemede", "iptal_yukleme_oncesi", "yolda_iptal"].includes(o.durum) ? " neg" : ["tamamlandi", "karar"].includes(o.durum) ? " pos" : "")}>
                   {DurumIkon && <DurumIkon size={13} />}
                   {d.t}
                 </span>
@@ -109,12 +130,43 @@ export default function Siparisler() {
                 {o.gecmis.map((g, i) => <li key={i}>· {g}</li>)}
               </ul>
 
-              {aks && o.durum !== "itiraz" && o.durum !== "tamamlandi" && (
+              {o.durum === "hakem_incelemede" && (
                 <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                  <button className="btn btn-primary" onClick={() => aksiyon(o.id, "ileri")}>{aks}</button>
-                  <button className="btn btn-outline" onClick={() => aksiyon(o.id, "itiraz")}>Sorun bildir</button>
+                  <button className="btn btn-outline" onClick={() => aksiyon(o.id, "karar-alici-hakli")}>Hakem simülasyonu: alıcı haklı (demo)</button>
+                  <button className="btn btn-outline" onClick={() => aksiyon(o.id, "karar-alici-haksiz")}>Hakem simülasyonu: alıcı haksız (demo)</button>
                 </div>
               )}
+
+              {aks && !["itiraz", "tamamlandi", "hakem_incelemede", "karar", "iptal_yukleme_oncesi", "yolda_iptal"].includes(o.durum) && (
+                <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                  <button className="btn btn-primary" onClick={() => aksiyon(o.id, "ileri")}>{aks}</button>
+                  {o.durum === "teslim_edildi" ? (
+                    <button className="btn btn-outline" onClick={() => aksiyon(o.id, "itiraz")}>Varışta reddet (hakem süreci)</button>
+                  ) : (
+                    <button className="btn btn-outline" onClick={() => { setIptalPaneli(iptalPaneli === o.id ? null : o.id); setIptalOnay(false); }}>İptal et</button>
+                  )}
+                </div>
+              )}
+
+              {iptalPaneli === o.id && (() => {
+                const on = iptalOnBilgi(o, user?.id);
+                if (!on) return null;
+                return (
+                  <div style={{ marginTop: 12, border: "1px solid var(--danger)", borderRadius: 12, padding: 14, background: "var(--danger-soft)" }}>
+                    <b style={{ fontSize: ".9rem" }}>İptal cezası ön bilgisi (kural kitabı B3)</b>
+                    <p className="num" style={{ fontSize: ".85rem", margin: "6px 0 10px" }}>
+                      Şu an ({on.asama}) iptal edersen bedelin %{(on.oran * 100).toLocaleString("tr-TR")}'i
+                      {o.durum === "yolda" ? " + gidiş nakliyesi" : ""} = <b>{on.ceza.toLocaleString("tr-TR")} ₺ kesinti</b> uygulanır
+                      ve karşı tarafa tazminat olarak ödenir. Skorun düşer.
+                    </p>
+                    <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: ".84rem", marginBottom: 10 }}>
+                      <input type="checkbox" checked={iptalOnay} onChange={(e) => setIptalOnay(e.target.checked)} />
+                      Cezayı okudum, kabul ediyorum.
+                    </label>
+                    <button className="btn btn-primary" disabled={!iptalOnay} onClick={() => aksiyon(o.id, "iptal")}>İptali onayla</button>
+                  </div>
+                );
+              })()}
             </div>
           );
         })}

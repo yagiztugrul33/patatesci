@@ -308,6 +308,30 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ================= ŞEFFAF TİCARET ================= */}
+      <section className="section cv" id="seffaf">
+        <div className="container">
+          <Reveal>
+            <div className="section-head">
+              <p className="eyebrow">Şeffaf ticaret</p>
+              <h2>Üç kağıda yer yok</h2>
+              <p className="muted" style={{ marginTop: 10 }}>
+                Her tartı kanıtlı, her ceza iki taraflı, her karar gerekçeli.
+                Kural kitabımız herkese açık.
+              </p>
+            </div>
+            <div className="grid grid-3 stagger">
+              <div className="card"><div className="icon ik-amber"><IconTarti /></div><h3>Kanıtlı Tartı</h3><p>Damgalı kantar fişi zorunlu, tolerans ±%1; eksik tartıda eksiğin 2 katı alıcıya iade edilir.</p></div>
+              <div className="card"><div className="icon ik-yesil"><IconKalkan /></div><h3>İki Taraflı Ceza Matrisi</h3><p>Haksız iptal de haksız red de bedel öder — satıcıya da alıcıya da aynı adalet, kademeli ve skorlu.</p></div>
+              <div className="card"><div className="icon ik-mor"><IconBelge /></div><h3>Gerekçeli Hakem Kararı</h3><p>İtirazda 24 saat kanıt penceresi, 48 saatte yazılı ve gerekçeli karar; kanıtı eksik olan aleyhine karine.</p></div>
+            </div>
+            <div style={{ textAlign: "center", marginTop: 26 }}>
+              <a href="/hukuki/ticaret-kurallari" className="btn btn-outline">Kural kitabını oku</a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ================= RAKAMLAR ŞERİDİ ================= */}
       <div className="rakamlar">
         <div className="container rakamlar-ic">

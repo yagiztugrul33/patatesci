@@ -3,55 +3,69 @@ import { useEffect, useState, useCallback } from "react";
 import { ProductIcon, IconYukari, IconAsagi, IconKalkan } from "../../components/icons";
 import { fmtSayi, fmtTL } from "../../lib/format";
 
+const KATSAYI = { "Ekstra": 1.15, "1. Sınıf": 1.0, "2. Sınıf": 0.85, "Sanayilik": 0.6 };
+const KALITELER = Object.keys(KATSAYI);
+
 export default function Borsa() {
   const [market, setMarket] = useState([]);
   const [offers, setOffers] = useState([]);
+  const [hal, setHal] = useState(null);
   const [sel, setSel] = useState("patates");
+  const [kalite, setKalite] = useState("1. Sınıf");
   const [yon, setYon] = useState("sat"); // sat | al
-  const [fiyat, setFiyat] = useState("18.2");
+  const [fiyat, setFiyat] = useState("");
   const [ton, setTon] = useState("5");
   const [kim, setKim] = useState("");
   const [msg, setMsg] = useState("");
   const [hata, setHata] = useState("");
 
   const load = useCallback(async () => {
-    const [m, o] = await Promise.all([
+    const [m, o, h] = await Promise.all([
       fetch("/api/market").then((r) => r.json()),
       fetch("/api/offers").then((r) => r.json()),
+      fetch("/api/hal-fiyatlari").then((r) => r.json()).catch(() => null),
     ]);
     setMarket(m.market || []);
     setOffers(o.offers || []);
+    setHal(h && !h.error ? h : null);
   }, []);
   useEffect(() => { load(); }, [load]);
 
   const cur = market.find((m) => m.id === sel);
   const endeks = market.length ? market.reduce((s, m) => s + m.last, 0) / market.length : null;
-  const book = offers.filter((o) => o.urun === sel);
+  const book = offers.filter((o) => o.urun === sel && (o.kalite || "1. Sınıf") === kalite);
   const asks = book.filter((o) => o.yon === "sat").sort((a, b) => a.fiyat - b.fiyat);
   const bids = book.filter((o) => o.yon === "al").sort((a, b) => b.fiyat - a.fiyat);
 
-  // istemci tarafı ön kontrol (sunucu ayrıca doğrular)
+  const halBul = (id) => hal?.fiyatlar?.find((x) => x.id === id) || null;
+
+  // istemci tarafı ön kontrol (sunucu ayrıca doğrular) — band ürün+kalite bazlı,
+  // merkez Ankara hal referansı (varsa)
   const f = parseFloat(fiyat);
-  const min = cur ? +(cur.last * 0.85).toFixed(1) : 0;
-  const max = cur ? +(cur.last * 1.15).toFixed(1) : 0;
+  const halOrta = halBul(sel)?.orta ?? null;
+  const merkez = cur ? +(((halOrta ?? cur.last)) * KATSAYI[kalite]).toFixed(2) : 0;
+  const min = cur ? +(merkez * 0.85).toFixed(1) : 0;
+  const max = cur ? +(merkez * 1.15).toFixed(1) : 0;
+  useEffect(() => { if (merkez) setFiyat(String(merkez)); }, [sel, kalite, merkez]);
   const gecerli = cur && !isNaN(f) && f >= min && f <= max && parseFloat(ton) >= 1;
+  const bandKaynak = halOrta !== null ? "Ankara Hal referansı" : "platform referansı";
   const bandNot = !cur ? "" : isNaN(f)
-    ? `Piyasa fiyatı ${fmtTL(cur.last)} · geçerli aralık ${fmtTL(min)} – ${fmtTL(max)}`
+    ? `${kalite} band merkezi ${fmtTL(merkez)} (${bandKaynak}) · geçerli aralık ${fmtTL(min)} – ${fmtTL(max)}`
     : parseFloat(ton) < 1 ? "Asgari işlem miktarı 1 tondur."
-    : f < min ? `Teklif piyasa bandının altında. Asgari geçerli fiyat: ${fmtTL(min)}.`
-    : f > max ? `Teklif piyasa bandının üzerinde. Azami geçerli fiyat: ${fmtTL(max)}.`
-    : `Teklif geçerli aralıkta (piyasa fiyatı ${fmtTL(cur.last)}).`;
+    : f < min ? `Teklif ${kalite} bandının altında. Asgari geçerli fiyat: ${fmtTL(min)}.`
+    : f > max ? `Teklif ${kalite} bandının üzerinde. Azami geçerli fiyat: ${fmtTL(max)}.`
+    : `Teklif geçerli aralıkta (${kalite} merkezi ${fmtTL(merkez)}, ${bandKaynak}).`;
 
   const submit = async () => {
     setMsg(""); setHata("");
     const r = await fetch("/api/offers", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ yon, urun: sel, fiyat, ton, kim: kim || (yon === "sat" ? "Satıcı" : "Alıcı") }),
+      body: JSON.stringify({ yon, urun: sel, kalite, fiyat, ton, kim: kim || (yon === "sat" ? "Satıcı" : "Alıcı") }),
     });
     const d = await r.json();
     if (!r.ok) { setHata(d.error || "Teklif kabul edilmedi."); return; }
-    setMsg(`${yon === "sat" ? "Satış" : "Alış"} teklifiniz kaydedildi: ${ton} ton ${cur.nm}, ${fmtTL(fiyat)}/kg.`);
+    setMsg(`${yon === "sat" ? "Satış" : "Alış"} teklifiniz kaydedildi: ${ton} ton ${cur.nm} (${kalite}), ${fmtTL(fiyat)}/kg.`);
     load();
   };
 
@@ -88,11 +102,16 @@ export default function Borsa() {
                   <th>Ürün</th>
                   <th className="num">Son fiyat (₺/kg)</th>
                   <th className="num">Günlük değişim</th>
+                  <th className="num">Ankara Hal (orta)</th>
+                  <th className="num">Fark</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                {market.map((m) => (
+                {market.map((m) => {
+                  const h = halBul(m.id);
+                  const fark = h ? ((m.last - h.orta) / h.orta) * 100 : null;
+                  return (
                   <tr key={m.id} style={{ background: sel === m.id ? "var(--bg-soft)" : "transparent" }}>
                     <td>
                       <span style={{ display: "inline-flex", alignItems: "center", gap: 10, color: "var(--ink)" }}>
@@ -107,19 +126,29 @@ export default function Borsa() {
                         %{fmtSayi(Math.abs(m.chg), 1)}
                       </span>
                     </td>
+                    <td className="num">{h ? fmtSayi(h.orta) : "—"}</td>
+                    <td className="num">{fark === null ? "—" : (
+                      <span className={"chg " + (fark <= 0 ? "up" : "down")}>%{fmtSayi(Math.abs(fark), 1)} {fark <= 0 ? "ucuz" : "pahalı"}</span>
+                    )}</td>
                     <td style={{ textAlign: "right" }}>
-                      <button className="btn btn-outline" style={{ padding: "6px 16px", fontSize: ".8rem" }} onClick={() => { setSel(m.id); setFiyat(String(m.last)); }}>Seç</button>
+                      <button className="btn btn-outline" style={{ padding: "6px 16px", fontSize: ".8rem" }} onClick={() => setSel(m.id)}>Seç</button>
                     </td>
                   </tr>
-                ))}
+                  );
+                })}
               </tbody>
             </table>
           </div>
+          {hal && (
+            <p className="muted num" style={{ fontSize: ".76rem", padding: "10px 16px", borderTop: "1px solid var(--line)", margin: 0 }}>
+              Kaynak: {hal.kaynak} · {hal.tarih}{hal.canli ? "" : hal.guncelleme ? ` · son güncelleme: ${new Date(hal.guncelleme).toLocaleString("tr-TR")}` : ` · ${hal.not || "yedek liste"}`}
+            </p>
+          )}
         </div>
 
         <div className="grid grid-2">
           <div className="panel">
-            <span className="tag">{cur ? cur.nm : ""} · Emir defteri</span>
+            <span className="tag">{cur ? cur.nm : ""} · {kalite} · Emir defteri</span>
             <div className="grid grid-2" style={{ marginTop: 16, gap: 14 }}>
               <div>
                 <div className="eyebrow">Satış emirleri</div>
@@ -145,10 +174,17 @@ export default function Borsa() {
               <button className={yon === "sat" ? "btn btn-primary" : "btn btn-outline"} style={{ flex: 1, padding: "10px" }} onClick={() => setYon("sat")}>Satış teklifi</button>
               <button className={yon === "al" ? "btn btn-primary" : "btn btn-outline"} style={{ flex: 1, padding: "10px" }} onClick={() => setYon("al")}>Alış teklifi</button>
             </div>
-            <div className="field"><label>Ürün</label>
-              <select className="select" value={sel} onChange={(e) => setSel(e.target.value)}>
-                {market.map((m) => <option key={m.id} value={m.id}>{m.nm}</option>)}
-              </select>
+            <div className="row2">
+              <div className="field"><label>Ürün</label>
+                <select className="select" value={sel} onChange={(e) => setSel(e.target.value)}>
+                  {market.map((m) => <option key={m.id} value={m.id}>{m.nm}</option>)}
+                </select>
+              </div>
+              <div className="field"><label>Kalite sınıfı</label>
+                <select className="select" value={kalite} onChange={(e) => setKalite(e.target.value)}>
+                  {KALITELER.map((k) => <option key={k}>{k}</option>)}
+                </select>
+              </div>
             </div>
             <div className="row2">
               <div className="field"><label>Birim fiyat (₺/kg)</label><input className="input num" value={fiyat} onChange={(e) => setFiyat(e.target.value)} placeholder="Örn. 18.20" /></div>

@@ -2,15 +2,9 @@
 import { useState } from "react";
 import { ProductIcon, IconOnay } from "../../components/icons";
 import { fmtTL } from "../../lib/format";
+import { TAKSONOMI, KALITELER, DARA_TABLOSU, FOTO_STANDARDI } from "../../lib/taksonomi.mjs";
 
-const URUNLER = [
-  { id: "patates", nm: "Patates" },
-  { id: "sogan", nm: "Soğan" },
-  { id: "domates", nm: "Domates" },
-  { id: "biber", nm: "Biber" },
-  { id: "salatalik", nm: "Salatalık" },
-  { id: "havuc", nm: "Havuç" },
-];
+const URUNLER = Object.entries(TAKSONOMI).map(([id, t]) => ({ id, nm: t.ad }));
 
 export default function Sat() {
   const [type, setType] = useState("uretici");
@@ -18,7 +12,9 @@ export default function Sat() {
   const [kantar, setKantar] = useState(true);
   const [kunye, setKunye] = useState("");
   const [satici, setSatici] = useState("");
-  const [form, setForm] = useState({ urun: "patates", cesit: "Agria", fiyat: "14", stokTon: "5", kalite: "1. kalite", ambalaj: "Dökme", hasat: "12 Ağustos", il: "Adana", minTon: "1" });
+  const [form, setForm] = useState({ urun: "patates", cesit: "Agria", fiyat: "14", stokTon: "5", kalite: "1. Sınıf", kalibre: "35–55 mm", ambalaj: "Dökme", hasat: "12 Ağustos", il: "Polatlı", minTon: "1" });
+  const [foto, setFoto] = useState(FOTO_STANDARDI.map(() => false));
+  const fotoTamam = foto.every(Boolean);
   const [sonuc, setSonuc] = useState(null);
   const [hata, setHata] = useState("");
   const [bekle, setBekle] = useState(false);
@@ -81,26 +77,37 @@ export default function Sat() {
             <span className="tag">Ürün bilgileri</span>
             <div className="field" style={{ marginTop: 16 }}>
               <label>Ürün</label>
-              <select className="select" value={form.urun} onChange={set("urun")}>
+              <select className="select" value={form.urun} onChange={(e) => setForm((f) => ({ ...f, urun: e.target.value, cesit: TAKSONOMI[e.target.value].cesitler[0], kalibre: TAKSONOMI[e.target.value].kalibreler[0] }))}>
                 {URUNLER.map((u) => <option key={u.id} value={u.id}>{u.nm}</option>)}
               </select>
             </div>
             <div className="row2">
-              <div className="field"><label>Çeşit</label><input className="input" value={form.cesit} onChange={set("cesit")} placeholder="Örn. Agria" /></div>
-              <div className="field"><label>Kalite sınıfı</label>
-                <select className="select" value={form.kalite} onChange={set("kalite")}>
-                  <option>1. kalite</option><option>2. kalite</option><option>Salçalık</option>
+              <div className="field"><label>Çeşit</label>
+                <select className="select" value={form.cesit} onChange={set("cesit")}>
+                  {TAKSONOMI[form.urun].cesitler.map((c) => <option key={c}>{c}</option>)}
                 </select>
               </div>
+              <div className="field"><label>Kalite sınıfı</label>
+                <select className="select" value={form.kalite} onChange={set("kalite")}>
+                  {KALITELER.map((k) => <option key={k}>{k}</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="field"><label>Kalibre</label>
+              <select className="select" value={form.kalibre} onChange={set("kalibre")}>
+                {TAKSONOMI[form.urun].kalibreler.map((k) => <option key={k}>{k}</option>)}
+              </select>
             </div>
             <div className="row2">
               <div className="field"><label>Birim fiyat (₺/kg)</label><input className="input num" value={form.fiyat} onChange={set("fiyat")} placeholder="Örn. 14.00" /></div>
               <div className="field"><label>Stok (ton)</label><input className="input num" value={form.stokTon} onChange={set("stokTon")} placeholder="Örn. 5" /></div>
             </div>
             <div className="row2">
-              <div className="field"><label>Ambalaj</label>
+              <div className="field"><label>Ambalaj (standart dara)</label>
                 <select className="select" value={form.ambalaj} onChange={set("ambalaj")}>
-                  <option>Dökme</option><option>Çuval (25 kg)</option><option>Kasa</option>
+                  {Object.entries(DARA_TABLOSU).map(([a, d]) => (
+                    <option key={a} value={a}>{a} — dara {d >= 1 ? `${d} kg` : `${Math.round(d * 1000)} g`}</option>
+                  ))}
                 </select>
               </div>
               <div className="field"><label>Hasat tarihi</label><input className="input" value={form.hasat} onChange={set("hasat")} placeholder="Örn. 12 Ağustos" /></div>
@@ -112,8 +119,21 @@ export default function Sat() {
             <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: ".88rem", color: "var(--ink2)", marginBottom: 10 }}>
               <input type="checkbox" checked={kantar} onChange={(e) => setKantar(e.target.checked)} /> Tarlada / yakında kantar var
             </label>
-            <button className="btn btn-primary full" onClick={yayinla} disabled={bekle}>
-              {bekle ? "Yayınlanıyor…" : "İlanı yayınla"}
+
+            <div style={{ borderTop: "1px solid var(--line)", margin: "16px 0" }} />
+            <span className="tag">Fotoğraf standardı (zorunlu)</span>
+            <p className="muted" style={{ fontSize: ".8rem", margin: "8px 0 10px" }}>
+              Kalite beyanınız bağlayıcıdır; dört zorunlu kare olmadan ilan yayınlanamaz
+              (bkz. Şeffaf Ticaret Kuralları).
+            </p>
+            {FOTO_STANDARDI.map((madde, i) => (
+              <label key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: ".84rem", color: "var(--ink2)", marginBottom: 6 }}>
+                <input type="checkbox" checked={foto[i]} onChange={(e) => setFoto((f) => f.map((x, j) => (j === i ? e.target.checked : x)))} /> {madde} — çekildi
+              </label>
+            ))}
+
+            <button className="btn btn-primary full" style={{ marginTop: 12 }} onClick={yayinla} disabled={bekle || !fotoTamam}>
+              {bekle ? "Yayınlanıyor…" : fotoTamam ? "İlanı yayınla" : "Önce 4 zorunlu kareyi çekin"}
             </button>
             {hata && <div className="hint bad" style={{ marginTop: 10 }}>{hata}</div>}
           </div>

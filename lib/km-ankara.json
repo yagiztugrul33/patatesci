@@ -1,0 +1,14 @@
+{
+  "aciklama": "Ankara pilotu — il/ilçe merkezleri arası yaklaşık karayolu km. Kaynak: karayolu güzergah ölçümleri (yaklaşık).",
+  "mesafeler": {
+    "Polatlı": { "Çankaya": 80, "Keçiören": 88, "Yenimahalle": 74, "Mamak": 90, "Etimesgut": 62, "Sincan": 55, "Altındağ": 85, "Gölbaşı": 85, "Beypazarı": 75, "Haymana": 65 },
+    "Beypazarı": { "Çankaya": 100, "Keçiören": 95, "Yenimahalle": 88, "Mamak": 108, "Etimesgut": 82, "Sincan": 72, "Altındağ": 98, "Gölbaşı": 115, "Ayaş": 45, "Nallıhan": 60 },
+    "Nallıhan": { "Çankaya": 160, "Keçiören": 155, "Yenimahalle": 148, "Mamak": 168, "Etimesgut": 142, "Sincan": 132, "Altındağ": 158, "Gölbaşı": 175 },
+    "Haymana": { "Çankaya": 75, "Keçiören": 88, "Yenimahalle": 82, "Mamak": 80, "Etimesgut": 85, "Sincan": 90, "Altındağ": 82, "Gölbaşı": 55 },
+    "Kızılcahamam": { "Çankaya": 85, "Keçiören": 72, "Yenimahalle": 78, "Mamak": 92, "Etimesgut": 86, "Sincan": 88, "Altındağ": 78, "Gölbaşı": 105 },
+    "Ayaş": { "Çankaya": 60, "Keçiören": 58, "Yenimahalle": 48, "Mamak": 68, "Etimesgut": 42, "Sincan": 34, "Altındağ": 58, "Gölbaşı": 78 },
+    "Bâlâ": { "Çankaya": 70, "Keçiören": 82, "Yenimahalle": 80, "Mamak": 62, "Etimesgut": 88, "Sincan": 95, "Altındağ": 72, "Gölbaşı": 48 },
+    "Çubuk": { "Çankaya": 42, "Keçiören": 28, "Yenimahalle": 38, "Mamak": 40, "Etimesgut": 48, "Sincan": 52, "Altındağ": 32, "Gölbaşı": 62 }
+  },
+  "ayniIlceKm": 15
+}

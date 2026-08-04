@@ -1,0 +1,12 @@
+{
+  "kaynak": "Ankara BB Hal Müdürlüğü (elle güncellenen yedek liste)",
+  "tarih": "03.08.2026",
+  "fiyatlar": [
+    { "id": "patates", "halAdi": "Patates (Kumpir)", "asgari": 33, "azami": 45 },
+    { "id": "sogan", "halAdi": "Soğan Kuru (Taze)", "asgari": 40, "azami": 55 },
+    { "id": "domates", "halAdi": "Domates (Pembe)", "asgari": 25, "azami": 55 },
+    { "id": "biber", "halAdi": "Biber Çarliston", "asgari": 35, "azami": 75 },
+    { "id": "salatalik", "halAdi": "Salatalık", "asgari": 14, "azami": 30 },
+    { "id": "havuc", "halAdi": "Havuç Beypazarı", "asgari": 10, "azami": 33 }
+  ]
+}
