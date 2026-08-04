@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { ProductIcon, IconOnay } from "../../components/icons";
-import { fmtTL, fmtKg } from "../../lib/format";
+import { fmtTL } from "../../lib/format";
 
 const URUNLER = [
   { id: "patates", nm: "Patates" },
@@ -15,9 +15,10 @@ const URUNLER = [
 export default function Sat() {
   const [type, setType] = useState("uretici");
   const [organik, setOrganik] = useState(false);
+  const [kantar, setKantar] = useState(true);
   const [kunye, setKunye] = useState("");
   const [satici, setSatici] = useState("");
-  const [form, setForm] = useState({ urun: "patates", fiyat: "18", stok: "500", kalite: "1. kalite" });
+  const [form, setForm] = useState({ urun: "patates", cesit: "Agria", fiyat: "14", stokTon: "5", kalite: "1. kalite", ambalaj: "Dökme", hasat: "12 Ağustos", il: "Adana", minTon: "1" });
   const [sonuc, setSonuc] = useState(null);
   const [hata, setHata] = useState("");
   const [bekle, setBekle] = useState(false);
@@ -32,7 +33,7 @@ export default function Sat() {
       const r = await fetch("/api/listings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, tip: type, organik, kunye, satici: satici || "Üretici" }),
+        body: JSON.stringify({ ...form, tip: type, organik, kantar, kunye, satici: satici || "Üretici" }),
       });
       const d = await r.json();
       if (!r.ok) setHata(d.error || "İşlem tamamlanamadı. Lütfen tekrar deneyin.");
@@ -85,15 +86,32 @@ export default function Sat() {
               </select>
             </div>
             <div className="row2">
-              <div className="field"><label>Birim fiyat (₺/kg)</label><input className="input num" value={form.fiyat} onChange={set("fiyat")} placeholder="Örn. 18.00" /></div>
-              <div className="field"><label>Stok miktarı (kg)</label><input className="input num" value={form.stok} onChange={set("stok")} placeholder="Örn. 500" /></div>
+              <div className="field"><label>Çeşit</label><input className="input" value={form.cesit} onChange={set("cesit")} placeholder="Örn. Agria" /></div>
+              <div className="field"><label>Kalite sınıfı</label>
+                <select className="select" value={form.kalite} onChange={set("kalite")}>
+                  <option>1. kalite</option><option>2. kalite</option><option>Salçalık</option>
+                </select>
+              </div>
             </div>
-            <div className="field">
-              <label>Kalite sınıfı</label>
-              <select className="select" value={form.kalite} onChange={set("kalite")}>
-                <option>1. kalite</option><option>2. kalite</option><option>Salçalık</option>
-              </select>
+            <div className="row2">
+              <div className="field"><label>Birim fiyat (₺/kg)</label><input className="input num" value={form.fiyat} onChange={set("fiyat")} placeholder="Örn. 14.00" /></div>
+              <div className="field"><label>Stok (ton)</label><input className="input num" value={form.stokTon} onChange={set("stokTon")} placeholder="Örn. 5" /></div>
             </div>
+            <div className="row2">
+              <div className="field"><label>Ambalaj</label>
+                <select className="select" value={form.ambalaj} onChange={set("ambalaj")}>
+                  <option>Dökme</option><option>Çuval (25 kg)</option><option>Kasa</option>
+                </select>
+              </div>
+              <div className="field"><label>Hasat tarihi</label><input className="input" value={form.hasat} onChange={set("hasat")} placeholder="Örn. 12 Ağustos" /></div>
+            </div>
+            <div className="row2">
+              <div className="field"><label>İl / ilçe</label><input className="input" value={form.il} onChange={set("il")} placeholder="Örn. Adana" /></div>
+              <div className="field"><label>Asgari sipariş (ton)</label><input className="input num" value={form.minTon} onChange={set("minTon")} placeholder="1" /></div>
+            </div>
+            <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: ".88rem", color: "var(--ink2)", marginBottom: 10 }}>
+              <input type="checkbox" checked={kantar} onChange={(e) => setKantar(e.target.checked)} /> Tarlada / yakında kantar var
+            </label>
             <button className="btn btn-primary full" onClick={yayinla} disabled={bekle}>
               {bekle ? "Yayınlanıyor…" : "İlanı yayınla"}
             </button>
@@ -122,8 +140,8 @@ export default function Sat() {
                 <div className="listing" style={{ marginTop: 18 }}>
                   <div className="thumb"><ProductIcon id={sonuc.urun} size={26} /></div>
                   <div className="meta">
-                    <b>{sonuc.nm} <span className="tag" style={{ marginLeft: 6 }}>{sonuc.kalite}</span></b>
-                    <div className="muted">{fmtKg(sonuc.stok)} · {sonuc.satici}{sonuc.muaf ? " · rüsum muaf" : ""}</div>
+                    <b>{sonuc.nm}{sonuc.cesit ? ` (${sonuc.cesit})` : ""} <span className="tag" style={{ marginLeft: 6 }}>{sonuc.kalite}</span></b>
+                    <div className="muted num">{sonuc.stokTon} ton · {sonuc.ambalaj}{sonuc.il ? ` · ${sonuc.il}` : ""} · {sonuc.satici}{sonuc.muaf ? " · rüsum muaf" : ""}</div>
                   </div>
                   <div className="price num">{fmtTL(sonuc.fiyat)}</div>
                 </div>

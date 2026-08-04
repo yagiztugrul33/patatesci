@@ -8,6 +8,9 @@ export default function sitemap() {
     { yol: "/hukuki/kvkk", oncelik: 0.3, siklik: "monthly" },
     { yol: "/hukuki/kullanici-sozlesmesi", oncelik: 0.3, siklik: "monthly" },
     { yol: "/hukuki/mesafeli-satis", oncelik: 0.3, siklik: "monthly" },
+    { yol: "/hukuki/guvenceli-odeme", oncelik: 0.3, siklik: "monthly" },
+    { yol: "/hukuki/tarti-tolerans", oncelik: 0.3, siklik: "monthly" },
+    { yol: "/hukuki/nakliye-sorumluluk", oncelik: 0.3, siklik: "monthly" },
     { yol: "/hukuki/iletisim", oncelik: 0.3, siklik: "monthly" },
   ];
   return sayfalar.map((s) => ({

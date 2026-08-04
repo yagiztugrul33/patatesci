@@ -9,7 +9,7 @@ export default function Borsa() {
   const [sel, setSel] = useState("patates");
   const [yon, setYon] = useState("sat"); // sat | al
   const [fiyat, setFiyat] = useState("18.2");
-  const [kg, setKg] = useState("500");
+  const [ton, setTon] = useState("5");
   const [kim, setKim] = useState("");
   const [msg, setMsg] = useState("");
   const [hata, setHata] = useState("");
@@ -34,10 +34,10 @@ export default function Borsa() {
   const f = parseFloat(fiyat);
   const min = cur ? +(cur.last * 0.85).toFixed(1) : 0;
   const max = cur ? +(cur.last * 1.15).toFixed(1) : 0;
-  const gecerli = cur && !isNaN(f) && f >= min && f <= max && parseInt(kg) >= 10;
+  const gecerli = cur && !isNaN(f) && f >= min && f <= max && parseFloat(ton) >= 1;
   const bandNot = !cur ? "" : isNaN(f)
     ? `Piyasa fiyatı ${fmtTL(cur.last)} · geçerli aralık ${fmtTL(min)} – ${fmtTL(max)}`
-    : parseInt(kg) < 10 ? "Asgari işlem miktarı 10 kg'dır."
+    : parseFloat(ton) < 1 ? "Asgari işlem miktarı 1 tondur."
     : f < min ? `Teklif piyasa bandının altında. Asgari geçerli fiyat: ${fmtTL(min)}.`
     : f > max ? `Teklif piyasa bandının üzerinde. Azami geçerli fiyat: ${fmtTL(max)}.`
     : `Teklif geçerli aralıkta (piyasa fiyatı ${fmtTL(cur.last)}).`;
@@ -47,11 +47,11 @@ export default function Borsa() {
     const r = await fetch("/api/offers", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ yon, urun: sel, fiyat, kg, kim: kim || (yon === "sat" ? "Satıcı" : "Alıcı") }),
+      body: JSON.stringify({ yon, urun: sel, fiyat, ton, kim: kim || (yon === "sat" ? "Satıcı" : "Alıcı") }),
     });
     const d = await r.json();
     if (!r.ok) { setHata(d.error || "Teklif kabul edilmedi."); return; }
-    setMsg(`${yon === "sat" ? "Satış" : "Alış"} teklifiniz kaydedildi: ${kg} kg ${cur.nm}, ${fmtTL(fiyat)}/kg.`);
+    setMsg(`${yon === "sat" ? "Satış" : "Alış"} teklifiniz kaydedildi: ${ton} ton ${cur.nm}, ${fmtTL(fiyat)}/kg.`);
     load();
   };
 
@@ -125,7 +125,7 @@ export default function Borsa() {
                 <div className="eyebrow">Satış emirleri</div>
                 {asks.length ? asks.map((a) => (
                   <div key={a.id} className="num" style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid var(--line)", fontSize: ".88rem" }}>
-                    <span>{fmtSayi(a.fiyat)} ₺ · {a.kg} kg</span><span className="muted" style={{ fontSize: ".76rem" }}>{a.kim}</span>
+                    <span>{fmtSayi(a.fiyat)} ₺ · {fmtSayi(a.ton, 1)} ton</span><span className="muted" style={{ fontSize: ".76rem" }}>{a.kim}</span>
                   </div>
                 )) : <p className="muted" style={{ fontSize: ".84rem", marginTop: 8 }}>Açık satış emri bulunmuyor.</p>}
               </div>
@@ -133,7 +133,7 @@ export default function Borsa() {
                 <div className="eyebrow">Alış emirleri</div>
                 {bids.length ? bids.map((b) => (
                   <div key={b.id} className="num" style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid var(--line)", fontSize: ".88rem" }}>
-                    <span>{fmtSayi(b.fiyat)} ₺ · {b.kg} kg</span><span className="muted" style={{ fontSize: ".76rem" }}>{b.kim}</span>
+                    <span>{fmtSayi(b.fiyat)} ₺ · {fmtSayi(b.ton, 1)} ton</span><span className="muted" style={{ fontSize: ".76rem" }}>{b.kim}</span>
                   </div>
                 )) : <p className="muted" style={{ fontSize: ".84rem", marginTop: 8 }}>Açık alış emri bulunmuyor.</p>}
               </div>
@@ -152,7 +152,7 @@ export default function Borsa() {
             </div>
             <div className="row2">
               <div className="field"><label>Birim fiyat (₺/kg)</label><input className="input num" value={fiyat} onChange={(e) => setFiyat(e.target.value)} placeholder="Örn. 18.20" /></div>
-              <div className="field"><label>Miktar (kg)</label><input className="input num" value={kg} onChange={(e) => setKg(e.target.value)} placeholder="Asgari 10" /></div>
+              <div className="field"><label>Miktar (ton)</label><input className="input num" value={ton} onChange={(e) => setTon(e.target.value)} placeholder="Asgari 1" /></div>
             </div>
             <div className="field"><label>Ad / unvan (isteğe bağlı)</label><input className="input" value={kim} onChange={(e) => setKim(e.target.value)} placeholder={yon === "sat" ? "Üretici veya işletme unvanı" : "İşletme unvanı"} /></div>
             <div className={"hint " + (gecerli ? "ok" : "bad")} style={{ marginBottom: 12 }}>{bandNot}</div>

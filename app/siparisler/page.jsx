@@ -59,6 +59,10 @@ export default function Siparisler() {
             Eşleşen teklifler burada siparişe dönüşür. Süreç: görüntülü doğrulama,
             güvenceli ödeme, sevkiyat ve teslimat onayı.
           </p>
+          <p className="muted" style={{ marginTop: 6, fontSize: ".78rem" }}>
+            Belge adımları (HKS, e-irsaliye, kantar fişi) temsilidir; gerçek
+            entegrasyonlar Faz 2'de bağlanacaktır.
+          </p>
         </div>
 
         {hata && <p className="hint bad" style={{ marginBottom: 14 }}>{hata}</p>}
@@ -80,12 +84,12 @@ export default function Siparisler() {
                 <div className="listing" style={{ margin: 0, border: "none", padding: 0, flex: 1, minWidth: 240 }}>
                   <div className="thumb"><ProductIcon id={o.urun} size={26} /></div>
                   <div className="meta">
-                    <b>Sipariş {o.id} · {o.nm} · {o.kg} kg</b>
+                    <b>Sipariş {o.id} · {o.nm} · {o.ton} ton</b>
                     <div className="muted num" style={{ fontSize: ".84rem" }}>
                       {o.satici} · {o.alici} · {fmtTLkg(o.fiyat)}
                     </div>
                   </div>
-                  <div className="price num">{fmtTL(o.tutar)}</div>
+                  <div className="price num">{fmtTL(o.tutar, 0)}</div>
                 </div>
                 <span className={"tag" + (o.durum === "itiraz" ? " neg" : o.durum === "tamamlandi" ? " pos" : "")}>
                   {DurumIkon && <DurumIkon size={13} />}

@@ -53,9 +53,12 @@ export default function RootLayout({ children }) {
                 </p>
               </div>
               <div className="footer-links">
-                <Link href="/hukuki/kvkk">KVKK Aydınlatma Metni</Link>
+                <Link href="/hukuki/kvkk">KVKK</Link>
                 <Link href="/hukuki/kullanici-sozlesmesi">Kullanıcı Sözleşmesi</Link>
-                <Link href="/hukuki/mesafeli-satis">Mesafeli Satış Sözleşmesi</Link>
+                <Link href="/hukuki/mesafeli-satis">Mesafeli Satış</Link>
+                <Link href="/hukuki/guvenceli-odeme">Güvenceli Ödeme Şartları</Link>
+                <Link href="/hukuki/tarti-tolerans">Tartı Toleransı ve İtiraz</Link>
+                <Link href="/hukuki/nakliye-sorumluluk">Nakliye Sorumluluğu</Link>
                 <Link href="/hukuki/iletisim">İletişim</Link>
                 <Link href="/borsa">Demo</Link>
               </div>
