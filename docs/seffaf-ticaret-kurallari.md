@@ -335,6 +335,20 @@ seviyesi (S0–S4) + adres/kat/asansör beyanı, tartı doğrulama planı, sigor
 durumu, nakliye, toplam, iptal-ceza matrisi özeti ve hakem şartı. Şablon:
 `/hukuki/satis-sozlesmesi` (avukat onayı öncesi taslak).
 
+## GE. Gelir Katmanları
+
+- **Faz 1:** platforma giriş ücretsiz; **Onaylı Üye 500 ₺** (tek seferlik,
+  KYC + künye doğrulama karşılığı); toptan komisyonu %3 (satıcıdan) + işlem
+  başı belge/uyum hizmet bedeli (alıcıdan; Faz 2'de tonaj kademeli önerisi:
+  1–3 t 250 ₺ · 3–10 t 400 ₺ · 10 t+ 600 ₺).
+- **Faz 2:** Satıcı Pro / Alıcı Pro abonelikleri — açılış eşiği aylık ≥500
+  aktif işlem; eşik dolmadan açılmaz.
+- **Ödeme yöntemi kuralı:** ton işlemlerinde kart tahsilatı **kapalıdır**
+  (POS kesintisi marjı eritir — kanıt tablosu docs/finansal-model.md); ana
+  yöntem havale/EFT → güvence hesabıdır.
+- **Nakliye pazaryeri geliri:** TİO/R2 yetki belgesi alınmadan **açılmaz**
+  (Taşıma İşleri Organizatörlüğü Yönetmeliği, RG 27.08.2022/31936).
+
 ## GK. Güvence Katmanları (sigorta + teminat)
 
 Ayrıntı ve kaynaklar: `docs/sigorta-ve-teminat.md`. Özet tablo:

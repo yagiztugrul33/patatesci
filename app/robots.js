@@ -7,7 +7,7 @@ export default function robots() {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/pazar", "/borsa", "/sat", "/giris", "/siparisler", "/api/"],
+        disallow: ["/pazar", "/borsa", "/sat", "/giris", "/siparisler", "/api/", "/yonetim/"],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

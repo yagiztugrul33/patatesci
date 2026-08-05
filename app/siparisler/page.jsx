@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { ProductIcon, IconKamera, IconKilit, IconKamyon, IconKutu, IconOnay, IconUyari } from "../../components/icons";
 import { fmtTL, fmtTLkg } from "../../lib/format";
+import { FINANS } from "../../lib/finans.mjs";
 
 const DURUM_ETIKET = {
   odeme_bekliyor: { t: "Onay tamam — ödeme bekleniyor (fiyat HENÜZ kilitli değil)", n: 1, I: IconKilit },
@@ -212,8 +213,8 @@ export default function Siparisler() {
               {/* Şeffaf Maliyet Dökümü (GK/B5): her kalem işlem öncesi görünür */}
               <div className="num" style={{ fontSize: ".78rem", color: "var(--ink2)", background: "var(--bg-soft)", borderRadius: 10, padding: "8px 12px", marginBottom: 12 }}>
                 <b style={{ color: "var(--ink)" }}>Şeffaf Maliyet Dökümü:</b>{" "}
-                Mal bedeli {o.tutar.toLocaleString("tr-TR")} ₺ · Komisyon (%3, satıcıdan) {Math.round(o.tutar * 0.03).toLocaleString("tr-TR")} ₺ ·
-                Belge/uyum bedeli (alıcıdan) 250 ₺ · Nakliye {(o.nakliye || 0).toLocaleString("tr-TR")} ₺ ·
+                Mal bedeli {o.tutar.toLocaleString("tr-TR")} ₺ · Komisyon (%{FINANS.komisyonOran * 100}, satıcıdan) {Math.round(o.tutar * FINANS.komisyonOran).toLocaleString("tr-TR")} ₺ ·
+                Belge/uyum bedeli (alıcıdan) {FINANS.hizmetBedeli} ₺ · Nakliye {(o.nakliye || 0).toLocaleString("tr-TR")} ₺ ·
                 Sevkiyat sigortası {o.sigorta?.aktif ? `${o.sigorta.prim.toLocaleString("tr-TR")} ₺ (temsili binde ${o.sigorta.oran * 1000}, alıcıdan)` : o.sigorta?.feragat ? "KAPATILDI — yol riski alıcıda" : "—"} ·
                 Teslimat: {o.teslimat ? `${o.teslimat.ad} — ${o.teslimat.bedel.toLocaleString("tr-TR")} ₺${o.teslimat.kat ? ` (${o.teslimat.kat}. kat, asansör ${o.teslimat.asansor ? "var" : "yok"})` : ""} (temsili tarife)` : "S1 (araç üstü)"}
                 {o.sigorta?.aktif && ["goruntulu_onay_bekliyor", "odeme_guvencede"].includes(o.durum) && (
