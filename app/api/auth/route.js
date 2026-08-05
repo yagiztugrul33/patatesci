@@ -2,11 +2,20 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { registerUser, loginUser, logout } from "../../../lib/db";
 import { govdeOku } from "../../../lib/govde";
+import { hizSiniri, ipAl } from "../../../lib/rateLimit";
 
 export const dynamic = "force-dynamic";
 const COOKIE = "pt_token";
 
 export async function POST(req) {
+  // Kaba kuvvete karşı: IP başına dakikada 10 kimlik işlemi
+  const rl = hizSiniri("auth:" + ipAl(req), 10, 60000);
+  if (!rl.izin) {
+    return NextResponse.json(
+      { error: `Çok fazla deneme yapıldı. Lütfen ${rl.bekleSaniye} saniye sonra tekrar deneyin.` },
+      { status: 429, headers: { "Retry-After": String(rl.bekleSaniye) } }
+    );
+  }
   const g = await govdeOku(req);
   if (!g.ok) return NextResponse.json({ error: g.hata }, { status: 400 });
   const body = g.body;

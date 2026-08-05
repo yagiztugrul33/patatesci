@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { onkayitEkle, onkayitSayisi } from "../../../lib/onkayitStore";
 import { govdeOku } from "../../../lib/govde";
+import { hizSiniri, ipAl } from "../../../lib/rateLimit";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +17,14 @@ export async function GET() {
 }
 
 export async function POST(req) {
+  // Ön kayıt spam'ine karşı: IP başına dakikada 5 kayıt
+  const rl = hizSiniri("onkayit:" + ipAl(req), 5, 60000);
+  if (!rl.izin) {
+    return NextResponse.json(
+      { error: `Çok fazla ön kayıt denemesi. Lütfen ${rl.bekleSaniye} saniye sonra tekrar deneyin.` },
+      { status: 429, headers: { "Retry-After": String(rl.bekleSaniye) } }
+    );
+  }
   const g = await govdeOku(req);
   if (!g.ok) return NextResponse.json({ error: g.hata }, { status: 400 });
   try {

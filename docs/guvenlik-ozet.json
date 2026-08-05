@@ -1,8 +1,38 @@
 {
-  "sonTarama": null,
-  "kritikAcik": null,
-  "yuksekAcik": null,
-  "ortaAcik": null,
-  "dusukAcik": null,
-  "not": "Tarama henüz koşulmadı — docs/GUVENLIK-RAPORU.md üretildiğinde bu dosya gerçek sayılarla güncellenir (sahte sabit değer yasak)."
+  "sonTarama": "2026-08-05T08:00:00+03:00",
+  "yontem": "Manuel batarya (Strix kurulamadı: Docker yok — kuyrukta)",
+  "kritikAcik": 0,
+  "yuksekAcik": 1,
+  "ortaAcik": 0,
+  "dusukAcik": 1,
+  "kapatilan": {
+    "kritik": ["IDOR: sipariş tarafı olmayan kullanıcı işlem yapabiliyordu → 403"],
+    "yuksek": [
+      "Sınırsız tonaj/fiyat kabulü (1e308 ton) → azami 10.000 ton / 100.000 ₺",
+      "Menşe serbest metin (XSS/kirli veri) → taksonomi whitelist + NFC normalizasyon",
+      "Hız sınırı yok (kaba kuvvet/spam) → auth 10/dk, ön kayıt 5/dk (429)"
+    ],
+    "orta": [
+      "Güvenlik başlıkları eksik → CSP/HSTS/X-Frame/nosniff/Referrer/Permissions",
+      "Bozuk JSON gövdesi 5xx dönüyordu → 400",
+      "Prototip kirletme anahtarları temizlenmiyordu → govdeOku ile temizleniyor"
+    ]
+  },
+  "acikKalan": {
+    "yuksek": [
+      {
+        "ad": "postcss / next bağımlılık zinciri (GHSA-6g55-p6wh-862q, GHSA-r28c-9q8g-f849)",
+        "durum": "Next 14 hattında yama YOK; npm'in tek çözümü next@16 (major). Next 16 denendi, peer-dependency çatışmasında kurulum bozuldu → çalışır sürüm 14.2.35'te tutuldu.",
+        "gercekRisk": "Build zamanı, saldırgan kontrollü CSS gerektirir. Projede CSS yalnız repodan gelir, kullanıcı CSS yükleyemez → istismar yolu yok.",
+        "plan": "Next 16 geçişi planlı bakım penceresinde (SABAH_ONAY_KUYRUGU)"
+      }
+    ],
+    "dusuk": [
+      {
+        "ad": "Hız sınırı bellek içi",
+        "durum": "Vercel serverless örnekleri arasında paylaşılmaz",
+        "plan": "Upstash sayaç ile dağıtık hız sınırı (kuyrukta)"
+      }
+    ]
+  }
 }

@@ -6,7 +6,9 @@ export default function robots() {
     rules: [
       {
         userAgent: "*",
-        allow: "/",
+        // /api/denetim dış denetçiye açıktır (kamuya açık doğrulama ucu);
+        // Allow, daha uzun eşleşme olduğu için /api/ yasağını ezer.
+        allow: ["/", "/api/denetim"],
         disallow: ["/pazar", "/borsa", "/sat", "/giris", "/siparisler", "/api/", "/yonetim/"],
       },
     ],
