@@ -22,7 +22,11 @@ export async function GET() {
       urun: gruplar.size + borsaRef.urunler.length,
       cesit: (hal?.katalog?.length || 0) + borsaRef.urunler.reduce((s, u) => s + u.cesitler.length, 0),
       halCesit: hal?.katalog?.length || 0,
+      borsaCesit: borsaRef.urunler.reduce((s, u) => s + u.cesitler.length, 0),
       borsaUrun: borsaRef.urunler.length,
+      // Sayılar GÜNLÜK DEĞİŞİR: hal listesi her gün yeniden yayınlanır.
+      // Belgelerde sabit sayı yazmak yerine bu uca atıf yapılmalıdır.
+      aciklama: "cesit = halCesit + borsaCesit. halCesit hal listesinin o günkü satır sayısıdır ve günlük değişir; sabit kabul edilmemelidir.",
     },
     sonHalGuncelleme: { tarih: hal?.tarih || null, guncelleme: hal?.guncelleme || null, canli: hal?.canli ?? false },
     guvenlik,

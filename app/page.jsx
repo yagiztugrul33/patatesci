@@ -63,7 +63,11 @@ async function CanliBant() {
   }));
   const borsaItems = borsaRef.urunler.map((u) => ({ id: u.id, nm: `${u.ad} (${u.cesitler.join("/")})`, pr: u.referans }));
   const damga = hal ? `Ankara Hal · ${hal.tarih}` : "Ankara Hal · yedek liste";
-  const items = [...halItems, ...borsaItems];
+  // PERFORMANS: band kayan bir şerit; tüm katalog (85+ çeşit) DOM'a basılınca
+  // her biri SVG ikonlu ~176 öğe oluşuyor ve Style & Layout maliyeti patlıyordu.
+  // Şerit zaten döngüsel aktığı için ilk 10 kalem görsel olarak yeterli;
+  // tam katalog /katalog sayfasında (ve /api/hal-fiyatlari'nda) duruyor.
+  const items = [...halItems.slice(0, 10), ...borsaItems];
   return (
     <div className="ticker" aria-hidden="true">
       <div className="ticker-inner">

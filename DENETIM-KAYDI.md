@@ -22,7 +22,7 @@ Yerel doğrulama (hal düzeltmesi sonrası): build 16,0 sn exit 0, testler aynı
 | Kanıt | Beklenen | Canlı çıktı |
 |---|---|---|
 | Deploy senkron | commit = push | `"commitSHA":"e98aaf7d..."` |
-| Katalog sayıları | hal + borsa dolu | `{"kategori":5,"urun":51,"cesit":94,"halCesit":85,"borsaUrun":3}` |
+| Katalog sayıları | hal + borsa dolu | `{"kategori":5,"urun":51,"cesit":94,"halCesit":85,"borsaUrun":3}` — **anlık değer**: `cesit = halCesit + borsaCesit` (85+9). `halCesit` hal listesinin o günkü satır sayısıdır ve **günlük değişir** (ilk ölçümde 84 idi); belgelerde sabit kabul edilmez, canlı sayı `/api/denetim`'dedir |
 | Hal tazeliği | bugünün listesi | `{"tarih":"05.08.2026","guncelleme":"2026-08-05T08:01:09.512Z","canli":true}` |
 | Ana sayfa bandı damgası | kaynak + tarih | `Ankara Hal · 05.08.2026` |
 | Bandda borsa ürünü | çeşitleriyle | `Fındık (Tombul/Çakıldak/Sivri)` |

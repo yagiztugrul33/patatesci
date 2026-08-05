@@ -12,7 +12,9 @@ Tarih: 5 Ağustos 2026 · Son commit: bf34d4a sonrası (bkz. git log)
 
 ## Tamamlanan modüller
 Tanıtım sitesi (ton bazlı toptan konumlandırma, logo/marka, SEO) · Canlı
-Katalog (hal tam listesi 84 çeşit/48 ürün, damga + dünkü-liste rozeti, sabah
+Katalog (hal tam listesi — çeşit/ürün sayısı GÜNLÜK DEĞİŞİR, canlı sayı için
+`/api/denetim` → `katalogSayilari`; ilk ölçümde 84, 5 Ağu'da 85 hal çeşidi +
+9 borsa çeşidi, damga + dünkü-liste rozeti, sabah
 06-08 tazeleme) · kalite bazlı hal-referanslı kolpo bandı (+bayat referans
 %20) · Bilyoner fiyat kilidi (snapshot → %3 tazelik kontrolü → çift onay →
 ödemeyle mutlak kilit) · istisnasız 1,0 ton · teklif blokesi (%5/%2) ·
