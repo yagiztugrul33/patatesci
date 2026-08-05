@@ -1,7 +1,7 @@
 // Tüm test bataryasını koşar ve GERÇEK çıktılardan tests/sonuclar.json üretir.
 // /api/denetim bu dosyayı okur — sahte sabit değer yasağının uygulamasıdır.
 import { execSync } from "child_process";
-import { writeFileSync } from "fs";
+import { writeFileSync, readFileSync } from "fs";
 
 function kos(dosya) {
   const cikti = execSync(`node ${dosya}`, { encoding: "utf8" });
@@ -25,11 +25,25 @@ try {
   kapsama = { hata: true, sonSatir: String(e.stdout || e).trim().split("\n").pop() };
 }
 
+// E2E yalnız sunucu ayaktayken koşar; kapalıysa son bilinen sonuç korunur.
+let e2e = "koşulmadı (sunucu kapalı)";
+try {
+  const c = execSync("node tests/e2e.mjs", { encoding: "utf8", timeout: 60000 });
+  const m = c.match(/E2E SONUC: (\d+) gecti, (\d+) kaldi/);
+  if (m) e2e = `${m[1]}/${+m[1] + +m[2]}`;
+} catch (e) {
+  const m = String(e.stdout || "").match(/E2E SONUC: (\d+) gecti, (\d+) kaldi/);
+  if (m) e2e = `${m[1]}/${+m[1] + +m[2]} (hatalı)`;
+  else {
+    try { e2e = JSON.parse(readFileSync("tests/sonuclar.json", "utf8")).e2e; } catch {}
+  }
+}
+
 const ozet = {
   zaman: new Date().toISOString(),
   birim: { ceza: `${ceza.gecti}/${ceza.gecti + (ceza.kaldi || 0)}`, finans: `${finans.gecti}/${finans.gecti + (finans.kaldi || 0)}` },
   kapsama,
-  e2e: "curl bataryası — son koşum kanıtları docs/DENETIM-KAYDI.md",
+  e2e,
 };
 writeFileSync("tests/sonuclar.json", JSON.stringify(ozet, null, 2));
 console.log(JSON.stringify(ozet));

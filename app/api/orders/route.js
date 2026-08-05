@@ -6,13 +6,13 @@ import { govdeOku } from "../../../lib/govde";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const user = getUserByToken(cookies().get("pt_token")?.value);
+  const user = getUserByToken((await cookies()).get("pt_token")?.value);
   if (!user) return NextResponse.json({ error: "Bu işlem için giriş yapmanız gerekmektedir." }, { status: 401 });
   return NextResponse.json({ orders: getOrders(user.id), user });
 }
 
 export async function POST(req) {
-  const user = getUserByToken(cookies().get("pt_token")?.value);
+  const user = getUserByToken((await cookies()).get("pt_token")?.value);
   if (!user) return NextResponse.json({ error: "Bu işlem için giriş yapmanız gerekmektedir." }, { status: 401 });
   const g = await govdeOku(req);
   if (!g.ok) return NextResponse.json({ error: g.hata }, { status: 400 });

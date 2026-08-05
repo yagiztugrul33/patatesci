@@ -5,7 +5,7 @@ import { getUserByToken } from "../../../lib/db";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const token = cookies().get("pt_token")?.value;
+  const token = (await cookies()).get("pt_token")?.value;
   const user = getUserByToken(token);
   return NextResponse.json({ user });
 }
