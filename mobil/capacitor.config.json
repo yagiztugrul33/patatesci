@@ -1,0 +1,41 @@
+{
+  "appId": "com.patatesci.app",
+  "appName": "patatesci",
+  "webDir": "www",
+  "backgroundColor": "#ffffff",
+  "server": {
+    "url": "https://patatesci.vercel.app",
+    "androidScheme": "https",
+    "iosScheme": "https",
+    "cleartext": false,
+    "errorPath": "index.html"
+  },
+  "android": {
+    "backgroundColor": "#ffffff",
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  },
+  "ios": {
+    "backgroundColor": "#ffffff",
+    "contentInset": "automatic",
+    "scrollEnabled": true,
+    "limitsNavigationsToAppBoundDomains": false
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 900,
+      "launchAutoHide": true,
+      "backgroundColor": "#ffffff",
+      "androidScaleType": "CENTER_INSIDE",
+      "showSpinner": false,
+      "splashFullScreen": false,
+      "splashImmersive": false
+    },
+    "StatusBar": {
+      "style": "LIGHT",
+      "backgroundColor": "#ffffff",
+      "overlaysWebView": false
+    }
+  }
+}

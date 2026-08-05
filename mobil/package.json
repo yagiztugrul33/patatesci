@@ -1,0 +1,22 @@
+{
+  "name": "patatesci-mobil",
+  "version": "0.1.0",
+  "private": true,
+  "description": "patatesci mobil kabuk (Capacitor). Web reposunu kirletmez; kendi node_modules'i vardir.",
+  "scripts": {
+    "senkron": "cap sync",
+    "android:ekle": "cap add android",
+    "ios:ekle": "cap add ios",
+    "android:ac": "cap open android"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.0.0"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/ios": "^7.6.8",
+    "@capacitor/splash-screen": "^7.0.0",
+    "@capacitor/status-bar": "^7.0.0"
+  }
+}

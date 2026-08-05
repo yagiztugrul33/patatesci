@@ -2,3 +2,16 @@ node_modules/
 .next/
 data/store.json
 *.log
+
+# --- mobil kabuk (Capacitor) ---
+# native proje (android/) commit'lenir; yalnizca derleme ciktilari haric tutulur
+mobil/android/build/
+mobil/android/app/build/
+mobil/android/.gradle/
+mobil/android/local.properties
+mobil/android/.idea/
+mobil/android/app/release/
+mobil/ios/App/Pods/
+mobil/ios/App/build/
+mobil/ios/App/App/public/
+mobil/ios/DerivedData/
