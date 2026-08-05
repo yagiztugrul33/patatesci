@@ -93,6 +93,11 @@ gh auth refresh -h github.com -s workflow
 Tarayıcı açılır, çıkan kodu yapıştırıp onaylarsın. Sonra bana haber ver;
 iki repodaki workflow dosyalarını ben push ederim.
 
+**Bu komut denendi ve tarayıcı onayında durdu (2026-08-06).** Komutu
+etkileşimsiz çalıştırmayı denedim; GitHub cihaz akışı başlattı ve tarayıcıda
+onay bekledi — bu adım tasarımı gereği bir insanın tıklamasını istiyor,
+otomatikleştirilemez. **Tek tık yeterli**, ardından iş bende devam eder.
+
 **Neden:**
 Mevcut GitHub token'ının yetkileri `gist, read:org, repo` — **`workflow`
 yok.** Bu yüzden GitHub, `.github/workflows/` altına dosya ekleyen push'u
@@ -152,7 +157,27 @@ gerektiğinde alınacak — şimdi iş yapılmadı.
 
 ---
 
-## 7. İleride (aciliyeti yok, sırayla)
+## 7. ihaleal logosu — karar senin (marka işi)
+
+**Ne gördüm:** Playwright ile ilk kez ekran görüntüsü alınabildi
+(`_dogrulama/ekran/`). Sayfanın tamamı açık-minimal: beyaz zemin, koyu
+metin, lacivert yalnızca eylemde. **Tek istisna logo:** sol üstteki
+`ihaleal-logo-lockup.png` koyu lacivert zeminli, altın gradyanlı bir blok
+ve açık sayfada tek koyu ada olarak duruyor. Mobil menü açıkken de aynı.
+
+**Neden şimdiye kadar görülmedi:** logo bir PNG. Bugüne kadarki denetim
+DOM ve hesaplanmış CSS üzerinden yapılıyordu; görselin içindeki renkleri
+o yöntem göremez. Görsel kanıt alınabildiği ilk turda ortaya çıktı.
+
+**Neden ben değiştirmedim:** logo bir marka varlığı; yeniden çizmek
+tasarım değil kimlik kararıdır. Mobil uygulama ikonu için aynı sembolün
+(çatı + kapı) gradyansız, düz lacivert sürümünü zaten ürettim
+(`ihaleal/assets/icon.svg`) — web logosu da istenirse aynı dile
+çekilebilir. **Tek cümlelik onayın yeterli.**
+
+---
+
+## 8. İleride (aciliyeti yok, sırayla)
 
 **a) Hukuki ve mali teyit (patatesci):**
 Kural kitabı, sözleşme şablonları ve sigorta/teminat metinleri **taslak

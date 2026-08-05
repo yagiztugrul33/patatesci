@@ -32,9 +32,18 @@ Ek olarak: paralel ihtimali varken `git add -A` yerine **dosya adıyla ekleme**
   (`docs/sigorta-ve-teminat.md`, `docs/finansal-model.md`).
 - Hız hedef değildir: hatalı bitirmektense yarıda bırakıp kuyruğa yazmak
   (`SABAH_ONAY_KUYRUGU.md`) her zaman tercihtir.
-- Performans/optimizasyon kararları **ölçümle** verilir. Yerel Lighthouse bu
-  makinede ±5 puan oynuyor → karar için **PageSpeed Insights** kullanılır.
-  Ölçümle elenen yollar kuyruğa "tekrar denenmesin" notuyla yazılır.
+- Performans/optimizasyon kararları **ölçümle** verilir. Ölçümle elenen yollar
+  kuyruğa "tekrar denenmesin" notuyla yazılır.
+- **Lighthouse bu makinede çalışmıyor (2026-08-06, askıda).** Dört yol denendi:
+  (1) `npx lighthouse` → "No Chrome installations found"; (2) Playwright'ın
+  chromium'u `CHROME_PATH` ile → `Launcher.spawn` hatası; (3) Edge ile → aynı
+  spawn zinciri; (4) 240 sn timeout → `ETIMEDOUT`. Skor iddiası (ör. "Perf 90")
+  bu makinede **kanıtlanamaz** ve yazılmaz.
+- Yerine **Playwright ile doğrudan tarayıcı ölçümü** kullanılır: LCP, CLS, DOM
+  düğüm sayısı, istek sayısı ve **kaç ayrı origin'e gidildiği**. Bunlar skor
+  değil ama gerçek ve tekrarlanabilir. Ekran görüntüsü de buradan alınır —
+  DOM/CSS taramasının göremediği şeyleri (ör. PNG logo içindeki renkler)
+  yalnızca görsel kanıt yakalar.
 
 ## Dokunulmaz çekirdek
 
