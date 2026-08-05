@@ -534,3 +534,30 @@ footer{border-top:1px solid var(--line);padding:40px 0 32px;color:var(--ink2);fo
   .harita-bildirim{opacity:0}
   .btn:hover{transform:none}
 }
+
+/* ── Sayfalar arası geçiş (View Transitions) ─────────────────────────────
+   Next App Router gezinmesi tarayıcının kendi geçiş motoruna bağlanır:
+   yeni sayfa ekrana "sıçramak" yerine kısa bir çapraz geçişle yerleşir.
+   Destekleyen tarayıcıda çalışır, desteklemeyende HİÇBİR ŞEY olmaz — yani
+   ek JS yok, ek istek yok, düzen kayması (CLS) yok.
+   Süre bilinçli olarak kısa: hareket dikkat çekmemeli, yalnızca sürekliliği
+   korumalı. */
+@view-transition { navigation: auto }
+
+::view-transition-old(root),
+::view-transition-new(root){
+  animation-duration:180ms;
+  animation-timing-function:cubic-bezier(.2,0,.2,1)
+}
+
+/* Birincil eylemde dokunma geri bildirimi: yalnızca transform, düzen etkilenmez.
+   Fare tıklamasında da parmakla dokunmada da aynı "bastım" hissi oluşur. */
+.btn:active{transform:translateY(1px) scale(.995)}
+
+@media(prefers-reduced-motion:reduce){
+  /* Geçişler ve dokunma geri bildirimi tamamen kapanır. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*){animation:none!important}
+  .btn:active{transform:none}
+}
