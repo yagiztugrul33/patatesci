@@ -1,10 +1,11 @@
 {
-  "sonTarama": "2026-08-05T08:00:00+03:00",
-  "yontem": "Manuel batarya (Strix kurulamadı: Docker yok — kuyrukta)",
+  "sonTarama": "2026-08-05T12:40:00+03:00",
+  "yontem": "Manuel batarya + kalıcı E2E (tests/e2e.mjs, 25 senaryo). Strix kurulamadı: Docker yok — kuyrukta",
   "kritikAcik": 0,
-  "yuksekAcik": 1,
+  "yuksekAcik": 0,
   "ortaAcik": 0,
   "dusukAcik": 1,
+  "npmAudit": "0 açık (next@16 + react@19; postcss zinciri kapandı)",
   "kapatilan": {
     "kritik": ["IDOR: sipariş tarafı olmayan kullanıcı işlem yapabiliyordu → 403"],
     "yuksek": [
@@ -19,14 +20,7 @@
     ]
   },
   "acikKalan": {
-    "yuksek": [
-      {
-        "ad": "postcss / next bağımlılık zinciri (GHSA-6g55-p6wh-862q, GHSA-r28c-9q8g-f849)",
-        "durum": "Next 14 hattında yama YOK; npm'in tek çözümü next@16 (major). Next 16 denendi, peer-dependency çatışmasında kurulum bozuldu → çalışır sürüm 14.2.35'te tutuldu.",
-        "gercekRisk": "Build zamanı, saldırgan kontrollü CSS gerektirir. Projede CSS yalnız repodan gelir, kullanıcı CSS yükleyemez → istismar yolu yok.",
-        "plan": "Next 16 geçişi planlı bakım penceresinde (SABAH_ONAY_KUYRUGU)"
-      }
-    ],
+    "yuksek": [],
     "dusuk": [
       {
         "ad": "Hız sınırı bellek içi",

@@ -1,4 +1,4 @@
-GUVENLIK-OZET: kritik=0 yuksek=1 orta=0 dusuk=1 sonTarama=2026-08-05T08:00:00+03:00
+GUVENLIK-OZET: kritik=0 yuksek=0 orta=0 dusuk=1 sonTarama=2026-08-05T12:40:00+03:00
 
 # patatesci — Güvenlik Raporu (Ö4)
 
@@ -47,14 +47,16 @@ için veri bütünlüğü ihlaliydi (Giresun ≠ Ordu ayrımı anlamsızlaşıyo
 **Düzeltme:** `lib/rateLimit.js` — auth 10/dk, ön kayıt 5/dk, aşımda **429 +
 Retry-After**.
 
-### Y-4 · postcss/next bağımlılık zinciri — AÇIK (gerekçeli)
+### Y-4 · postcss/next bağımlılık zinciri — KAPATILDI (Next 16 geçişi)
 `npm audit --omit=dev`: 2 yüksek (GHSA-6g55-p6wh-862q, GHSA-r28c-9q8g-f849 —
 PostCSS sourceMappingURL üzerinden keyfi `.map` okuma / path traversal).
 **Denenen:** 14.2.33 → **14.2.35** (14 hattının son yaması) → açık **duruyor**;
 npm'in önerdiği tek çözüm `next@16` (major). Next 16 build'i bir kez başarıyla
 geçti (20 sn), ancak `react@19` peer geçişinde kurulum bozuldu → **çalışır sürüm
 14.2.35'te tutuldu** (kalite direktifi: hatalı bitirmektense kuyruğa yaz).
-**Gerçek risk:** istismar için **saldırgan kontrollü CSS'in build edilmesi**
+**ÇÖZÜM (5 Ağu 12:40):** ayrı dalda (`next16-gecisi`) `next@16 + react@19 + react-dom@19 + eslint-config-next@16` birlikte kuruldu → **npm audit 0 açık**. Next 16'da `cookies()` async olduğu için 6 API ucunda `await cookies()` düzeltmesi gerekti — bu kırılma **E2E'de 500 hatalarıyla yakalandı** (build tek başına yakalayamadı). E2E 25/25 sonrası master'a merge edildi (`d41b095`).
+
+**Eski risk notu:** istismar için **saldırgan kontrollü CSS'in build edilmesi**
 gerekir; projede CSS yalnız repodan gelir, kullanıcı CSS yükleyemez → **pratik
 istismar yolu yok**. Planlı bakım penceresinde Next 16 geçişi (kuyrukta).
 
