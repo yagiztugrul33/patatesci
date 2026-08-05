@@ -97,6 +97,59 @@ gateway kurulmadı) — ikisi de **global yapılandırma + kalıcı servis + LLM
 trafiğinin üçüncü taraf gateway'e yönlendirilmesi** gerektirdiği için operatör
 onayına bırakıldı (kuyrukta K1/K2/K3).
 
+## Tur 3: Performans kapanışı (5 Ağustos 2026, akşam)
+
+**SHA:** `869506f`
+
+### Ölçüm aracı notu (dürüstlük)
+Operatör PSI (PageSpeed Insights) ile ölçüm istedi. **PSI API anahtarsız
+kotası bu IP için tükendi** — üç ayrı denemede `429 Too Many Requests`
+(baseline denemesi + optimizasyon sonrası iki deneme). Bu yüzden ölçümler
+**yerel Lighthouse ile 5 tur medyan** alınarak yapıldı (3 değil 5: bu makinede
+gürültü ±5 puan). PSI kotası açıldığında yeniden ölçülmeli.
+
+### Yapılan: fiyat bandı DOM hacmi
+**Kök neden ölçüldü:** ana sayfa fiyat bandı tüm katalog kalemlerini basıyordu
+— 85+ hal çeşidi + 3 borsa ürünü, marquee için **iki kez tekrarlanarak** ≈176
+öğe, her biri inline SVG ikonlu. Şerit zaten döngüsel aktığı için ilk 10 hal
+kalemi + 3 borsa kalemi görsel olarak aynı sonucu veriyor; tam katalog
+`/katalog` sayfasında ve `/api/hal-fiyatlari`'nda duruyor.
+
+| Ölçüt | Önce | Sonra |
+|---|---|---|
+| **Style & Layout** | 3.271 ms | **2.183 ms (−%33)** |
+| Perf (5 tur medyan) | 83 | **84** (turlar: 85/84/76/83/86) |
+| TBT | 373 ms | 346 ms |
+| E2E | 25/25 | **25/25** (bozulmadı) |
+| Güvenlik | 0 kritik / 0 yüksek | **değişmedi** |
+
+### Hedefe ulaşılmadı: Perf 84 (hedef 90) — kalan yol kanıtlı
+Canlı ölçüm (`curl` ile SSR çıktısı): **HTML 200 KB · 103 `<svg>` · 150
+`<path>`**. Kalan maliyetin kaynağı fold-altı 9 telefon mockup'ının inline SVG
+hacmi. Bölümlerin 10/12'sinde zaten `content-visibility:auto` var (render
+ertelenmiş) — ama **HTML yine de indiriliyor**, maliyet ağ + parse tarafında.
+
+**Bu turda denenip ölçümle ELENEN yollar (tekrar denenmesin):**
+| Deneme | Sonuç | Karar |
+|---|---|---|
+| `next/dynamic` ile fold-altı lazy | 83 → **78** | geri alındı |
+| CSS `contain` layout izolasyonu | 83 → **75** (Style&Layout 3.271→4.325 ms) | geri alındı |
+
+**Kalan tek gerçek yol:** fold-altı mockup'ların DOM'unu küçültmek — ya
+basitleştirmek ya statik görsele çevirmek. İkisi de **tasarım kararı**
+(mockup'lar ürünün görsel anlatımının kalbi) → operatör onayı olmadan
+yapılmadı, kuyruğa yazıldı. `dynamic({ssr:false})` ile SSR'dan çıkarmak
+SEO/içerik kanıtını bozacağı için eleniyor.
+
+### Katalog sayısı tutarlılığı (Ö3)
+Tutarsızlık **görünürdeydi, gerçek değildi**: `cesit` (94) toplam, `halCesit`
+(85) yalnız hal listesi. Ancak **hal listesi günlük değişiyor** (ilk ölçümde 84,
+5 Ağu'da 85) — belgelere sabit sayı yazmak yanlıştı. Düzeltme: `/api/denetim`'e
+`borsaCesit` + `aciklama` alanı eklendi (`cesit = halCesit + borsaCesit`,
+"halCesit günlük değişir, sabit kabul edilmemelidir"); `DENETIM-KAYDI` ve
+`DEMO-DURUM` sabit sayı yerine canlı uca atıf yapıyor.
+**Canlı doğrulama:** `"cesit":94,"halCesit":85,"borsaCesit":9`
+
 ### Güvenlik özeti (Ö4)
 Kapatılan: **K-1 IDOR** (yetkisiz sipariş işlemi → 403), Y-1 sınırsız
 tonaj/fiyat, Y-2 menşe whitelist + NFC, Y-3 hız sınırı (429), O-1 güvenlik
