@@ -1,5 +1,5 @@
 {
-  "zaman": "2026-08-05T12:38:52.468Z",
+  "zaman": "2026-08-05T20:55:11.308Z",
   "birim": {
     "ceza": "41/41",
     "finans": "11/11"
@@ -9,5 +9,6 @@
     "bosSatir": 0,
     "sonSatir": "SONUC: kapsama tablosunda boş satır yok — TAM"
   },
-  "e2e": "25/25"
+  "e2e": "25/25",
+  "e2eTaze": true
 }
