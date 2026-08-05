@@ -28,7 +28,19 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false, // sürüm parmak izini gizle
   async headers() {
-    return [{ source: "/:path*", headers: guvenlikBasliklari }];
+    return [
+      { source: "/:path*", headers: guvenlikBasliklari },
+      {
+        // Dış denetçi ucu ASLA önbellekten okunmamalı: bayat SHA "deploy
+        // gitmemiş" yanılgısı yaratıyordu (dış denetçi d2f8e20 görüyordu).
+        source: "/api/denetim",
+        headers: [
+          { key: "Cache-Control", value: "no-store, no-cache, must-revalidate, max-age=0" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+          { key: "Vercel-CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+    ];
   },
 };
 module.exports = nextConfig;
