@@ -82,27 +82,91 @@ sitemap oradan besleniyor). Search Console olmadan arama görünürlüğü ölç
 
 ---
 
-## 5. İleride (aciliyeti yok, sırayla)
+## 5. Mobil — CI'yi açan tek komut (ENGELLEYİCİ)
 
-**a) Mobil imzalama sırları (ihaleal):**
-Apple Developer hesabı → sertifika + provisioning profile; Android için
-keystore. Bunlar GitHub Secrets'a eklendikten sonra iOS/Android CI
-workflow'ları yazılabilir. Şu an `ios/` platformu hiç eklenmemiş
-(`npx cap add ios` gerekiyor), Android tarafı hazır ama imzasız.
+**Neyi çalıştır:** Herhangi bir terminalde:
 
-**b) Hukuki ve mali teyit (patatesci):**
+```
+gh auth refresh -h github.com -s workflow
+```
+
+Tarayıcı açılır, çıkan kodu yapıştırıp onaylarsın. Sonra bana haber ver;
+iki repodaki workflow dosyalarını ben push ederim.
+
+**Neden:**
+Mevcut GitHub token'ının yetkileri `gist, read:org, repo` — **`workflow`
+yok.** Bu yüzden GitHub, `.github/workflows/` altına dosya ekleyen push'u
+reddediyor (`refusing to allow an OAuth App to create or update workflow
+... without workflow scope`). Mobil kodun tamamı push edildi, yalnızca
+**CI dosyaları bekliyor**:
+
+- `patatesci` → `.github/workflows/mobil-apk.yml` (yerelde hazır, commit'siz)
+- `ihaleal` → `.github/workflows/mobil-apk.yml` (yerelde hazır, commit'siz)
+
+Bu yetki verilmeden **APK üretilemez** — dolayısıyla APK artifact linki de
+yok. Yetki verildiği anda her iki repoda staging'e push, Actions çalışır ve
+APK artifact olarak iner.
+
+**Not:** Bu yetki yalnızca workflow dosyası yazmayı açar; sır (secret)
+okuma/yazma yetkisi değildir.
+
+---
+
+## 6. Mobil yayın — mağaza adımları (sırayla)
+
+Bunların hiçbiri şu an gerekli değil; **debug APK bunlarsız üretilir.**
+Ancak mağazaya çıkmak istendiğinde sıra budur.
+
+**a) Android imzalı sürüm (önce bu — daha ucuz ve hızlı):**
+1. **Google Play Console** hesabı aç: **25 $ tek seferlik**
+   (https://play.google.com/console). Kimlik doğrulama 1–2 gün sürebilir.
+2. Keystore üret (bu komutu **sen** çalıştır, dosyayı bana verme —
+   kaybolursa uygulama bir daha güncellenemez, yedekle):
+   ```
+   keytool -genkey -v -keystore patatesci-release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias patatesci
+   ```
+3. GitHub → repo → **Settings → Secrets and variables → Actions** →
+   şu dört secret'ı ekle: `ANDROID_KEYSTORE_BASE64` (jks dosyasının
+   base64'ü), `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`,
+   `ANDROID_KEY_PASSWORD`.
+4. Bana haber ver: imzalı `bundleRelease` (AAB) workflow'unu yazarım.
+
+**b) iOS (daha uzun, D-U-N-S numarası 4–6 hafta sürebilir):**
+1. **Apple Developer Program**: **99 $/yıl**
+   (https://developer.apple.com/programs). Şirket hesabı için **D-U-N-S**
+   numarası şart; bireysel hesapta gerekmez.
+2. Sertifika (Distribution) + provisioning profile üret.
+3. GitHub Secrets: `IOS_CERTIFICATE_BASE64`, `IOS_CERTIFICATE_PASSWORD`,
+   `IOS_PROVISIONING_PROFILE_BASE64`, `APPSTORE_ISSUER_ID`,
+   `APPSTORE_KEY_ID`, `APPSTORE_PRIVATE_KEY`.
+4. Bana haber ver: `macos-latest` runner ile iOS workflow'unu yazarım.
+   Kod tarafı **hazır** — her iki projede `ios/` platformu eklendi,
+   yalnızca `pod install` + imzalama eksik (ikisi de macOS ister).
+
+**c) patatesci için App Store özel riski:**
+Uygulama canlı siteyi saran bir kabuk (gerekçesi `mobil/MIMARI.md`).
+Apple **Guideline 4.2 (minimum functionality)** ile reddedebilir. Google
+Play'de bu kural daha esnek. Çözüm: başvurudan önce native katman
+eklemek (push bildirimi, teslim fotoğrafı için kamera, konum). Karar
+gerektiğinde alınacak — şimdi iş yapılmadı.
+
+---
+
+## 7. İleride (aciliyeti yok, sırayla)
+
+**a) Hukuki ve mali teyit (patatesci):**
 Kural kitabı, sözleşme şablonları ve sigorta/teminat metinleri **taslak
 ibaresiyle** yayında. Bir avukat (hal mevzuatına hakim) + mali müşavir teyidi
 gerekiyor. Ayrıca `docs/sigorta-ve-teminat.md` içindeki **8 maddelik
 DOĞRULANAMADI listesi** bir sigorta brokerine sorulmalı (nakliyat primi,
 taşıyıcı sorumluluk limitleri, hammaliye tarifesi).
 
-**c) TİO/R2 yetki belgesi kararı:**
+**b) TİO/R2 yetki belgesi kararı:**
 Nakliye pazaryeri geliri (%8 pay) bu belge olmadan **açılmıyor**. Belge ücreti
 273.244 ₺ + ÜDY3/ODY3 istihdam şartı. Karar verilene kadar model koşullu satır
 olarak duruyor.
 
-**d) OmniRoute kararı:**
+**c) OmniRoute kararı:**
 `docs/MOTOR-KARARI.md` — önerim **kurulmasın** (tüm LLM trafiği tek geçitten
 akar, sağlayıcı anahtarları tek yerde toplanır). claude-mem yerel modda
 kuruldu ve çalışıyor; OmniRoute senin kararını bekliyor.
