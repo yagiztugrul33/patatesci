@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { onkayitEkle, onkayitSayisi } from "../../../lib/onkayitStore";
+import { govdeOku } from "../../../lib/govde";
 
 export const dynamic = "force-dynamic";
 
@@ -15,9 +16,10 @@ export async function GET() {
 }
 
 export async function POST(req) {
+  const g = await govdeOku(req);
+  if (!g.ok) return NextResponse.json({ error: g.hata }, { status: 400 });
   try {
-    const body = await req.json();
-    const r = await onkayitEkle(body);
+    const r = await onkayitEkle(g.body);
     if (!r.ok) return NextResponse.json({ error: r.reason }, { status: 422 });
     return NextResponse.json({ toplam: r.toplam }, { status: 201 });
   } catch {

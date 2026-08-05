@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { ProductIcon, IconYukari, IconAsagi, IconKalkan } from "../../components/icons";
 import { fmtSayi, fmtTL } from "../../lib/format";
+import { TAKSONOMI } from "../../lib/taksonomi.mjs";
 
 const KATSAYI = { "Ekstra": 1.15, "1. Sınıf": 1.0, "2. Sınıf": 0.85, "Sanayilik": 0.6 };
 const KALITELER = Object.keys(KATSAYI);
@@ -17,6 +18,7 @@ export default function Borsa() {
   const [ton, setTon] = useState("5");
   const [kim, setKim] = useState("");
   const [seviye, setSeviye] = useState("S1");
+  const [mense, setMense] = useState("");
   const [kat, setKat] = useState("0");
   const [asansor, setAsansor] = useState(true);
   const [blokeOnay, setBlokeOnay] = useState(false);
@@ -59,7 +61,7 @@ export default function Borsa() {
   const min = cur ? +(merkez * 0.85).toFixed(1) : 0;
   const max = cur ? +(merkez * 1.15).toFixed(1) : 0;
   useEffect(() => { if (merkez) setFiyat(String(merkez)); }, [sel, kalite, merkez]);
-  const gecerli = cur && !isNaN(f) && f >= min && f <= max && parseFloat(ton) >= 1;
+  const gecerli = cur && !isNaN(f) && f >= min && f <= max && parseFloat(ton) >= 1 && (yon !== "sat" || !!mense);
   const bandKaynak = halOrta !== null ? "Ankara Hal referansı" : "platform referansı";
   const bandNot = !cur ? "" : isNaN(f)
     ? `${kalite} band merkezi ${fmtTL(merkez)} (${bandKaynak}) · geçerli aralık ${fmtTL(min)} – ${fmtTL(max)}`
@@ -73,7 +75,7 @@ export default function Borsa() {
     const r = await fetch("/api/offers", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ yon, urun: sel, kalite, fiyat, ton, seviye: yon === "al" ? seviye : "S1", kat: Number(kat) || 0, asansor, kim: kim || (yon === "sat" ? "Satıcı" : "Alıcı") }),
+      body: JSON.stringify({ yon, urun: sel, kalite, fiyat, ton, mense: yon === "sat" ? mense : undefined, seviye: yon === "al" ? seviye : "S1", kat: Number(kat) || 0, asansor, kim: kim || (yon === "sat" ? "Satıcı" : "Alıcı") }),
     });
     const d = await r.json();
     if (!r.ok) { setHata(d.error || "Teklif kabul edilmedi."); return; }
@@ -203,6 +205,14 @@ export default function Borsa() {
               <div className="field"><label>Miktar (ton)</label><input className="input num" value={ton} onChange={(e) => setTon(e.target.value)} placeholder="Asgari 1" /></div>
             </div>
             <div className="field"><label>Ad / unvan (isteğe bağlı)</label><input className="input" value={kim} onChange={(e) => setKim(e.target.value)} placeholder={yon === "sat" ? "Üretici veya işletme unvanı" : "İşletme unvanı"} /></div>
+            {yon === "sat" && (
+              <div className="field"><label>Menşe ili (zorunlu)</label>
+                <select className="select" value={mense} onChange={(e) => setMense(e.target.value)}>
+                  <option value="">Seçin</option>
+                  {(TAKSONOMI[sel]?.mense || []).map((m) => <option key={m}>{m}</option>)}
+                </select>
+              </div>
+            )}
             {yon === "al" && (
               <>
                 <div className="field"><label>Teslimat seviyesi (işlem öncesi seçilir, sözleşmeye yazılır)</label>

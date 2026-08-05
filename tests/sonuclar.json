@@ -1,0 +1,13 @@
+{
+  "zaman": "2026-08-05T07:33:14.269Z",
+  "birim": {
+    "ceza": "41/41",
+    "finans": "11/11"
+  },
+  "kapsama": {
+    "senaryo": 86,
+    "bosSatir": 0,
+    "sonSatir": "SONUC: kapsama tablosunda boş satır yok — TAM"
+  },
+  "e2e": "curl bataryası — son koşum kanıtları docs/DENETIM-KAYDI.md"
+}

@@ -1,0 +1,42 @@
+{
+  "aciklama": "Halde işlem görmeyen borsa ürünleri için resmi/kurumsal referans fiyatlar. Her satır kaynaklıdır; kaynaksız değer TEMSİLİ etiketi taşır.",
+  "urunler": [
+    {
+      "id": "findik",
+      "ad": "Fındık",
+      "kategori": "Fındık",
+      "birim": "₺/kg (kabuklu, %50 randıman)",
+      "cesitler": ["Tombul", "Çakıldak", "Sivri"],
+      "mense": ["Giresun", "Ordu", "Trabzon", "Samsun", "Sakarya", "Düzce", "Zonguldak"],
+      "referans": 200,
+      "referansAlt": 195,
+      "referansNot": "TMO 2025-26 sezonu kabuklu alım fiyatı: Giresun kalite 200 ₺/kg, Levant 195 ₺/kg; %50 randıman esaslı, randıman puanı başına +4/+3,90 ₺",
+      "kaynak": "T.C. Tarım ve Orman Bakanlığı (tarimorman.gov.tr/Haber/6697) + AA (05.08.2025)",
+      "temsili": false
+    },
+    {
+      "id": "antepfistigi",
+      "ad": "Antep Fıstığı",
+      "kategori": "Antep Fıstığı",
+      "birim": "₺/kg (kabuklu)",
+      "cesitler": ["Boz", "Kırmızı", "Ben", "Siirt"],
+      "mense": ["Gaziantep", "Şanlıurfa", "Siirt", "Adıyaman", "Kahramanmaraş"],
+      "referans": 800,
+      "referansNot": "Gaziantep Ticaret Borsası ortalama kabuklu ~800 ₺/kg; boz iç 1.850 ₺'ye kadar, kabuklu kırmızı taban ~550 ₺ (2026 haber taraması; günlük resmi bülten: gtb.org.tr)",
+      "kaynak": "GTB günlük bülten (gtb.org.tr/gunluk-bulten) + Nizip TB + 2026 fiyat haberleri",
+      "temsili": false
+    },
+    {
+      "id": "cay",
+      "ad": "Çay",
+      "kategori": "Çay",
+      "birim": "₺/kg",
+      "cesitler": ["Yaş çay", "Kuru çay"],
+      "mense": ["Rize", "Trabzon", "Artvin", "Giresun"],
+      "referans": 35,
+      "referansNot": "2026 yaş çay taban fiyatı 35 ₺/kg (Bakanlık açıklaması). KURU ÇAY referansı bulunamadı → kuru çay ilanları 'referanssız çeşit' kuralına tabi (DOĞRULANAMADI).",
+      "kaynak": "NTV/CNN Türk (2026 yaş çay taban fiyatı — Bakanlık)",
+      "temsili": false
+    }
+  ]
+}

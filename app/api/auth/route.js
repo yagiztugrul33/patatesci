@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { registerUser, loginUser, logout } from "../../../lib/db";
+import { govdeOku } from "../../../lib/govde";
 
 export const dynamic = "force-dynamic";
 const COOKIE = "pt_token";
 
 export async function POST(req) {
-  const body = await req.json();
+  const g = await govdeOku(req);
+  if (!g.ok) return NextResponse.json({ error: g.hata }, { status: 400 });
+  const body = g.body;
   const { action } = body;
 
   if (action === "cikis") {

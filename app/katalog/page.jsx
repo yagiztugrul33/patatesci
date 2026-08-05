@@ -90,6 +90,30 @@ export default function Katalog() {
               </div>
             )}
 
+            {hal.borsaReferans && (
+              <div className="panel" style={{ maxWidth: 760, margin: "26px auto 0", padding: 0, overflow: "hidden" }}>
+                <div style={{ padding: "14px 16px 0" }}><span className="tag">Borsa Ürünleri — TMO / GTB / Bakanlık referanslı</span></div>
+                <div style={{ overflowX: "auto" }}>
+                  <table className="table">
+                    <thead><tr><th>Ürün</th><th>Çeşitler</th><th>Menşe illeri</th><th className="num">Referans</th></tr></thead>
+                    <tbody>
+                      {hal.borsaReferans.map((u) => (
+                        <tr key={u.id}>
+                          <td><b>{u.ad}</b></td>
+                          <td>{u.cesitler.join(", ")}</td>
+                          <td>{u.mense.join(", ")}</td>
+                          <td className="num">{fmtSayi(u.referans)} ₺ <span className="muted" style={{ fontSize: ".7rem" }}>({u.birim})</span></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="muted" style={{ fontSize: ".72rem", padding: "8px 16px 12px", margin: 0 }}>
+                  Kaynaklar: {hal.borsaReferans.map((u) => u.kaynak).join(" · ")}
+                </p>
+              </div>
+            )}
+
             <p className="muted" style={{ fontSize: ".78rem", textAlign: "center", maxWidth: 640, margin: "22px auto 0" }}>
               Kural: halde bulunmayan çeşit, üst ürün bandına "referanssız çeşit"
               etiketiyle bağlanır; son 30 gün referansı olmayan ürün "sezon dışı —

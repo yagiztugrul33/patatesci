@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getOffers, addOffer, getUserByToken } from "../../../lib/db";
+import { govdeOku } from "../../../lib/govde";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,9 @@ export async function GET(req) {
 export async function POST(req) {
   const user = getUserByToken(cookies().get("pt_token")?.value);
   if (!user) return NextResponse.json({ error: "Teklif vermek için lütfen giriş yapın." }, { status: 401 });
-  const body = await req.json();
+  const g = await govdeOku(req);
+  if (!g.ok) return NextResponse.json({ error: g.hata }, { status: 400 });
+  const body = g.body;
   // satış teklifi sadece satıcı hesabından, alış teklifi sadece alıcıdan
   if (body.yon === "sat" && user.rol !== "satici")
     return NextResponse.json({ error: "Satış teklifi için satıcı hesabı gerekli." }, { status: 403 });

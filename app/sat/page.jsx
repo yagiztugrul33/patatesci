@@ -11,6 +11,15 @@ export default function Sat() {
   const [organik, setOrganik] = useState(false);
   const [kantar, setKantar] = useState(true);
   const [tarsim, setTarsim] = useState(false);
+  const SERTIFIKALAR = ["ÇKS", "İTU", "Organik", "GLOBALG.A.P."];
+  const [sertifikalar, setSertifikalar] = useState([]);
+  const [tohumBeyani, setTohumBeyani] = useState("");
+  // Alıcı filtresi demo: son ilanlar + sertifika süzgeci
+  const [ilanlar, setIlanlar] = useState([]);
+  const [filtre, setFiltre] = useState("");
+  const ilanlariYukle = (f) =>
+    fetch("/api/listings" + (f ? `?sertifika=${encodeURIComponent(f)}` : ""))
+      .then((r) => r.json()).then((d) => setIlanlar(d.listings || [])).catch(() => {});
   // Nakliyeci başvuru demosu (onboarding şartları: K1 + sorumluluk poliçesi)
   const [nakForm, setNakForm] = useState({ plaka: "", k1: "", police: "" });
   const [nakMsg, setNakMsg] = useState("");
@@ -33,7 +42,7 @@ export default function Sat() {
       const r = await fetch("/api/listings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, tip: type, organik, kantar, tarsim, kunye, satici: satici || "Üretici" }),
+        body: JSON.stringify({ ...form, tip: type, organik, kantar, tarsim, sertifikalar: [...sertifikalar, ...(tarsim ? ["TARSİM"] : [])], tohumBeyani, mense: form.il, kunye, satici: satici || "Üretici" }),
       });
       const d = await r.json();
       if (!r.ok) setHata(d.error || "İşlem tamamlanamadı. Lütfen tekrar deneyin.");
@@ -120,12 +129,29 @@ export default function Sat() {
               <div className="field"><label>Hasat tarihi</label><input className="input" value={form.hasat} onChange={set("hasat")} placeholder="Örn. 12 Ağustos" /></div>
             </div>
             <div className="row2">
-              <div className="field"><label>İl / ilçe</label><input className="input" value={form.il} onChange={set("il")} placeholder="Örn. Adana" /></div>
+              <div className="field"><label>Menşe ili (zorunlu — künyeyle eşleşir)</label>
+                <select className="select" value={form.il} onChange={set("il")}>
+                  {(TAKSONOMI[form.urun].mense || []).map((m) => <option key={m}>{m}</option>)}
+                </select>
+              </div>
               <div className="field"><label>Asgari sipariş (ton — min 1,0, istisnasız)</label><input className="input num" value={form.minTon} onChange={set("minTon")} placeholder="1" /></div>
             </div>
             <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: ".88rem", color: "var(--ink2)", marginBottom: 10 }}>
               <input type="checkbox" checked={kantar} onChange={(e) => setKantar(e.target.checked)} /> Tarlada / yakında kantar var
             </label>
+
+            <div style={{ borderTop: "1px solid var(--line)", margin: "16px 0" }} />
+            <span className="tag">Sertifika ve tohum beyanı</span>
+            <div style={{ margin: "10px 0" }}>
+              {SERTIFIKALAR.map((s) => (
+                <label key={s} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: ".84rem", color: "var(--ink2)", marginRight: 14 }}>
+                  <input type="checkbox" checked={sertifikalar.includes(s)} onChange={(e) => setSertifikalar((a) => e.target.checked ? [...a, s] : a.filter((x) => x !== s))} /> {s}
+                </label>
+              ))}
+            </div>
+            <div className="field"><label>Tohum/fide beyanı (çeşit kaynağı)</label>
+              <input className="input" value={tohumBeyani} onChange={(e) => setTohumBeyani(e.target.value)} placeholder="Örn. Sertifikalı Agria tohumu — X Tohumculuk, 2026" />
+            </div>
 
             <div style={{ borderTop: "1px solid var(--line)", margin: "16px 0" }} />
             <span className="tag">Fotoğraf standardı (zorunlu)</span>
@@ -178,6 +204,32 @@ export default function Sat() {
                 </p>
               </>
             )}
+
+            <div className="panel" style={{ marginTop: 18 }}>
+              <span className="tag">Son ilanlar — alıcı sertifika filtresi</span>
+              <div className="field" style={{ marginTop: 10 }}>
+                <label>Sertifikaya göre süz</label>
+                <select className="select" value={filtre} onChange={(e) => { setFiltre(e.target.value); ilanlariYukle(e.target.value); }}>
+                  <option value="">Tümü</option>
+                  {["ÇKS", "İTU", "Organik", "GLOBALG.A.P.", "TARSİM"].map((s) => <option key={s}>{s}</option>)}
+                </select>
+              </div>
+              <button className="btn btn-outline full" onClick={() => ilanlariYukle(filtre)}>İlanları getir</button>
+              {ilanlar.slice(0, 5).map((l) => (
+                <div key={l.id} className="listing" style={{ padding: 12 }}>
+                  <div className="thumb"><ProductIcon id={l.urun} size={22} /></div>
+                  <div className="meta">
+                    <b style={{ fontSize: ".9rem" }}>{l.nm}{l.cesit ? ` (${l.cesit})` : ""} · {l.kalite}</b>
+                    <div className="muted num" style={{ fontSize: ".76rem" }}>
+                      {l.stokTon} ton · {l.mense || l.il || "—"}
+                      {(l.sertifikalar || []).map((s) => <span key={s} className="tag pos" style={{ marginLeft: 5, padding: "1px 6px", fontSize: ".56rem" }}>{s}</span>)}
+                    </div>
+                  </div>
+                  <div className="price num">{fmtTL(l.fiyat)}</div>
+                </div>
+              ))}
+              {ilanlar.length === 0 && <p className="muted" style={{ fontSize: ".8rem", marginTop: 8 }}>Filtreye uyan ilan yok (önce "İlanları getir").</p>}
+            </div>
 
             <div className="panel" style={{ marginTop: 18 }}>
               <span className="tag">Nakliyeci başvurusu (demo)</span>

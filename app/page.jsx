@@ -30,6 +30,11 @@ import {
   MusteriSiparisPhone,
 } from "../components/Mockups";
 import { fmtSayi } from "../lib/format";
+import { halFiyatlariGetir } from "../lib/halFiyat";
+import borsaRef from "../lib/borsa-referans.json";
+
+// Ana sayfa bandı canlı kataloğa bağlı: 6 saatte bir yeniden üretilir (ISR).
+export const revalidate = 21600;
 
 export const metadata = {
   title: "patatesci — Tarladan işletmene, aracısız toptan tedarik",
@@ -48,6 +53,36 @@ const FIYATLAR = [
 
 // SSS artık senaryo kataloğundan üretilen ortak kaynaktan gelir (lib/sss.mjs)
 import { SSS } from "../lib/sss.mjs";
+
+// Sunucuda canlı hal verisiyle üretilen band — tarih damgası curl ile doğrulanabilir.
+async function CanliBant() {
+  let hal = null;
+  try { hal = await halFiyatlariGetir(); } catch { hal = null; }
+  const halItems = (hal?.fiyatlar || FIYATLAR.map((f) => ({ id: f.id, halAdi: f.nm, orta: f.pr }))).map((f) => ({
+    id: f.id, nm: f.halAdi || f.id, pr: f.orta,
+  }));
+  const borsaItems = borsaRef.urunler.map((u) => ({ id: u.id, nm: `${u.ad} (${u.cesitler.join("/")})`, pr: u.referans }));
+  const damga = hal ? `Ankara Hal · ${hal.tarih}` : "Ankara Hal · yedek liste";
+  const items = [...halItems, ...borsaItems];
+  return (
+    <div className="ticker" aria-hidden="true">
+      <div className="ticker-inner">
+        {[0, 1].map((tur) => (
+          <span key={tur} style={{ display: "inline-flex", gap: 40 }}>
+            <span className="ticker-item num"><b>{damga}</b></span>
+            {items.map((f, i) => (
+              <span className="ticker-item num" key={i}>
+                <span className={"ticker-ic tic-" + f.id}><ProductIcon id={f.id} size={16} /></span>
+                <b>{f.nm}</b> {fmtSayi(f.pr)} ₺
+              </span>
+            ))}
+            <span className="ticker-item num">TMO / GTB / Bakanlık referanslı</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function TickerItem({ f }) {
   return (
@@ -108,12 +143,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= TARLA FİYAT BANDI ================= */}
-      <div className="ticker" aria-hidden="true">
-        <div className="ticker-inner">
-          {[...FIYATLAR, ...FIYATLAR].map((f, i) => <TickerItem f={f} key={i} />)}
-        </div>
-      </div>
+      {/* ================= CANLI FİYAT BANDI (hal + borsa referansları) ================= */}
+      <CanliBant />
 
       {/* ================= TÜRKİYE HARİTASI ================= */}
       <section className="section cv" id="harita">
