@@ -5,6 +5,9 @@ import { ProductIcon, IconKamera, IconKilit, IconKamyon, IconKutu, IconOnay, Ico
 import { fmtTL, fmtTLkg } from "../../lib/format";
 
 const DURUM_ETIKET = {
+  odeme_bekliyor: { t: "Onay tamam — ödeme bekleniyor (fiyat HENÜZ kilitli değil)", n: 1, I: IconKilit },
+  yeniden_onay_gerekli: { t: "Fiyat tazelik kontrolü — yeniden onay gerekli (cezasız)", n: 0, I: IconUyari },
+  onay_dusustu: { t: "Eşleşme düştü — cezasız (fiyat oynadı, blokeler çözüldü)", n: 0, I: IconUyari },
   goruntulu_onay_bekliyor: { t: "Görüntülü doğrulama bekleniyor", n: 1, I: IconKamera },
   odeme_guvencede: { t: "Ödeme güvencede — hazırlanıyor", n: 2, I: IconKilit },
   yolda: { t: "Sevkiyatta", n: 3, I: IconKamyon },
@@ -18,6 +21,7 @@ const DURUM_ETIKET = {
 };
 
 const AKSIYON_ETIKET = {
+  odeme_bekliyor: "Ödemeyi güvenceye yatır — fiyatı MUTLAK kilitle",
   goruntulu_onay_bekliyor: "Ürünü doğruladım, onayla ve öde",
   odeme_guvencede: "Sevkiyata çıktım (satıcı)",
   yolda: "Teslim ettim (satıcı)",
@@ -28,7 +32,7 @@ const AKSIYON_ETIKET = {
 function iptalOnBilgi(o, userId) {
   const taraf = userId === o.saticiId ? "satici" : "alici";
   let oran, asama;
-  if (o.durum === "goruntulu_onay_bekliyor" || o.durum === "odeme_guvencede") {
+  if (o.durum === "odeme_bekliyor" || o.durum === "goruntulu_onay_bekliyor" || o.durum === "odeme_guvencede") {
     asama = "yükleme öncesi"; oran = taraf === "satici" ? 0.02 : 0.01;
   } else if (o.durum === "yolda") {
     asama = "mal yoldayken"; oran = 0.05;
@@ -134,7 +138,7 @@ export default function Siparisler() {
                   </div>
                   <div className="price num">{fmtTL(o.tutar, 0)}</div>
                 </div>
-                <span className={"tag" + (["itiraz", "hakem_incelemede", "iptal_yukleme_oncesi", "yolda_iptal"].includes(o.durum) ? " neg" : ["tamamlandi", "karar"].includes(o.durum) ? " pos" : "")}>
+                <span className={"tag" + (["itiraz", "hakem_incelemede", "iptal_yukleme_oncesi", "yolda_iptal", "yeniden_onay_gerekli", "onay_dusustu"].includes(o.durum) ? " neg" : ["tamamlandi", "karar"].includes(o.durum) ? " pos" : "")}>
                   {DurumIkon && <DurumIkon size={13} />}
                   {d.t}
                 </span>
@@ -152,7 +156,7 @@ export default function Siparisler() {
                 {o.gecmis.map((g, i) => <li key={i}>· {g}</li>)}
               </ul>
 
-              {o.sozlesme && !["iptal_yukleme_oncesi", "yolda_iptal"].includes(o.durum) && (
+              {o.sozlesme && !["iptal_yukleme_oncesi", "yolda_iptal", "onay_dusustu", "yeniden_onay_gerekli"].includes(o.durum) && (
                 <div style={{ marginBottom: 12 }}>
                   <button className="btn btn-outline" style={{ padding: "6px 14px", fontSize: ".8rem" }} onClick={() => setSozlesmePaneli(sozlesmePaneli === o.id ? null : o.id)}>
                     Satış Özeti Sözleşmesi {o.sozlesme.onaySatici && o.sozlesme.onayAlici ? "(iki taraf onaylı)" : "(onay bekliyor)"}
@@ -173,6 +177,22 @@ export default function Siparisler() {
                       </div>
                     </div>
                   )}
+                </div>
+              )}
+
+              {o.durum === "yeniden_onay_gerekli" && (
+                <div style={{ marginBottom: 12, border: "1px solid var(--amber)", borderRadius: 12, padding: 14, background: "var(--amber-soft)" }}>
+                  <b style={{ fontSize: ".88rem" }}>Bilyoner kuralı: kabul anında fiyat tazeliği bozuldu</b>
+                  <p className="num" style={{ fontSize: ".82rem", margin: "6px 0 10px" }}>
+                    Hal referansı teklif anından bu yana %{o.yenidenOnay?.sapmaYuzde} oynadı
+                    (eski ref {o.yenidenOnay?.eskiRef ?? "—"} → güncel {o.yenidenOnay?.yeniRef ?? "—"} ₺/kg).
+                    İşlem fiyatı: {o.fiyat} ₺/kg. İkiniz de onaylarsanız devam; onaylamayan CEZASIZ cayar.
+                    Onaylar: satıcı {o.yenidenOnay?.onaySatici ? "onaylı" : "bekliyor"} · alıcı {o.yenidenOnay?.onayAlici ? "onaylı" : "bekliyor"}
+                  </p>
+                  <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                    <button className="btn btn-primary" onClick={() => aksiyon(o.id, "yeniden-onay")}>Güncel fiyatı gördüm — onaylıyorum</button>
+                    <button className="btn btn-outline" onClick={() => aksiyon(o.id, "yeniden-onay-red")}>Vazgeç (cezasız)</button>
+                  </div>
                 </div>
               )}
 

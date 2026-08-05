@@ -10,6 +10,7 @@ export default function Nav() {
           <Logo variant="compact" size={26} />
         </Link>
         <div className="nav-links">
+          <a href="/katalog">Canlı Katalog</a>
           <a href="/#uretici">Üretici için</a>
           <a href="/#toptan">Toptan alım</a>
           <a href="/#guvence">Güvence</a>

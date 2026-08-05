@@ -121,7 +121,7 @@ export default function Sat() {
             </div>
             <div className="row2">
               <div className="field"><label>İl / ilçe</label><input className="input" value={form.il} onChange={set("il")} placeholder="Örn. Adana" /></div>
-              <div className="field"><label>Asgari sipariş (ton)</label><input className="input num" value={form.minTon} onChange={set("minTon")} placeholder="1" /></div>
+              <div className="field"><label>Asgari sipariş (ton — min 1,0, istisnasız)</label><input className="input num" value={form.minTon} onChange={set("minTon")} placeholder="1" /></div>
             </div>
             <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: ".88rem", color: "var(--ink2)", marginBottom: 10 }}>
               <input type="checkbox" checked={kantar} onChange={(e) => setKantar(e.target.checked)} /> Tarlada / yakında kantar var

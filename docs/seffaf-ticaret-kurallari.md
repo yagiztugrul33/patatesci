@@ -259,6 +259,38 @@ görünmeyen ayıp için imzadan itibaren **6 saat** içinde, yalnız uygulama
 kamerasının kesim/açma videosuyla itiraz açılabilir. Süre kaçarsa itiraz
 otomatik reddedilir.
 
+## FK. Fiyat Kilidi — "Bilyoner Kuralı"
+
+Fiyatlar sabah-akşam değişebilir; kural bunu dürüstçe yönetir:
+
+1. **Snapshot:** teklif verilirken teklif fiyatı + o anki hal referansı
+   damgalanır.
+2. **Kabul anı kontrolü:** eşleşme anında sistem bakar — satıcı ilan fiyatını
+   değiştirdiyse VEYA güncel hal referansı snapshot'tan **>%3** saptıysa işlem
+   **kesinleşmez** ("kupon onaylanmadı"): durum `yeniden_onay_gerekli`, iki
+   tarafa güncel referans gösterilir. Bu durumda cayma **CEZASIZDIR** (fiyat
+   oynadı, kimse suçlu değil) — blokeler çözülür.
+3. **Akış sırası:** teklif → kabul → tazelik kontrolü → İKİ TARAF onayı →
+   ancak o zaman ödeme adımı açılır (güvenceye tahsilat). **Ödemeden sonra
+   fiyat MUTLAK KİLİTLİDİR** — sözleşmeye damgalı yazılır; "ama akşam düştü /
+   sabah çıktı" itirazı geçersizdir.
+4. **Bayat referans:** hal referansı 24 saatten eskiyse kolpo bandı ±%15'ten
+   **±%20'ye** genişler ve teklif ekranında "bayat referans" uyarısı görünür.
+
+## KAT. Canlı Katalog Kuralları
+
+- Katalog, Ankara BB hal listesinin **tamamından** (sebze + meyve, tüm ürün ve
+  çeşitler) otomatik türetilir; statik ürün listesi yoktur — hal yeni çeşit
+  yayınlarsa katalogda kendiliğinden görünür.
+- Her fiyat satırı **son güncelleme damgası** taşır; hal o gün liste
+  yayınlamadıysa (pazar/tatil) "dünkü liste" rozeti gösterilir. Önbellek 6
+  saattir; **sabah 06:00–08:00 aralığında zorunlu tazeleme** yapılır (hal
+  listesi ~06:15'te yayınlanır).
+- **Referanssız çeşit:** halde bulunmayan çeşit, üst ürün bandına bağlanır ve
+  ilanında "referanssız çeşit" etiketi taşır.
+- **Sezon dışı:** son 30 günde hiç referansı olmayan ürün "sezon dışı" sayılır;
+  fiyatı ancak hakem onayıyla ilana çıkabilir.
+
 ## TS. Teslimat Hizmet Seviyeleri
 
 Her siparişte teslimat seviyesi **işlem öncesi** seçilir, ayrı kalem olarak

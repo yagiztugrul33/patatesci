@@ -257,7 +257,7 @@ export default function Home() {
             renk="var(--amber-koyu)"
             eyebrow="Mahalle toplu alımı"
             baslik="10 komşu, tek tarla siparişi"
-            metin="Mahalleden 10 kişi 10'ar kilo istedi mi, sistem bunları tek 100 kiloluk palet siparişinde birleştirir — asgari 1 ton kuralının tek istisnası. Mahalle esnafı dağıtımı üstlenir ve dağıtım ücretini kazanır; herkes tarla fiyatına yaklaşır."
+            metin="Komşular 10'ar kiloluk taleplerini havuzda toplar; sistem bunları TEK tarla siparişinde birleştirir ve sipariş ancak 1,0 tonu doldurunca işleme dönüşür (asgari ton kuralı istisnasızdır — dolmayan köprü işleme girmez). Mahalle esnafı dağıtımı üstlenir ve dağıtım ücretini kazanır."
             phone={<TopluAlimPhone />}
           />
         </div>

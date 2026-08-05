@@ -6,10 +6,11 @@
 > protokolü), İS (itiraz sihirbazı), BV (boşaltım videosu), TA (teslim anı
 > protokolü), SK (skor), HK (hakem süreci).
 
-Sürüm 0.4 · Toplam 80 senaryo (S65–S72: sigorta & teminat; S73–S80: teslimat
-seviyeleri & teklif ciddiyeti). Boş hücre = bitmemiş iş (kapsama testi
-düşürür). GK = Güvence Katmanları, TS = Teslimat Seviyeleri, TC = Teklif
-Ciddiyeti bölümleri.
+Sürüm 0.5 · Toplam 86 senaryo (S65–S72: sigorta & teminat; S73–S80: teslimat
+seviyeleri & teklif ciddiyeti; S81–S86: fiyat kilidi / Bilyoner kuralı).
+Boş hücre = bitmemiş iş (kapsama testi düşürür). GK = Güvence Katmanları,
+TS = Teslimat Seviyeleri, TC = Teklif Ciddiyeti, FK = Fiyat Kilidi,
+KAT = Canlı Katalog bölümleri.
 
 ## TARTI
 
@@ -136,6 +137,17 @@ Ciddiyeti bölümleri.
 | S78 | Aynı kullanıcının birden çok açık teklifi (çifte bloke) | Her teklif kendi blokesini ayrı taşır | TC | Toplam bloke = tekliflerin toplamı; bakiye yetmiyorsa yeni teklif açılamaz | Profil → bloke geçmişi |
 | S79 | Skor 92 + 5 tamamlanmış işlem — indirimli bloke | Köklü üye koşulu: skor ≥ 90 VE ≥ 3 tamamlanmış işlem | TC | Bloke %2 uygulanır; koşul düşerse sonraki teklifte %5'e döner | Borsa teklif formu |
 | S80 | Eşleşme anında alıcı ödemeyi tamamlamadı | Ödeme penceresi kayıtlı; süre aşımı otomatik | TC | Blokeden %2 "yalandan teklif" kesintisi + skor −10; eşleşme bozulur, satıcı teklifi öne döner | Siparişler (otomatik) |
+
+## FİYAT KİLİDİ (BİLYONER KURALI)
+
+| No | Senaryo (durum) | Kim haklı — nasıl belirlenir | Kural | Yaptırım / sonuç | Ekran |
+|---|---|---|---|---|---|
+| S81 | Kabul anında hal referansı %3'ten fazla oynadı | Snapshot ile güncel referans otomatik karşılaştırılır | FK | İşlem kesinleşmez (kupon onaylanmadı); iki tarafa güncel fiyat gösterilir; cayma cezasız, blokeler çözülür | Siparişler → yeniden onay paneli |
+| S82 | Yeniden-onayda tek taraf onaylamadı | Onay kayıtları saat damgalı | FK | Eşleşme cezasız düşer; skor etkilenmez; taraflar yeni teklif verebilir | Siparişler → "Vazgeç (cezasız)" |
+| S83 | Ödeme güvenceye yattıktan SONRA piyasa oynadı | Ödeme anı = mutlak kilit; sözleşmedeki damgalı fiyat esas | FK, SZ | "Akşam düştü/çıktı" itirazı otomatik reddedilir; cayan normal iptal matrisine tabi | Sipariş sözleşme paneli |
+| S84 | Bayat referansla (>24 saat) teklif verildi | Referans yaşı sistemce ölçülür | FK | Band ±%20'ye genişler + "bayat referans" uyarısı teklif ekranında; teklif yine geçerlidir | Borsa teklif formu |
+| S85 | Sezon dışı ürün ilana kondu (30 gündür referans yok) | Katalog referans geçmişi | KAT | İlan ancak hakem onaylı fiyatla yayınlanır; onaysız ilan yayına alınmaz | İlan formu |
+| S86 | Gece verilen teklif sabah 06:15 listesiyle çelişti | Sabah zorunlu tazeleme yeni referansı getirir; kabul anı kontrolü işler | FK, KAT | Sapma >%3 ise S81 akışı (cezasız yeniden onay); ≤%3 ise işlem normal kesinleşir | Siparişler |
 
 ## EK (kendi bulduğumuz sınır durumlar)
 
