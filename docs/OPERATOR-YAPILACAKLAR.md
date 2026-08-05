@@ -28,6 +28,24 @@ e-postayla tekrar dene — "zaten ön kayıt var" hatası gelirse Redis çalış
 
 ---
 
+### 1-EK. Upstash bağlandıktan sonra Redeploy şart
+
+Env değişkenleri **mevcut dağıtıma geriye dönük uygulanmaz.** Bağladıktan sonra
+Vercel → **patatesci** → **Deployments** → en üstteki → **⋯ → Redeploy**.
+
+**Bugün ölçülen durum (2026-08-06):** `/api/onkayit`'a test POST atıldı →
+**HTTP 201**, `{"toplam":1}`; aynı e-posta tekrar gönderilince **422 "zaten
+ön kayıt var"** döndü. Yani yazma ve tekrar kontrolü **çalışıyor**, ancak
+istek öncesi `toplam` **0**'dı — Redis bağlı olsaydı önceki kayıtlar
+görünürdü. Sonuç: uç şu an **`/tmp` dosya modunda**; sunucu örneği
+yenilendiğinde ön kayıtlar **silinir**.
+
+Kod tarafında yapılacak bir şey yok — `lib/onkayitStore.js` şu satırla
+env'i zaten okuyor ve bulduğu anda Redis'e geçer:
+`process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL`
+
+---
+
 ## 2. Deployment Protection'ı kapat (ihaleal + remaxboss)
 
 **Nereye tıkla (her iki proje için ayrı ayrı):**
