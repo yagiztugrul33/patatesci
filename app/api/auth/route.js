@@ -22,7 +22,7 @@ export async function POST(req) {
   const { action } = body;
 
   if (action === "cikis") {
-    const token = cookies().get(COOKIE)?.value;
+    const token = (await cookies()).get(COOKIE)?.value;
     if (token) logout(token);
     const res = NextResponse.json({ ok: true });
     res.cookies.set(COOKIE, "", { maxAge: 0, path: "/" });

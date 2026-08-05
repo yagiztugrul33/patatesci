@@ -11,7 +11,7 @@ export async function GET(req) {
 }
 
 export async function POST(req) {
-  const user = getUserByToken(cookies().get("pt_token")?.value);
+  const user = getUserByToken((await cookies()).get("pt_token")?.value);
   if (!user) return NextResponse.json({ error: "Teklif vermek için lütfen giriş yapın." }, { status: 401 });
   const g = await govdeOku(req);
   if (!g.ok) return NextResponse.json({ error: g.hata }, { status: 400 });

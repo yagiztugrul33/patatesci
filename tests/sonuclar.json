@@ -1,5 +1,5 @@
 {
-  "zaman": "2026-08-05T08:00:11.457Z",
+  "zaman": "2026-08-05T12:38:52.468Z",
   "birim": {
     "ceza": "41/41",
     "finans": "11/11"
@@ -9,5 +9,5 @@
     "bosSatir": 0,
     "sonSatir": "SONUC: kapsama tablosunda boş satır yok — TAM"
   },
-  "e2e": "curl bataryası — son koşum kanıtları docs/DENETIM-KAYDI.md"
+  "e2e": "25/25"
 }
