@@ -56,7 +56,7 @@ function Yildizlar({ n = 5 }) {
 
 export function MusteriSiparisPhone({ matched = false }) {
   return (
-    <Phone>
+    <Phone sade>
       <div className="app-ui">
         <div className="app-top">
           <span className="brand" style={{ fontSize: ".95rem" }}><LogoMark size={16} /> patatesci</span>
@@ -248,7 +248,7 @@ function IconGrafikMini() {
 // Üretici 1: hasat ilanı formu
 export function UreticiIlanPhone() {
   return (
-    <Phone>
+    <Phone sade>
       <div className="app-ui">
         <div className="app-top" style={{ marginBottom: 8 }}>
           <b style={{ fontSize: ".95rem" }}>Hasat ilanı</b>
@@ -275,7 +275,7 @@ export function UreticiIlanPhone() {
 // Üretici 2: gelen teklifler
 export function UreticiTekliflerPhone() {
   return (
-    <Phone>
+    <Phone sade>
       <div className="app-ui">
         <div className="app-top" style={{ marginBottom: 10 }}>
           <b style={{ fontSize: ".95rem" }}>Gelen teklifler</b>
@@ -297,7 +297,7 @@ export function UreticiTekliflerPhone() {
 // Üretici 3: ödeme güvencede / süreç
 export function UreticiOdemePhone() {
   return (
-    <Phone>
+    <Phone sade>
       <div className="app-ui">
         <div className="app-top" style={{ marginBottom: 8 }}>
           <b style={{ fontSize: ".95rem" }}>Satış · 5 ton patates</b>
@@ -324,7 +324,7 @@ export function AliciPazarPhone() {
     { id: "sogan", b: "Amasya · Soğan", m: "12 ton", f: "11,20" },
   ];
   return (
-    <Phone>
+    <Phone sade>
       <div className="app-ui">
         <div className="app-top">
           <span className="brand" style={{ fontSize: ".95rem" }}><LogoMark size={16} /> patatesci</span>
@@ -350,7 +350,7 @@ export function AliciPazarPhone() {
 // Toptan alıcı 2: tarladan canlı video
 export function CanliVideoPhone() {
   return (
-    <Phone>
+    <Phone sade>
       <div className="app-ui">
         <div className="video-alan">
           <span className="pip-canli">CANLI</span>
@@ -371,7 +371,7 @@ export function CanliVideoPhone() {
 // Toptan alıcı 3: taşıma seçimi + güvenceli ödeme
 export function TasimaPhone() {
   return (
-    <Phone>
+    <Phone sade>
       <div className="app-ui">
         <div className="app-top" style={{ marginBottom: 8 }}>
           <b style={{ fontSize: ".95rem" }}>Taşımayı seç</b>
@@ -392,7 +392,7 @@ export function TasimaPhone() {
 // Toptan alıcı 4: teslim + tartı kontrolü
 export function ToptanTeslimPhone() {
   return (
-    <Phone>
+    <Phone sade>
       <div className="app-ui" style={{ textAlign: "center", paddingTop: 22 }}>
         <span className="big-check"><IconOnay size={40} /></span>
         <h4 className="teslim-baslik">Teslim alındı</h4>
@@ -413,7 +413,7 @@ export function ToptanTeslimPhone() {
 // Mahalle toplu alımı (köprü)
 export function TopluAlimPhone() {
   return (
-    <Phone>
+    <Phone sade>
       <div className="app-ui">
         <div className="app-top" style={{ marginBottom: 8 }}>
           <b style={{ fontSize: ".95rem" }}>Caferağa Mah. toplu alımı</b>

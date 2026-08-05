@@ -32,18 +32,26 @@ function PilSvg() {
   );
 }
 
-export default function Phone({ children, dark = false, className = "" }) {
+// PERFORMANS: durum çubuğundaki üç ikon (sinyal/wifi/pil) her mockup'ta
+// tekrarlanıyordu — 10 mockup × 3 SVG ≈ 30 gereksiz SVG. Hero'daki mockup
+// (ürün anlatımının kalbi) TAM kalır; fold altındakiler `sade` moduyla
+// ikonları CSS çubuklarıyla temsil eder: aynı görsel etki, ~0 DOM maliyeti.
+export default function Phone({ children, dark = false, className = "", sade = false }) {
   return (
     <div className={"phone " + className}>
       <div className={"screen" + (dark ? " screen-dark" : "")}>
         <div className="sb">
           <span className="sb-time num">09:41</span>
           <span className="notch-pill" aria-hidden="true" />
-          <span className="sb-icons">
-            <SinyalSvg />
-            <WifiSvg />
-            <PilSvg />
-          </span>
+          {sade ? (
+            <span className="sb-icons sb-sade" aria-hidden="true" />
+          ) : (
+            <span className="sb-icons">
+              <SinyalSvg />
+              <WifiSvg />
+              <PilSvg />
+            </span>
+          )}
         </div>
         {children}
       </div>

@@ -1,5 +1,31 @@
 # Motor Kurulum Kararı — claude-mem ve OmniRoute
 
+> ## DURUM GÜNCELLEMESİ (5 Ağustos 2026, 18:38)
+> **claude-mem KURULDU** (operatör onayı) — yerel mod, cloud sync KAPALI,
+> API anahtarı yok. **OmniRoute kurulmadı** (karar bekliyor, öneri: kurulmasın).
+>
+> ### Kurulum kanıtı
+> | Kanıt | Değer |
+> |---|---|
+> | Kurulum | `npx claude-mem@latest install` → exit 0, 148,6 sn |
+> | Plugin kaydı | `claude-mem@thedotmack` v**13.13.1**, `enabledPlugins: true` |
+> | Kurulum yolu | `~/.claude/plugins/cache/thedotmack/claude-mem/13.13.1` |
+> | Kayıtlı hook'lar | `Setup · SessionStart · UserPromptSubmit · PostToolUse · PreToolUse · Stop` |
+> | **Worker** | **çalışıyor** — PID 6408, port 37777, v13.13.1 |
+> | Veritabanı | `~/.claude-mem/claude-mem.db` (+ WAL 1,9 MB, yedek, log) |
+> | Servis kanıtı (log) | "Worker started successfully" · "Claude-mem search server started" · "MCP loopback self-check connected successfully" |
+> | Gizlilik | Veriler yalnız `~/.claude-mem` altında; **cloud sync açılmadı**, hesap bağlanmadı |
+>
+> **Hafıza yazımı ne zaman başlar:** hook'lar kayıtlı ve worker ayakta;
+> gözlem yazımı bir sonraki Claude Code oturumundan itibaren otomatik işler
+> ("Memory injection starts on your second session in a project" — kurulum
+> çıktısı). Bu turda DB oluşturuldu ve servis doğrulandı; **oturum hafızasının
+> dolduğu ilk okuma bir sonraki oturumda `mem-search` ile görülecek.**
+>
+> Geri alma: `~/.claude/settings.json` içindeki `enabledPlugins` kaydını
+> kaldırmak (tüm oturumlar kapalıyken).
+
+
 > **Bu bir karar notudur; hiçbir motor kurulmadı, hiçbir servis başlatılmadı,
 > hiçbir API anahtarı üretilmedi.** Skill dosyaları (44 adet) her iki repoda
 > `.claude/skills/` altında kurulu ve çalışıyor. Aşağıdaki iki motor operatör

@@ -481,6 +481,17 @@ footer{border-top:1px solid var(--line);padding:40px 0 32px;color:var(--ink2);fo
    animasyonların (harita halkaları, SMIL araç) style/layout maliyeti sıfırlanır */
 .cv{content-visibility:auto;contain-intrinsic-size:auto 700px}
 
+/* Fold altı mockup'larda durum çubuğu ikonlarının CSS karşılığı:
+   sinyal çubukları + pil, tek elemanda gradyansız gölgelerle çizilir
+   (3 inline SVG yerine 0 ek DOM düğümü). */
+.sb-sade{display:inline-block;width:34px;height:9px;opacity:.55;
+  background:
+    linear-gradient(currentColor 0 0) 0 60%/2px 40% no-repeat,
+    linear-gradient(currentColor 0 0) 4px 40%/2px 60% no-repeat,
+    linear-gradient(currentColor 0 0) 8px 20%/2px 80% no-repeat,
+    linear-gradient(currentColor 0 0) 12px 0/2px 100% no-repeat,
+    linear-gradient(currentColor 0 0) 20px 0/13px 100% no-repeat}
+
 /* hareket azaltma tercihi: tüm dekoratif animasyonlar kapanır */
 @media(prefers-reduced-motion:reduce){
   .match-card,.match-card::after,.btn-shine::after,.pip-canli::before,.harita-bildirim,.il-ring,.il-dot,.phone,.ticker-inner{animation:none!important}
