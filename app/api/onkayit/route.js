@@ -6,13 +6,11 @@ import { hizSiniri, ipAl } from "../../../lib/rateLimit";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  // Sayaç okunamazsa sayfa çökmemeli; 0 dönüp form açık kalır.
   try {
     return NextResponse.json({ toplam: await onkayitSayisi() });
   } catch {
-    return NextResponse.json(
-      { error: "Şu anda ön kayıt sistemine ulaşılamıyor. Lütfen daha sonra tekrar deneyin." },
-      { status: 503 }
-    );
+    return NextResponse.json({ toplam: 0, not: "sayaç geçici olarak okunamadı" });
   }
 }
 
