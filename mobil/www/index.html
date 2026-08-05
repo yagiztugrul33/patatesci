@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>patatesci</title>
+<style>
+  /* Tasarım sistemi jetonları — docs/TASARIM-SISTEMI.md ile birebir aynı */
+  :root{
+    --zemin:#ffffff; --zemin-yumusak:#f7f8f7;
+    --metin:#1e2a24; --metin-ikincil:#5f6b64;
+    --vurgu:#2e8b63; --vurgu-koyu:#25714f;
+    --cizgi:#e8ede9; --kose:14px; --kose-kucuk:10px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    background:var(--zemin); color:var(--metin);
+    font:400 16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    display:flex; align-items:center; justify-content:center;
+    padding:24px calc(24px + env(safe-area-inset-left)) calc(24px + env(safe-area-inset-bottom));
+    -webkit-font-smoothing:antialiased;
+  }
+  .kutu{max-width:340px;text-align:center}
+  .marka{font-size:22px;font-weight:600;letter-spacing:-.02em;margin:0 0 8px}
+  .marka span{color:var(--vurgu)}
+  h1{font-size:17px;font-weight:600;letter-spacing:-.01em;margin:24px 0 8px}
+  p{color:var(--metin-ikincil);font-size:14px;margin:0}
+  .simge{width:56px;height:56px;margin:0 auto;display:block;color:var(--metin-ikincil)}
+  button{
+    margin-top:24px;width:100%;padding:13px 20px;
+    background:var(--vurgu);color:#fff;border:0;border-radius:var(--kose-kucuk);
+    font:600 15px/1 inherit;cursor:pointer;
+    transition:background .15s ease,transform .15s ease;
+  }
+  button:active{background:var(--vurgu-koyu);transform:scale(.985)}
+  button:focus-visible{outline:2px solid var(--vurgu);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){button{transition:none}}
+</style>
+</head>
+<body>
+  <main class="kutu">
+    <p class="marka">patates<span>ci</span></p>
+
+    <svg class="simge" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+      <path d="M2 8.8a15.5 15.5 0 0 1 20 0"/>
+      <path d="M5 12.4a10.5 10.5 0 0 1 14 0"/>
+      <path d="M8.5 16a5.5 5.5 0 0 1 7 0"/>
+      <path d="M12 19.5h.01"/>
+      <path d="M3 3l18 18" stroke-width="1.5"/>
+    </svg>
+
+    <h1>Bağlantı kurulamadı</h1>
+    <p>patatesci güncel hal fiyatlarını canlı olarak gösterir.
+       İnternet bağlantını kontrol edip tekrar dene.</p>
+
+    <button type="button" onclick="location.replace('https://patatesci.vercel.app')">
+      Tekrar dene
+    </button>
+  </main>
+</body>
+</html>
