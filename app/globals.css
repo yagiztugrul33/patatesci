@@ -1,31 +1,65 @@
 /* patatesci — kurumsal tarım ticareti platformu tasarım sistemi */
+/* ═══ AÇIK & MİNİMAL TASARIM SİSTEMİ ═══
+   İki proje de aynı token yapısını konuşur; tek fark marka vurgu rengidir
+   (patatesci yeşil #2e8b63 · ihaleal lacivert #1E40AF).
+   İlkeler: koyu panel ve gradyan duvarı yok · TEK vurgu rengi (yalnız CTA,
+   bildirim, aktif durum) · ağır kenarlık yok · gölge neredeyse görünmez ·
+   cömert boşluk (8px grid) · köşe 10–14px. Ayrıntı: docs/TASARIM-SISTEMI.md */
 :root{
-  --bg:#ffffff;
-  --bg-soft:#f6f8f7;      /* nötr, çok hafif gri-yeşil zemin */
-  --ink:#1c2420;          /* ana metin */
-  --ink2:#5c6660;         /* ikincil metin */
-  --line:#e5e9e6;         /* ayırıcı çizgi */
-  --accent:#2e8b63;       /* tek vurgu: CTA ve pozitif durum */
-  --accent-strong:#25714f;
-  --accent-soft:#eaf3ee;
-  --danger:#b3392e;       /* negatif durum */
+  /* Zemin */
+  --zemin:#ffffff;
+  --zemin-yumusak:#f7f8f7;
+  --zemin-gri:#eef1ee;
+  /* Metin (AA) */
+  --metin:#1e2a24;
+  --metin-ikincil:#5f6b64;
+  /* Tek vurgu — yalnız CTA / bildirim / aktif durum */
+  --vurgu:#2e8b63;
+  --vurgu-koyu:#25714f;
+  --vurgu-yumusak:#eaf3ee;
+  /* Çizgi ve gölge */
+  --cizgi:#e8ede9;
+  --golge-kucuk:0 1px 2px rgba(30,42,36,.04);
+  --golge-buyuk:0 8px 24px rgba(30,42,36,.06);
+  /* Köşe ve boşluk (8px grid) */
+  --kose:14px;
+  --kose-kucuk:10px;
+  --bosluk:8px;
+
+  /* ---- Geriye uyum: eski değişkenler yeni sisteme işaret eder ----
+     Dosya dosya değiştirmek yerine tek yerden eşleme (token disiplini). */
+  --bg:var(--zemin);
+  --bg-soft:var(--zemin-yumusak);
+  --ink:var(--metin);
+  --ink2:var(--metin-ikincil);
+  --line:var(--cizgi);
+  --accent:var(--vurgu);
+  --accent-strong:var(--vurgu-koyu);
+  --accent-soft:var(--vurgu-yumusak);
+  --card:var(--zemin);
+  --radius:var(--kose);
+  --radius-sm:var(--kose-kucuk);
+  --shadow:var(--golge-kucuk);
+  /* Nötr ikincil ton (vurgu DEĞİL — başlık üstü etiket, ikon dolgusu) */
+  --slate:#5f6b64;
+  /* FONKSİYONEL durum renkleri: dekoratif vurgu değil, hata/uyarı anlamı
+     taşır (erişilebilirlik gereği renkten başka işaret de kullanılır). */
+  --danger:#b3392e;
   --danger-soft:#f9ecea;
-  --slate:#41505a;        /* kurumsal nötr vurgu */
-  /* ürün bazlı sıcak vurgu paleti — yalnızca küçük vurgularda kullanılır */
-  --amber:#d97706;        /* patates / havuç (ikon/dolgu) */
-  --amber-koyu:#92400e;   /* amber'in metin için erişilebilir tonu */
-  --amber-soft:#fbf0df;
-  --kirmizi:#dc2626;      /* domates / biber (ikon/dolgu) */
-  --kirmizi-koyu:#b91c1c; /* kırmızının metin için erişilebilir tonu */
-  --kirmizi-soft:#fcebe9;
-  --mor:#7c3aed;          /* soğan / patlıcan */
-  --mor-soft:#f2edfd;
-  --card:#ffffff;
-  --radius:12px;
-  --radius-sm:10px;
-  --shadow:0 1px 2px rgba(28,36,32,.05);
+  /* Ürün bazlı sıcak palet KALDIRILDI (tek vurgu ilkesi). Eski adlar
+     nötr/vurgu tonlarına düşürüldü ki hiçbir sayfa kırılmasın. */
+  --amber:var(--slate);
+  --amber-koyu:var(--metin);
+  --amber-soft:var(--zemin-gri);
+  --kirmizi:var(--slate);
+  --kirmizi-koyu:var(--metin);
+  --kirmizi-soft:var(--zemin-gri);
+  --mor:var(--slate);
+  --mor-soft:var(--zemin-gri);
 }
 *{box-sizing:border-box;margin:0;padding:0}
+/* Klavye odağı her etkileşimli öğede görünür (AA) — fare tıklamasında değil. */
+:focus-visible{outline:2px solid var(--vurgu);outline-offset:2px;border-radius:4px}
 html,body{background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
 body{font-family:var(--font-inter),-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6;font-size:16px}
 h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.2}
@@ -78,16 +112,14 @@ a{color:inherit;text-decoration:none}
 .card h3{font-size:1.05rem;margin-bottom:8px}
 .card p{color:var(--ink2);font-size:.93rem}
 .card .icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--bg-soft);color:var(--slate);margin-bottom:14px}
-/* ikon pastilleri — ürün paleti yalnızca bu küçük vurgularda */
-.ik-yesil{background:var(--accent-soft);color:var(--accent-strong)}
-.ik-amber{background:var(--amber-soft);color:var(--amber)}
-.ik-kirmizi{background:var(--kirmizi-soft);color:var(--kirmizi)}
-.ik-mor{background:var(--mor-soft);color:var(--mor)}
-/* fiyat bandı ürün noktaları (.ticker-ic'in genel rengini ezmek için bileşik seçici) */
-.ticker-ic.tic-patates,.ticker-ic.tic-havuc{color:var(--amber)}
-.ticker-ic.tic-domates,.ticker-ic.tic-biber{color:var(--kirmizi)}
-.ticker-ic.tic-salatalik{color:var(--accent)}
-.ticker-ic.tic-sogan{color:var(--mor)}
+/* İkon pastilleri: TEK vurgu ilkesi gereği hepsi NÖTR. Kart ikonu bir
+   vurgu değil, bir işarettir; vurgu rengi yalnız CTA/bildirim/aktif durumda
+   kullanılır. (Eski ik-amber/ik-kirmizi/ik-mor adları korunuyor ki sayfa
+   işaretlemesi kırılmasın — hepsi aynı nötr pastile düşüyor.) */
+.ik-yesil,.ik-amber,.ik-kirmizi,.ik-mor{background:var(--zemin-gri);color:var(--metin-ikincil)}
+/* Fiyat bandı ürün ikonları da nötr — bilgi renkte değil, metinde. */
+.ticker-ic,.ticker-ic.tic-patates,.ticker-ic.tic-havuc,.ticker-ic.tic-domates,
+.ticker-ic.tic-biber,.ticker-ic.tic-salatalik,.ticker-ic.tic-sogan{color:var(--metin-ikincil)}
 
 /* akordeon */
 .acc{max-width:680px;margin:0 auto}
@@ -230,15 +262,19 @@ footer{border-top:1px solid var(--line);padding:40px 0 32px;color:var(--ink2);fo
 .step p{color:var(--ink2);font-size:.9rem}
 
 /* koyu bölüm */
-.dark-section{background:#0f1d16;color:#e6efe9;padding:76px 0}
-.dark-section h2{color:#fff;letter-spacing:-.02em}
-.dark-section .muted{color:#9db3a6}
+/* Koyu bölüm duvarı KALDIRILDI (açık-minimal ilkesi): aynı bölüm artık
+   kırık beyaz zeminde, ayrım rengi değil boşluk ve 1px çizgiyle kuruluyor.
+   Not: telefon mockup'ının gövdesi koyu kalır — o bir CİHAZ temsilidir,
+   sayfa duvarı değil. */
+.dark-section{background:var(--zemin-yumusak);color:var(--metin);padding:76px 0;border-top:1px solid var(--cizgi);border-bottom:1px solid var(--cizgi)}
+.dark-section h2{color:var(--metin);letter-spacing:-.02em}
+.dark-section .muted{color:var(--metin-ikincil)}
 .dark-list{list-style:none;display:flex;flex-direction:column;gap:20px;margin-top:26px}
 .dark-list li{display:flex;gap:14px;align-items:flex-start}
-.dark-list .ic{width:42px;height:42px;border-radius:13px;background:rgba(46,139,99,.2);color:#7fd0ab;display:grid;place-items:center;flex:none}
-.dark-list b{font-size:.98rem;color:#fff}
-.dark-list small{font-size:.85rem;color:#9db3a6}
-.dark-section .phone{box-shadow:0 28px 64px rgba(0,0,0,.5)}
+.dark-list .ic{width:42px;height:42px;border-radius:13px;background:var(--vurgu-yumusak);color:var(--vurgu-koyu);display:grid;place-items:center;flex:none}
+.dark-list b{font-size:.98rem;color:var(--metin)}
+.dark-list small{font-size:.85rem;color:var(--metin-ikincil)}
+.dark-section .phone{box-shadow:var(--golge-buyuk)}
 
 /* fiyat panosu */
 .price-board{max-width:440px;width:100%;justify-self:center}
@@ -249,8 +285,8 @@ footer{border-top:1px solid var(--line);padding:40px 0 32px;color:var(--ink2);fo
 
 /* mağaza rozetleri */
 .store-badges{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-.store-badge{display:inline-flex;align-items:center;gap:12px;background:#101413;color:#fff;border-radius:14px;padding:10px 20px;min-width:172px;text-align:left}
-.store-badge small{display:block;font-size:.6rem;letter-spacing:.1em;opacity:.65;font-weight:600}
+.store-badge{display:inline-flex;align-items:center;gap:12px;background:var(--zemin);color:var(--metin);border:1px solid var(--cizgi);border-radius:var(--kose);padding:10px 20px;min-width:172px;text-align:left}
+.store-badge small{display:block;font-size:.6rem;letter-spacing:.1em;color:var(--metin-ikincil);font-weight:600}
 .store-badge b{font-size:1rem;letter-spacing:-.01em}
 
 /* ================= LANSMAN REKLAM SİTESİ ================= */
@@ -368,11 +404,11 @@ footer{border-top:1px solid var(--line);padding:40px 0 32px;color:var(--ink2);fo
 .harita-rozet span{font-size:.74rem;color:var(--ink2)}
 
 /* rakamlar şeridi */
-.rakamlar{background:#0f1d16;color:#fff;padding:44px 0}
+.rakamlar{background:var(--zemin-yumusak);color:var(--metin);padding:44px 0;border-top:1px solid var(--cizgi);border-bottom:1px solid var(--cizgi)}
 .rakamlar-ic{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center}
 @media(max-width:720px){.rakamlar-ic{grid-template-columns:1fr;gap:26px}}
 .rakam b{display:block;font-size:2.3rem;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.rakam span{font-size:.85rem;color:#9db3a6}
+.rakam span{font-size:.85rem;color:var(--metin-ikincil)}
 
 /* illüstrasyon şeritleri */
 .mahalle-serit{display:block;width:100%;max-width:1200px;margin:0 auto;padding:0 24px}
