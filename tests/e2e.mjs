@@ -82,6 +82,34 @@ const J = (c, govde) => ({ method: "POST", headers: { "Content-Type": "applicati
   esit("bozuk JSON 400 (5xx değil)", (await fetch(B + "/api/onkayit", J(null, "bozuk-json"))).status, 400);
   esit("dizi gövde 400", (await fetch(B + "/api/onkayit", J(null, [1, 2, 3]))).status, 400);
 
+  // --- Satıcı onboarding + yönetim paneli yetkisi ---
+  esit("onboarding: oturumsuz 401", (await fetch(B + "/api/onboarding", J(null, { kunyeNo: "KNY-1" }))).status, 401);
+  esit("onboarding: eksik numara 422", (await fetch(B + "/api/onboarding", J(cS, { bolge: "Polatlı" }))).status, 422);
+  esit("onboarding: geçerli başvuru 201", (await fetch(B + "/api/onboarding", J(cS, { kunyeNo: "KNY-2026-1234", bolge: "Polatlı", sertifikalar: ["GlobalGAP"] }))).status, 201);
+  esit("onboarding: çift başvuru 422", (await fetch(B + "/api/onboarding", J(cS, { kunyeNo: "KNY-2026-1234" }))).status, 422);
+  const obDurum = await (await fetch(B + "/api/onboarding", { headers: { Cookie: cS } })).json();
+  esit("onboarding: durum dogrulama_bekliyor", obDurum.basvuru?.durum, "dogrulama_bekliyor");
+
+  const Y = "e2e-yonetim-anahtari";
+  const yDurum = (await fetch(B + "/api/yonetim")).status;
+  if (yDurum === 503) {
+    // Anahtar tanımsız ortam (soğuk klon): kasa kapalı — bu da doğrulanan bir davranıştır.
+    esit("yönetim: anahtar tanımsızken kasa kapalı (503)", yDurum, 503);
+  } else {
+    esit("yönetim: anahtarsız istek 401", yDurum, 401);
+    esit("yönetim: yanlış anahtar 401", (await fetch(B + "/api/yonetim", { headers: { "x-yonetim-anahtar": "yanlis" } })).status, 401);
+    esit("yönetim: oturum çerezi anahtar yerine GEÇMEZ", (await fetch(B + "/api/yonetim", { headers: { Cookie: cS } })).status, 401);
+    const yOzet = await (await fetch(B + "/api/yonetim", { headers: { "x-yonetim-anahtar": Y } })).json();
+    esit("yönetim: doğru anahtarla özet", typeof yOzet.ozet?.onkayit, "number");
+    const yListe = await (await fetch(B + "/api/yonetim?bolum=onboarding", { headers: { "x-yonetim-anahtar": Y } })).json();
+    const bekleyen = yListe.liste?.find((b) => b.durum === "dogrulama_bekliyor" && b.kunyeNo === "KNY-2026-1234");
+    esit("yönetim: kuyrukta başvuru görünüyor", !!bekleyen, true);
+    const kararR = await fetch(B + "/api/yonetim", { method: "POST", headers: { "x-yonetim-anahtar": Y, "Content-Type": "application/json" }, body: JSON.stringify({ islem: "onboarding-karar", userId: bekleyen?.userId, karar: "onay" }) });
+    esit("yönetim: onay kararı 200", kararR.status, 200);
+    const obSon = await (await fetch(B + "/api/onboarding", { headers: { Cookie: cS } })).json();
+    esit("onboarding: onay sonrası onaylı üye", obSon.onayliUye, true);
+  }
+
   // --- Güvenlik başlıkları ---
   const h = (await fetch(B + "/")).headers;
   esit("başlık: X-Frame-Options", h.get("x-frame-options"), "DENY");
