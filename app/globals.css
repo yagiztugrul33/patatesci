@@ -125,14 +125,20 @@ a{color:inherit;text-decoration:none}
 .acc{max-width:680px;margin:0 auto}
 .acc-item{border:1px solid var(--line);border-radius:var(--radius);margin-bottom:10px;background:#fff;overflow:hidden}
 .acc-head{width:100%;text-align:left;background:none;border:none;font-family:inherit;cursor:pointer;
-  padding:18px 22px;display:flex;align-items:center;justify-content:space-between;font-size:1rem;font-weight:600;color:var(--ink)}
+  padding:18px 22px;display:flex;align-items:center;justify-content:space-between;font-size:1rem;font-weight:600;color:var(--ink);
+  gap:12px;list-style:none}
+.acc-head::-webkit-details-marker{display:none}
 .acc-head:hover{color:var(--slate)}
 .acc-icon{width:26px;height:26px;flex:none;border-radius:50%;background:var(--bg-soft);color:var(--slate);
   display:grid;place-items:center;font-size:16px;transition:.2s;line-height:1}
-.acc-item.open .acc-icon{background:var(--slate);color:#fff;transform:rotate(45deg)}
-.acc-body{max-height:0;overflow:hidden;transition:max-height .28s ease}
-.acc-item.open .acc-body{max-height:260px}
+.acc-item[open] .acc-icon{background:var(--slate);color:#fff;transform:rotate(45deg)}
+.acc-body{overflow:hidden}
 .acc-body p{padding:0 22px 18px;color:var(--ink2);font-size:.94rem}
+/* Modern tarayıcıda yumuşak açılış (interpolate-size destekliyse) */
+@supports (interpolate-size: allow-keywords) {
+  .acc-item::details-content{height:0;overflow:hidden;transition:height .28s ease,content-visibility .28s allow-discrete;interpolate-size:allow-keywords}
+  .acc-item[open]::details-content{height:auto}
+}
 
 /* formlar */
 .field{margin-bottom:14px}
@@ -457,9 +463,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 32px;color:var(--ink2);fo
 /* fiyat bandı: hover'da durur */
 .ticker:hover .ticker-inner{animation-play-state:paused}
 
-/* akordeon: daha yumuşak açılış */
-.acc-body{transition:max-height .4s cubic-bezier(.4,0,.2,1)}
-.acc-item.open .acc-body{max-height:320px}
+/* akordeon: açılış animasyonu yukarıdaki @supports bloğunda (native details) */
 
 /* CANLI rozetinde yanıp sönen kayıt noktası */
 .pip-canli{display:inline-flex;align-items:center;gap:4px}

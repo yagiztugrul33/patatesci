@@ -1,4 +1,3 @@
-import Accordion from "../../../components/Accordion";
 import { SSS } from "../../../lib/sss.mjs";
 
 export const metadata = {
@@ -19,7 +18,14 @@ export default function SssSayfasi() {
             64 senaryoluk kataloğa dayanır.
           </p>
         </div>
-        <Accordion items={SSS} />
+        <div className="acc">
+          {SSS.map((it, i) => (
+            <details key={i} className="acc-item" name="sss" open={i === 0 || undefined}>
+              <summary className="acc-head">{it.q}<span className="acc-icon">+</span></summary>
+              <div className="acc-body"><p>{it.a}</p></div>
+            </details>
+          ))}
+        </div>
         <p style={{ textAlign: "center", marginTop: 24 }}>
           <a href="/hukuki/ticaret-kurallari" className="btn btn-outline">Kural kitabının tamamını oku</a>
         </p>

@@ -1,8 +1,5 @@
-import Accordion from "../components/Accordion";
 import Waitlist from "../components/Waitlist";
-import Reveal from "../components/Reveal";
-import Parallax from "../components/Parallax";
-import Sayac from "../components/Sayac";
+import ScrollFx from "../components/ScrollFx";
 import TurkiyeHarita from "../components/TurkiyeHarita";
 import {
   ProductIcon,
@@ -103,7 +100,7 @@ function TickerItem({ f }) {
 
 function Story({ eyebrow, baslik, metin, phone, rev = false, ekstra = null, renk }) {
   return (
-    <Reveal>
+    <div className="reveal">
       <div className={"story" + (rev ? " rev" : "")}>
         <div>
           <span className="story-eyebrow" style={renk ? { color: renk } : undefined}>{eyebrow}</span>
@@ -111,15 +108,16 @@ function Story({ eyebrow, baslik, metin, phone, rev = false, ekstra = null, renk
           <p>{metin}</p>
           {ekstra}
         </div>
-        <Parallax className="phone-wrap">{phone}</Parallax>
+        <div className="phone-wrap" data-parallax="12" style={{ willChange: "transform" }}>{phone}</div>
       </div>
-    </Reveal>
+    </div>
   );
 }
 
 export default function Home() {
   return (
     <main>
+      <ScrollFx />
       {/* ================= HERO — TOPTAN ================= */}
       <section className="promo-hero">
         <div className="blob blob-yesil" aria-hidden="true" />
@@ -153,7 +151,7 @@ export default function Home() {
       {/* ================= TÜRKİYE HARİTASI ================= */}
       <section className="section cv" id="harita">
         <div className="container">
-          <Reveal>
+          <div className="reveal">
             <div className="section-head">
               <p className="eyebrow">Lansman planı</p>
               <h2>81 ilde toptan ağı kuruluyor</h2>
@@ -163,14 +161,14 @@ export default function Home() {
               </p>
             </div>
             <TurkiyeHarita />
-          </Reveal>
+          </div>
         </div>
       </section>
 
       {/* ================= ÜRETİCİ HİKAYESİ (başrol) ================= */}
       <section className="section cv" id="uretici" style={{ background: "var(--bg-soft)" }}>
         <div className="container">
-          <Reveal>
+          <div className="reveal">
             <div className="section-head">
               <p className="eyebrow">Üretici için</p>
               <h2>Hasadını tarladan sat, paran güvencede</h2>
@@ -179,7 +177,7 @@ export default function Home() {
                 teslim onayında paran hesabında.
               </p>
             </div>
-          </Reveal>
+          </div>
 
           <Story
             renk="var(--amber-koyu)"
@@ -211,7 +209,7 @@ export default function Home() {
       {/* ================= TOPTAN ALICI HİKAYESİ ================= */}
       <section className="section cv" id="toptan">
         <div className="container">
-          <Reveal>
+          <div className="reveal">
             <div className="section-head">
               <p className="eyebrow">Toptan alıcı için</p>
               <h2>Malı tarladan al, aradaki farkı sen kazan</h2>
@@ -220,7 +218,7 @@ export default function Home() {
                 fiyatı.
               </p>
             </div>
-          </Reveal>
+          </div>
 
           <Story
             renk="var(--amber-koyu)"
@@ -260,7 +258,7 @@ export default function Home() {
       {/* ================= BELGE OTOMASYONU ================= */}
       <section className="section cv" id="belge" style={{ background: "var(--bg-soft)" }}>
         <div className="container">
-          <Reveal>
+          <div className="reveal">
             <div className="section-head">
               <p className="eyebrow">Belge otomasyonu</p>
               <h2>Evrak işini biz hallederiz</h2>
@@ -276,14 +274,14 @@ export default function Home() {
               <div className="card"><div className="icon ik-yesil"><IconGrafik /></div><h3>Rüsum Hesabı & Muafiyeti</h3><p>Rüsum otomatik hesaplanır; üretici kanalı muafiyetleri kuruşu kuruşuna uygulanır.</p></div>
               <div className="card"><div className="icon ik-mor"><IconKalkan /></div><h3>Teslim Tutanağı & İtiraz</h3><p>Her teslim tutanakla kapanır; itiraz süreci kayıtlı belgeler üzerinden yürür.</p></div>
             </div>
-          </Reveal>
+          </div>
         </div>
       </section>
 
       {/* ================= MAHALLE ŞERİDİ ================= */}
-      <Reveal className="mahalle-serit">
+      <div className="reveal mahalle-serit">
         <img src="/illus/mahalle.svg" alt="Mahalle sokağında manav dükkanları illüstrasyonu" loading="lazy" />
-      </Reveal>
+      </div>
 
       {/* ================= MAHALLE TOPLU ALIMI (köprü) ================= */}
       <section className="section cv" id="toplu" style={{ background: "var(--bg-soft)" }}>
@@ -320,7 +318,7 @@ export default function Home() {
       {/* ================= GÜVENCE (toptan dili) ================= */}
       <section className="section cv" id="guvence" style={{ background: "var(--bg-soft)", paddingTop: 56, paddingBottom: 56 }}>
         <div className="container">
-          <Reveal>
+          <div className="reveal">
             <div className="section-head">
               <p className="eyebrow">Güvence altyapısı</p>
               <h2>Ton ton mal, kuruş kuruş güvence</h2>
@@ -333,14 +331,14 @@ export default function Home() {
               <div className="card"><div className="icon ik-yesil"><IconKilit /></div><h3>Ödeme Güvencesi</h3><p>Peşin-güvenceli model: alıcı vade beklemez, üretici çek riski taşımaz; bedel teslim onayında aktarılır.</p></div>
               <div className="card"><div className="icon ik-mor"><IconBelge /></div><h3>Künye & HKS Uyumu</h3><p>Künye, Hal Kayıt Sistemi bildirimi, rüsum ve belgelendirme platformda otomatik yürütülür.</p></div>
             </div>
-          </Reveal>
+          </div>
         </div>
       </section>
 
       {/* ================= ŞEFFAF TİCARET ================= */}
       <section className="section cv" id="seffaf">
         <div className="container">
-          <Reveal>
+          <div className="reveal">
             <div className="section-head">
               <p className="eyebrow">Şeffaf ticaret</p>
               <h2>Üç kağıda yer yok</h2>
@@ -357,26 +355,26 @@ export default function Home() {
             <div style={{ textAlign: "center", marginTop: 26 }}>
               <a href="/hukuki/ticaret-kurallari" className="btn btn-outline">Kural kitabını oku</a>
             </div>
-          </Reveal>
+          </div>
         </div>
       </section>
 
       {/* ================= RAKAMLAR ŞERİDİ ================= */}
       <div className="rakamlar">
         <div className="container rakamlar-ic">
-          <div className="rakam"><Sayac hedef={81} sonek=" il" /><span>hedef kapsama alanı</span></div>
-          <div className="rakam"><Sayac hedef={100000} sonek=" ton" /><span>ilk yıl işlem hacmi hedefi</span></div>
-          <div className="rakam"><Sayac hedef={25} onek="%" /><span>tarla fiyatı avantajı hedefi (azami)</span></div>
+          <div className="rakam"><b className="num" data-sayac="81" data-sonek=" il" style={{ display: "inline-block", minWidth: "3.1em" }}>81 il</b><span>hedef kapsama alanı</span></div>
+          <div className="rakam"><b className="num" data-sayac="100000" data-sonek=" ton" style={{ display: "inline-block", minWidth: "6.9em" }}>100.000 ton</b><span>ilk yıl işlem hacmi hedefi</span></div>
+          <div className="rakam"><b className="num" data-sayac="25" data-onek="%" style={{ display: "inline-block", minWidth: "1.9em" }}>%25</b><span>tarla fiyatı avantajı hedefi (azami)</span></div>
         </div>
       </div>
 
       {/* ================= ESNAF ÇAĞRISI (çift rol) ================= */}
       <section className="section cagri cv" id="esnaf-katil">
         <div className="container cagri-grid">
-          <Reveal>
+          <div className="reveal">
             <img src="/illus/esnaf-arac.svg" alt="Üç tekerlekli aracıyla mahalle esnafı illüstrasyonu" className="illus-yan" loading="lazy" />
-          </Reveal>
-          <Reveal delay={120}>
+          </div>
+          <div className="reveal" style={{ transitionDelay: "120ms" }}>
             <p className="eyebrow">Üretici ve işletme çağrısı</p>
             <h2 style={{ fontSize: "2.2rem", marginTop: 8 }}>Mahallenin patatesci'si ol</h2>
             <p className="muted" style={{ margin: "14px 0 22px", maxWidth: 460 }}>
@@ -392,27 +390,34 @@ export default function Home() {
               aciklama="Uygulama bölgende açıldığında ilk davet sana gelsin."
               buton="Ön kayıt bırak"
             />
-          </Reveal>
+          </div>
         </div>
       </section>
 
       {/* ================= SSS ================= */}
       <section className="section cv" id="sss">
         <div className="container">
-          <Reveal>
+          <div className="reveal">
             <div className="section-head">
               <p className="eyebrow">Sık sorulan sorular</p>
               <h2>Merak edilenler</h2>
             </div>
-            <Accordion items={SSS} />
-          </Reveal>
+            <div className="acc">
+              {SSS.map((it, i) => (
+                <details key={i} className="acc-item" name="sss" open={i === 0 || undefined}>
+                  <summary className="acc-head">{it.q}<span className="acc-icon">+</span></summary>
+                  <div className="acc-body"><p>{it.a}</p></div>
+                </details>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ================= UYGULAMA YOLDA + ÖN KAYIT ================= */}
       <section className="section cv" id="onkayit" style={{ background: "var(--bg-soft)" }}>
         <div className="container" style={{ textAlign: "center" }}>
-          <Reveal>
+          <div className="reveal">
             <div style={{ display: "flex", justifyContent: "center", marginBottom: 18 }}>
               <img src="/illus/kasalar.svg" alt="Kasalarda taze sebze illüstrasyonu" style={{ width: 260, maxWidth: "70%" }} loading="lazy" />
             </div>
@@ -436,7 +441,7 @@ export default function Home() {
             <div style={{ marginTop: 32 }}>
               <Waitlist defaultRol="toptan" />
             </div>
-          </Reveal>
+          </div>
         </div>
       </section>
     </main>
