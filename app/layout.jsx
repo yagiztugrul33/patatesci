@@ -35,6 +35,11 @@ export const metadata = {
     description:
       "Üreticiden işletmeye doğrudan toptan tedarik. 81 ilde kuruluyor — uygulama yakında.",
   },
+  // Search Console doğrulaması: operatör Vercel'e GOOGLE_SITE_VERIFICATION
+  // env değişkenini ekleyince meta etiketi kendiliğinden basılır; kod değişmez.
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 export default function RootLayout({ children }) {
