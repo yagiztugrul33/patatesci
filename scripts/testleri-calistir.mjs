@@ -17,6 +17,7 @@ function kos(dosya) {
 
 const ceza = kos("tests/ceza.test.mjs");
 const finans = kos("tests/finans.test.mjs");
+const odeme = kos("tests/odeme.test.mjs");
 let kapsama;
 try {
   const c = execSync("node tests/kapsama.test.mjs", { encoding: "utf8" });
@@ -54,7 +55,7 @@ try {
 
 const ozet = {
   zaman: new Date().toISOString(),
-  birim: { ceza: `${ceza.gecti}/${ceza.gecti + (ceza.kaldi || 0)}`, finans: `${finans.gecti}/${finans.gecti + (finans.kaldi || 0)}` },
+  birim: { ceza: `${ceza.gecti}/${ceza.gecti + (ceza.kaldi || 0)}`, finans: `${finans.gecti}/${finans.gecti + (finans.kaldi || 0)}`, odeme: `${odeme.gecti}/${odeme.gecti + (odeme.kaldi || 0)}` },
   kapsama,
   e2e,
   // Dış denetçi için: e2e alanı bu koşuda mı üretildi, yoksa taşınan eski değer mi?
@@ -67,4 +68,4 @@ console.log(JSON.stringify(ozet));
 // E2E hiç koşamadıysa (bayat) çıkış kodu bozulmaz: sunucusuz ortamda birim
 // testleri koşabilmek bilinçli bir tercih, ama sonuç "bayat" diye işaretlenir.
 const e2eKaldi = /\(hatalı\)/.test(e2e);
-if ((ceza.kaldi || 0) + (finans.kaldi || 0) > 0 || kapsama.bosSatir !== 0 || e2eKaldi) process.exit(1);
+if ((ceza.kaldi || 0) + (finans.kaldi || 0) + (odeme.kaldi || 0) > 0 || kapsama.bosSatir !== 0 || e2eKaldi) process.exit(1);

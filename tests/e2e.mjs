@@ -62,6 +62,20 @@ const J = (c, govde) => ({ method: "POST", headers: { "Content-Type": "applicati
   esit("IDOR: yabancı kullanıcı 403", (await fetch(B + "/api/orders", J(cC, { id, aksiyon: "ileri" }))).status, 403);
   esit("gerçek taraf işlem yapabiliyor", (await fetch(B + "/api/orders", J(cA, { id, aksiyon: "ileri" }))).status, 200);
 
+  // --- Ödeme izi (DEMO soyut katman): tahsilat → güvence → split ---
+  // "ileri" bir kez yukarıda çağrıldı (goruntulu_onay_bekliyor = tahsilat).
+  await fetch(B + "/api/orders", J(cA, { id, aksiyon: "ileri" })); // odeme_guvencede = güvence
+  await fetch(B + "/api/orders", J(cA, { id, aksiyon: "ileri" })); // yolda
+  await fetch(B + "/api/orders", J(cA, { id, aksiyon: "ileri" })); // teslim_edildi
+  await fetch(B + "/api/orders", J(cA, { id, aksiyon: "ileri" })); // tamamlandi = split
+  const son = await (await fetch(B + "/api/orders", { headers: { Cookie: cA } })).json();
+  const sip = son.orders?.find((o) => o.id === id);
+  const hareketTurleri = (sip?.odeme?.hareketler || []).map((h) => h.tur).join(">");
+  esit("ödeme izi: tahsilat>guvence>split", hareketTurleri, "tahsilat>guvence>split");
+  esit("ödeme izi: hepsi demo etiketli", (sip?.odeme?.hareketler || []).every((h) => h.demo === true), true);
+  const splitH = sip?.odeme?.hareketler?.find((h) => h.tur === "split");
+  esit("ödeme izi: split toplamı tutara eşit", splitH ? Math.round((splitH.saticiPay + splitH.komisyon) * 100) / 100 === sip.tutar : false, true);
+
   // --- Kimlik ve gövde doğrulama ---
   esit("oturumsuz teklif 401", (await fetch(B + "/api/offers", J(null, { yon: "al", urun: "patates", fiyat: 39, ton: 5 }))).status, 401);
   esit("oturumsuz sipariş 401", (await fetch(B + "/api/orders", J(null, { id: 1, aksiyon: "ileri" }))).status, 401);
