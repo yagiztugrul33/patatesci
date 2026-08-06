@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Waitlist from "../components/Waitlist";
 import ScrollFx from "../components/ScrollFx";
 import TurkiyeHarita from "../components/TurkiyeHarita";
@@ -145,8 +146,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= CANLI FİYAT BANDI (hal + borsa referansları) ================= */}
-      <CanliBant />
+      {/* ================= CANLI FİYAT BANDI (hal + borsa referansları) =================
+          Suspense: soğuk başlangıçta hal kaynağına giden POST sayfanın ilk boyamasını
+          BEKLETMESİN — kabuk hemen akar, band hazır olunca yerine oturur. */}
+      <Suspense fallback={<div className="ticker cv-serit" aria-hidden="true" style={{ minHeight: 46 }} />}>
+        <CanliBant />
+      </Suspense>
 
       {/* ================= TÜRKİYE HARİTASI ================= */}
       <section className="section cv" id="harita">
