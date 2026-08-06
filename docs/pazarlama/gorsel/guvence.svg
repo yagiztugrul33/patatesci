@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <rect width="1080" height="1080" fill="#16211b"/>
+  <g transform="translate(80,110)">
+    <g transform="scale(1.6)" fill="none" stroke="#7fd0ab" stroke-width="4" stroke-linejoin="round">
+      <path d="M32 59C32 59 13 42 13 28 13 17.5 21.5 9.5 32 9.5s19 8 19 18.5C51 42 32 59 32 59Z"/>
+      <ellipse cx="32" cy="28.5" rx="9.5" ry="7" transform="rotate(-14 32 28.5)" stroke-width="3"/>
+    </g>
+    <text x="125" y="68" font-family="Inter,Arial,sans-serif" font-size="52" font-weight="700" fill="#ffffff" letter-spacing="-1">patatesci</text>
+  </g>
+  <g transform="translate(455,300)" fill="none" stroke="#7fd0ab" stroke-width="8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M85 10 L160 40 V95 C160 150 125 185 85 200 45 185 10 150 10 95 V40 Z"/>
+    <path d="M52 105 l24 24 44 -48"/>
+  </g>
+  <text x="540" y="640" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="72" font-weight="700" fill="#ffffff" letter-spacing="-1">Ton ton mal,</text>
+  <text x="540" y="730" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="72" font-weight="700" fill="#7fd0ab" letter-spacing="-1">kuruş kuruş güvence.</text>
+  <text x="540" y="830" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="38" fill="#b9c6bf">Ödeme teslim onayına kadar güvence hesabında.</text>
+  <text x="540" y="885" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="38" fill="#b9c6bf">Kural kitabımız herkese açık.</text>
+  <text x="540" y="1000" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="30" fill="#6d7d75">patatesci.vercel.app/hukuki/ticaret-kurallari</text>
+</svg>

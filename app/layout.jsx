@@ -83,6 +83,9 @@ export default function RootLayout({ children }) {
                 <Link href="/hukuki/tarti-tolerans">Tartı Toleransı ve İtiraz</Link>
                 <Link href="/hukuki/nakliye-sorumluluk">Nakliye Sorumluluğu</Link>
                 <Link href="/hukuki/iletisim">İletişim</Link>
+                <Link href="/rehber/tarladan-toptan-alim-rehberi">Toptan Alım Rehberi</Link>
+                <Link href="/rehber/patates-toptan-fiyati">Patates Toptan Fiyatı</Link>
+                <Link href="/rehber/hal-fiyatlari-nasil-belirlenir">Hal Fiyatları Rehberi</Link>
                 <Link href="/borsa">Demo</Link>
               </div>
             </div>

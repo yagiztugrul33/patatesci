@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <rect width="1080" height="1080" fill="#ffffff"/>
+  <rect width="1080" height="14" fill="#d97706"/>
+  <g transform="translate(80,110)">
+    <g transform="scale(1.6)" fill="none" stroke="#2e8b63" stroke-width="4" stroke-linejoin="round">
+      <path d="M32 59C32 59 13 42 13 28 13 17.5 21.5 9.5 32 9.5s19 8 19 18.5C51 42 32 59 32 59Z"/>
+      <ellipse cx="32" cy="28.5" rx="9.5" ry="7" transform="rotate(-14 32 28.5)" stroke-width="3"/>
+    </g>
+    <text x="125" y="68" font-family="Inter,Arial,sans-serif" font-size="52" font-weight="700" fill="#16211b" letter-spacing="-1">patatesci</text>
+  </g>
+  <text x="80" y="400" font-family="Inter,Arial,sans-serif" font-size="82" font-weight="700" fill="#16211b" letter-spacing="-2">Hal fiyatı değil,</text>
+  <text x="80" y="500" font-family="Inter,Arial,sans-serif" font-size="82" font-weight="700" fill="#b45309" letter-spacing="-2">tarla fiyatı.</text>
+  <g font-family="Inter,Arial,sans-serif" font-size="40" fill="#4b5a52">
+    <text x="120" y="620">Malı tarladan canlı videoyla gör</text>
+    <text x="120" y="695">Damgalı kantar — eksikte 2 kat iade</text>
+    <text x="120" y="770">Ödemen teslim onayına kadar güvencede</text>
+  </g>
+  <g stroke="#2e8b63" stroke-width="5" fill="none" stroke-linecap="round">
+    <path d="M84 605 l14 14 24 -26"/>
+    <path d="M84 680 l14 14 24 -26"/>
+    <path d="M84 755 l14 14 24 -26"/>
+  </g>
+  <g transform="translate(80,850)">
+    <rect width="520" height="96" rx="16" fill="#16211b"/>
+    <text x="260" y="60" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="36" font-weight="600" fill="#ffffff">Esnaf / restoran / market — katıl</text>
+  </g>
+  <text x="80" y="1010" font-family="Inter,Arial,sans-serif" font-size="30" fill="#8a958f">patatesci.vercel.app · asgari işlem 1 ton</text>
+</svg>

@@ -1,4 +1,5 @@
 import { SITE_URL } from "../lib/site";
+import { REHBERLER } from "../lib/rehber.mjs";
 
 // Yalnızca tanıtım ve hukuki sayfalar; demo sayfaları bilinçli olarak dışarıda.
 export default function sitemap() {
@@ -6,6 +7,7 @@ export default function sitemap() {
   const sayfalar = [
     { yol: "", oncelik: 1, siklik: "weekly" },
     { yol: "/katalog", oncelik: 0.8, siklik: "daily" },
+    ...REHBERLER.map((r) => ({ yol: `/rehber/${r.slug}`, oncelik: 0.6, siklik: "monthly" })),
     { yol: "/hukuki/ticaret-kurallari", oncelik: 0.5, siklik: "monthly" },
     { yol: "/hukuki/sss", oncelik: 0.5, siklik: "monthly" },
     { yol: "/hukuki/guvence-sistemi", oncelik: 0.4, siklik: "monthly" },

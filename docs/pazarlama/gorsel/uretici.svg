@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <rect width="1080" height="1080" fill="#f4f7f5"/>
+  <rect width="1080" height="14" fill="#2e8b63"/>
+  <g transform="translate(80,110)">
+    <g transform="scale(1.6)" fill="none" stroke="#2e8b63" stroke-width="4" stroke-linejoin="round">
+      <path d="M32 59C32 59 13 42 13 28 13 17.5 21.5 9.5 32 9.5s19 8 19 18.5C51 42 32 59 32 59Z"/>
+      <ellipse cx="32" cy="28.5" rx="9.5" ry="7" transform="rotate(-14 32 28.5)" stroke-width="3"/>
+    </g>
+    <text x="125" y="68" font-family="Inter,Arial,sans-serif" font-size="52" font-weight="700" fill="#16211b" letter-spacing="-1">patatesci</text>
+  </g>
+  <text x="80" y="420" font-family="Inter,Arial,sans-serif" font-size="86" font-weight="700" fill="#16211b" letter-spacing="-2">Hasadını tarladan</text>
+  <text x="80" y="520" font-family="Inter,Arial,sans-serif" font-size="86" font-weight="700" fill="#2e8b63" letter-spacing="-2">sat.</text>
+  <text x="80" y="640" font-family="Inter,Arial,sans-serif" font-size="44" fill="#4b5a52">Komisyoncu yok. Vade yok. Çek yok.</text>
+  <text x="80" y="705" font-family="Inter,Arial,sans-serif" font-size="44" fill="#4b5a52">Paran teslim onayında hesabında.</text>
+  <g transform="translate(80,810)">
+    <rect width="420" height="96" rx="16" fill="#25714f"/>
+    <text x="210" y="60" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="36" font-weight="600" fill="#ffffff">Ön kayıt bırak</text>
+  </g>
+  <text x="80" y="1000" font-family="Inter,Arial,sans-serif" font-size="30" fill="#8a958f">patatesci.vercel.app · 81 ilde kuruluyor</text>
+  <circle cx="900" cy="860" r="130" fill="none" stroke="#d97706" stroke-width="3" opacity=".5"/>
+  <text x="900" y="845" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="54" font-weight="700" fill="#b45309">%0</text>
+  <text x="900" y="895" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="26" fill="#b45309">ilk 3 işlem komisyon</text>
+</svg>
