@@ -1,14 +1,15 @@
 {
-  "zaman": "2026-08-05T21:53:08.048Z",
+  "zaman": "2026-08-06T11:23:13.003Z",
   "birim": {
     "ceza": "41/41",
-    "finans": "11/11"
+    "finans": "11/11",
+    "odeme": "19/19"
   },
   "kapsama": {
     "senaryo": 86,
     "bosSatir": 0,
     "sonSatir": "SONUC: kapsama tablosunda boş satır yok — TAM"
   },
-  "e2e": "25/25",
+  "e2e": "28/28",
   "e2eTaze": true
 }
