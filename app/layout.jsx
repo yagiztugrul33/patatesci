@@ -62,7 +62,11 @@ export default function RootLayout({ children }) {
                 <Link href="/hukuki/ticaret-kurallari">Şeffaf Ticaret Kuralları</Link>
                 <Link href="/hukuki/sss">SSS</Link>
                 <Link href="/hukuki/kvkk">KVKK</Link>
+                <Link href="/hukuki/acik-riza">Açık Rıza</Link>
+                <Link href="/hukuki/cerez-politikasi">Çerez Politikası</Link>
                 <Link href="/hukuki/kullanici-sozlesmesi">Kullanıcı Sözleşmesi</Link>
+                <Link href="/hukuki/uretici-sozlesmesi">Üretici Sözleşmesi</Link>
+                <Link href="/hukuki/alici-sozlesmesi">Alıcı Sözleşmesi</Link>
                 <Link href="/hukuki/mesafeli-satis">Mesafeli Satış</Link>
                 <Link href="/hukuki/satis-sozlesmesi">Satış Sözleşmesi Şablonu</Link>
                 <Link href="/hukuki/guvence-sistemi">Güvence Sistemi (Sigorta & Teminat)</Link>
