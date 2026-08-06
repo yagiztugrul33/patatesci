@@ -159,3 +159,26 @@ tek çözüm major (Next 16 denendi, peer çatışması → 14.2.35'te tutuldu);
 istismar için saldırgan kontrollü CSS build'i gerekir, projede yol yok.
 D-1 hız sınırı bellek içi (serverless'ta dağıtık sayaç kuyrukta).
 Strix çalıştırılamadı: **Docker yok** → kuyrukta.
+
+## Tur — 6 Ağustos 2026 (MEGA serisi: perf + ödeme iskeleti + hukuki + panel + izleme + büyüme)
+
+**Performans (kalibre — PSI kotası dolu, skor iddiası YOK):** kaydırma
+efektleri tek istemci bileşenine (ScrollFx) indirildi, SSS native `details`
+oldu, fiyat bandı content-visibility + Suspense akışına alındı. Canlı ölçüm
+(Playwright, Lighthouse-benzeri emülasyon, ortanca/3): LCP 2580→2304 ms,
+sapmalı kötü koşular (4,4-6 sn) kayboldu, CLS 0 korundu. PSI skoru günlük
+kota (HTTP 429) nedeniyle DOĞRULANAMADI — kota açılınca yeniden ölçülecek.
+
+**Yeni katmanlar:** soyut ödeme katmanı `lib/odeme.mjs` (tahsilat→güvence→
+split→iade; demo etiketli hareket izi sipariş geçmişinde) · /yonetim
+operasyon paneli (YONETIM_ANAHTAR kasası; canlıda bilerek 503) · satıcı
+onboarding (/sat/kunye → doğrulama kuyruğu → onay/red) · /api/saglik ·
+hata sayfaları + SENTRY_DSN iskeleti · hukuki sözleşme seti (8 sayfa,
+taslak bandlı) · 3 programatik rehber · pitch (docs/PITCH.md + /pitch.html).
+
+**Test bataryası:** birim 41+11+19, kapsama 86 TAM, **e2e 40/40 taze**
+(yeni: ödeme izi zinciri, onboarding, yönetim yetki matrisi).
+
+**Canlı güvenlik regresyonu (fb7c086):** XFO DENY · CSP · nosniff ·
+oturumsuz 401 · bozuk JSON 400 · onkayit hız sınırı 429 · yönetim kasası 503
+· robots /yonetim disallow — tümü yerinde, yeni açık yok.
