@@ -66,7 +66,7 @@ async function CanliBant() {
   // tam katalog /katalog sayfasında (ve /api/hal-fiyatlari'nda) duruyor.
   const items = [...halItems.slice(0, 10), ...borsaItems];
   return (
-    <div className="ticker" aria-hidden="true">
+    <div className="ticker cv-serit" aria-hidden="true">
       <div className="ticker-inner">
         {[0, 1].map((tur) => (
           <span key={tur} style={{ display: "inline-flex", gap: 40 }}>

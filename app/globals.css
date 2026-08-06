@@ -520,6 +520,8 @@ footer{border-top:1px solid var(--line);padding:40px 0 32px;color:var(--ink2);fo
 /* fold altındaki bölümler görünene kadar render edilmez — ekran dışı
    animasyonların (harita halkaları, SMIL araç) style/layout maliyeti sıfırlanır */
 .cv{content-visibility:auto;contain-intrinsic-size:auto 700px}
+/* fiyat bandı fold altında başlar: ~300 düğümlük şerit ilk layout'a girmesin */
+.cv-serit{content-visibility:auto;contain-intrinsic-size:auto 46px}
 
 /* Fold altı mockup'larda durum çubuğu ikonlarının CSS karşılığı:
    sinyal çubukları + pil, tek elemanda gradyansız gölgelerle çizilir
