@@ -70,6 +70,12 @@ export default function Borsa() {
     : f > max ? `Teklif ${kalite} bandının üzerinde. Azami geçerli fiyat: ${fmtTL(max)}.`
     : `Teklif geçerli aralıkta (${kalite} merkezi ${fmtTL(merkez)}, ${bandKaynak}).`;
 
+  // Band konum rayı — girilen fiyatın ±%15 bandı içindeki yeri (gerçek veri;
+  // zaman serisi olmadığı için sparkline yerine bu gösterilir).
+  const bandOran = !cur || isNaN(f) || max === min ? null : (f - min) / (max - min);
+  const bandDisi = bandOran !== null && (bandOran < 0 || bandOran > 1);
+  const raySol = bandOran === null ? 50 : Math.min(100, Math.max(0, bandOran * 100));
+
   const submit = async () => {
     setMsg(""); setHata("");
     const r = await fetch("/api/offers", {
@@ -84,40 +90,104 @@ export default function Borsa() {
   };
 
   return (
-    <main className="section">
-      <div className="container">
-        <div className="section-head" style={{ marginBottom: 26 }}>
-          <p className="eyebrow">Canlı piyasa verileri</p>
-          <h2>Borsa</h2>
-          <p className="muted" style={{ marginTop: 10 }}>
-            Fiyatlar açık teklif usulüyle oluşur ve tüm katılımcılar tarafından
-            görülür. Eşleşen her işlem güvenceli ödeme ile tamamlanır.
-          </p>
+    <main className="trm-kabuk">
+      {/* Üst şerit — enstrüman başlığı */}
+      <div className="trm-serit">
+        <span className="trm-serit__ad">
+          <span className="trm-nabiz" />
+          patatesci · gıda borsası
+        </span>
+        <span className="trm-serit__ara" />
+        <span className="trm-mono">
+          {hal?.tarih ? hal.tarih : "referans yükleniyor"}
+        </span>
+      </div>
+
+      <p className="trm-mono trm-mono--yesil">Canlı piyasa verileri</p>
+      <h1 className="trm-baslik">Gıda borsası</h1>
+      <p className="trm-alt">
+        Fiyatlar açık teklif usulüyle oluşur ve tüm katılımcılar tarafından
+        görülür. Eşleşen her işlem güvenceli ödeme ile tamamlanır.
+      </p>
+
+      {/* Gösterge paneli — metrik kutucukları */}
+      <div className="trm-cerceve">
+        <div className="trm-cerceve__ust">
+          <span className="trm-lamba"><i /><i /><i /></span>
+          <span className="trm-mono trm-mono--bone">
+            ptx · {cur ? cur.nm.toLocaleLowerCase("tr") : "—"} · {kalite}
+          </span>
         </div>
 
-        <div className="panel" style={{ marginBottom: 20, display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
-          <div>
-            <div className="eyebrow">PTX Endeksi</div>
-            <div className="num" style={{ fontSize: "1.9rem", fontWeight: 700 }}>
+        <div className="trm-kutular">
+          <div className="trm-kutu">
+            <div className="trm-mono">PTX endeksi</div>
+            <div className="trm-kutu__deger trm-kutu__deger--yesil">
               {endeks === null ? "—" : fmtTL(endeks)}
             </div>
+            <p className="trm-kutu__not">
+              Temel ürünlerin kilogram başına ortalama günlük fiyatı. Üretici ve
+              alıcı için tarafsız referans değeridir.
+            </p>
           </div>
-          <div className="muted" style={{ fontSize: ".87rem", maxWidth: 380 }}>
-            Temel ürünlerin kilogram başına ortalama günlük fiyatı. Üretici ve
-            alıcı için tarafsız referans değeridir.
+
+          <div className="trm-kutu">
+            <div className="trm-mono">Son fiyat · {cur ? cur.nm : "—"}</div>
+            <div className="trm-kutu__deger">{cur ? fmtSayi(cur.last) : "—"}</div>
+            <p className="trm-kutu__not">
+              {cur ? (
+                <span className={"trm-degisim " + (cur.chg >= 0 ? "trm-degisim--yukari" : "trm-degisim--asagi")}>
+                  {cur.chg >= 0 ? <IconYukari size={12} /> : <IconAsagi size={12} />}
+                  %{fmtSayi(Math.abs(cur.chg), 1)} günlük değişim
+                </span>
+              ) : "—"}
+            </p>
+          </div>
+
+          <div className="trm-kutu">
+            <div className="trm-mono">Band konumu · {kalite}</div>
+            <div className="trm-kutu__deger">{cur ? fmtSayi(merkez) : "—"}</div>
+            {/* Ray: bandın tamamı zemin, çentik merkez, işaret girilen fiyat */}
+            <div className="trm-ray">
+              <span className="trm-ray__merkez" />
+              <span
+                className={"trm-ray__isaret" + (bandDisi ? " trm-ray__isaret--disarida" : "")}
+                style={{ left: `${raySol}%` }}
+              />
+            </div>
+            <div className="trm-ray__uc">
+              <span className="trm-mono">{cur ? fmtSayi(min) : "—"}</span>
+              <span className="trm-mono">{cur ? fmtSayi(max) : "—"}</span>
+            </div>
+            <p className="trm-kutu__not">
+              Merkez {bandKaynak.toLocaleLowerCase("tr")}, ±%15 geçerli aralık.
+            </p>
+          </div>
+
+          <div className="trm-kutu">
+            <div className="trm-mono">Açık emir</div>
+            <div className="trm-kutu__deger">{book.length}</div>
+            <p className="trm-kutu__not">
+              {asks.length} satış · {bids.length} alış emri, seçili ürün ve
+              kalite sınıfında.
+            </p>
           </div>
         </div>
+      </div>
 
-        <div className="panel" style={{ padding: 0, overflow: "hidden", marginBottom: 20 }}>
-          <div style={{ overflowX: "auto" }}>
-            <table className="table">
+      {/* Piyasa tablosu */}
+      <section className="trm-bolum">
+        <p className="trm-mono trm-mono--bone">Piyasa</p>
+        <div className="trm-kart" style={{ padding: 0, marginTop: 16 }}>
+          <div className="trm-tablo-sar">
+            <table className="trm-tablo">
               <thead>
                 <tr>
                   <th>Ürün</th>
-                  <th className="num">Son fiyat (₺/kg)</th>
-                  <th className="num">Günlük değişim</th>
-                  <th className="num">Ankara Hal (orta)</th>
-                  <th className="num">Fark</th>
+                  <th className="rakam">Son fiyat (₺/kg)</th>
+                  <th className="rakam">Günlük değişim</th>
+                  <th className="rakam">Ankara Hal (orta)</th>
+                  <th className="rakam">Fark</th>
                   <th></th>
                 </tr>
               </thead>
@@ -126,26 +196,26 @@ export default function Borsa() {
                   const h = halBul(m.id);
                   const fark = h ? ((m.last - h.orta) / h.orta) * 100 : null;
                   return (
-                  <tr key={m.id} style={{ background: sel === m.id ? "var(--bg-soft)" : "transparent" }}>
+                  <tr key={m.id} className={sel === m.id ? "secili" : undefined}>
                     <td>
-                      <span style={{ display: "inline-flex", alignItems: "center", gap: 10, color: "var(--ink)" }}>
-                        <span style={{ color: "var(--slate)", display: "inline-flex" }}><ProductIcon id={m.id} size={20} /></span>
-                        <b style={{ fontWeight: 600 }}>{m.nm}</b>
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
+                        <span style={{ color: "var(--tr-granite)", display: "inline-flex" }}><ProductIcon id={m.id} size={20} /></span>
+                        {m.nm}
                       </span>
                     </td>
-                    <td className="num" style={{ fontWeight: 600 }}>{fmtSayi(m.last)}</td>
-                    <td className="num">
-                      <span className={"chg " + (m.chg >= 0 ? "up" : "down")}>
+                    <td className="rakam">{fmtSayi(m.last)}</td>
+                    <td className="rakam">
+                      <span className={"trm-degisim " + (m.chg >= 0 ? "trm-degisim--yukari" : "trm-degisim--asagi")}>
                         {m.chg >= 0 ? <IconYukari size={12} /> : <IconAsagi size={12} />}
                         %{fmtSayi(Math.abs(m.chg), 1)}
                       </span>
                     </td>
-                    <td className="num">{h ? fmtSayi(h.orta) : "—"}</td>
-                    <td className="num">{fark === null ? "—" : (
-                      <span className={"chg " + (fark <= 0 ? "up" : "down")}>%{fmtSayi(Math.abs(fark), 1)} {fark <= 0 ? "ucuz" : "pahalı"}</span>
+                    <td className="rakam">{h ? fmtSayi(h.orta) : "—"}</td>
+                    <td className="rakam">{fark === null ? "—" : (
+                      <span className={"trm-degisim " + (fark <= 0 ? "trm-degisim--yukari" : "trm-degisim--asagi")}>%{fmtSayi(Math.abs(fark), 1)} {fark <= 0 ? "ucuz" : "pahalı"}</span>
                     )}</td>
-                    <td style={{ textAlign: "right" }}>
-                      <button className="btn btn-outline" style={{ padding: "6px 16px", fontSize: ".8rem" }} onClick={() => setSel(m.id)}>Seç</button>
+                    <td className="sag">
+                      <button className="trm-dugme trm-dugme--hayalet trm-dugme--kucuk" onClick={() => setSel(m.id)}>Seç</button>
                     </td>
                   </tr>
                   );
@@ -154,103 +224,145 @@ export default function Borsa() {
             </table>
           </div>
           {hal && (
-            <p className="muted num" style={{ fontSize: ".76rem", padding: "10px 16px", borderTop: "1px solid var(--line)", margin: 0 }}>
+            <p className="trm-kaynak">
               Kaynak: {hal.kaynak} · {hal.tarih}{hal.canli ? "" : hal.guncelleme ? ` · son güncelleme: ${new Date(hal.guncelleme).toLocaleString("tr-TR")}` : ` · ${hal.not || "yedek liste"}`}
             </p>
           )}
         </div>
+      </section>
 
-        <div className="grid grid-2">
-          <div className="panel">
-            <span className="tag">{cur ? cur.nm : ""} · {kalite} · Emir defteri</span>
-            <div className="grid grid-2" style={{ marginTop: 16, gap: 14 }}>
-              <div>
-                <div className="eyebrow">Satış emirleri</div>
+      {/* Emir defteri + teklif */}
+      <div className="trm-ikili">
+        <div className="trm-kart">
+          <div className="trm-kart__ust">
+            <span className="trm-nabiz" />
+            <span className="trm-mono trm-mono--bone">
+              {cur ? cur.nm : ""} · {kalite} · emir defteri
+            </span>
+          </div>
+          <div className="trm-emir">
+            <div>
+              <div className="trm-mono">Satış emirleri</div>
+              <div className="trm-emir__liste">
                 {asks.length ? asks.map((a) => (
-                  <div key={a.id} className="num" style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid var(--line)", fontSize: ".88rem" }}>
-                    <span>{fmtSayi(a.fiyat)} ₺ · {fmtSayi(a.ton, 1)} ton</span><span className="muted" style={{ fontSize: ".76rem" }}>{a.kim}</span>
+                  <div key={a.id} className="trm-satir">
+                    <span>{fmtSayi(a.fiyat)} ₺ · {fmtSayi(a.ton, 1)} ton</span>
+                    <span className="trm-satir__kim">{a.kim}</span>
                   </div>
-                )) : <p className="muted" style={{ fontSize: ".84rem", marginTop: 8 }}>Açık satış emri bulunmuyor.</p>}
+                )) : <p className="trm-bos">Açık satış emri bulunmuyor.</p>}
               </div>
-              <div>
-                <div className="eyebrow">Alış emirleri</div>
+            </div>
+            <div>
+              <div className="trm-mono">Alış emirleri</div>
+              <div className="trm-emir__liste">
                 {bids.length ? bids.map((b) => (
-                  <div key={b.id} className="num" style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid var(--line)", fontSize: ".88rem" }}>
-                    <span>{fmtSayi(b.fiyat)} ₺ · {fmtSayi(b.ton, 1)} ton</span><span className="muted" style={{ fontSize: ".76rem" }}>{b.kim}</span>
+                  <div key={b.id} className="trm-satir">
+                    <span>{fmtSayi(b.fiyat)} ₺ · {fmtSayi(b.ton, 1)} ton</span>
+                    <span className="trm-satir__kim">{b.kim}</span>
                   </div>
-                )) : <p className="muted" style={{ fontSize: ".84rem", marginTop: 8 }}>Açık alış emri bulunmuyor.</p>}
+                )) : <p className="trm-bos">Açık alış emri bulunmuyor.</p>}
               </div>
             </div>
           </div>
+        </div>
 
-          <div className="panel">
-            <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-              <button className={yon === "sat" ? "btn btn-primary" : "btn btn-outline"} style={{ flex: 1, padding: "10px" }} onClick={() => setYon("sat")}>Satış teklifi</button>
-              <button className={yon === "al" ? "btn btn-primary" : "btn btn-outline"} style={{ flex: 1, padding: "10px" }} onClick={() => setYon("al")}>Alış teklifi</button>
+        <div className="trm-kart">
+          <div className="trm-kart__ust">
+            <span className="trm-mono trm-mono--bone">Teklif ver</span>
+          </div>
+          <div className="trm-yon">
+            <button
+              className={"trm-dugme " + (yon === "sat" ? "trm-yon__aktif" : "trm-dugme--koyu")}
+              onClick={() => setYon("sat")}
+            >Satış teklifi</button>
+            <button
+              className={"trm-dugme " + (yon === "al" ? "trm-yon__aktif" : "trm-dugme--koyu")}
+              onClick={() => setYon("al")}
+            >Alış teklifi</button>
+          </div>
+
+          <div className="trm-cift">
+            <div className="trm-alan"><label htmlFor="trm-urun">Ürün</label>
+              <select id="trm-urun" className="trm-girdi" value={sel} onChange={(e) => setSel(e.target.value)}>
+                {market.map((m) => <option key={m.id} value={m.id}>{m.nm}</option>)}
+              </select>
             </div>
-            <div className="row2">
-              <div className="field"><label>Ürün</label>
-                <select className="select" value={sel} onChange={(e) => setSel(e.target.value)}>
-                  {market.map((m) => <option key={m.id} value={m.id}>{m.nm}</option>)}
+            <div className="trm-alan"><label htmlFor="trm-kalite">Kalite sınıfı</label>
+              <select id="trm-kalite" className="trm-girdi" value={kalite} onChange={(e) => setKalite(e.target.value)}>
+                {KALITELER.map((k) => <option key={k}>{k}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="trm-cift">
+            <div className="trm-alan"><label htmlFor="trm-fiyat">Birim fiyat (₺/kg)</label>
+              <input id="trm-fiyat" className="trm-girdi rakam" value={fiyat} onChange={(e) => setFiyat(e.target.value)} placeholder="Örn. 18.20" />
+            </div>
+            <div className="trm-alan"><label htmlFor="trm-ton">Miktar (ton)</label>
+              <input id="trm-ton" className="trm-girdi rakam" value={ton} onChange={(e) => setTon(e.target.value)} placeholder="Asgari 1" />
+            </div>
+          </div>
+          <div className="trm-alan"><label htmlFor="trm-kim">Ad / unvan (isteğe bağlı)</label>
+            <input id="trm-kim" className="trm-girdi" value={kim} onChange={(e) => setKim(e.target.value)} placeholder={yon === "sat" ? "Üretici veya işletme unvanı" : "İşletme unvanı"} />
+          </div>
+          {yon === "sat" && (
+            <div className="trm-alan"><label htmlFor="trm-mense">Menşe ili (zorunlu)</label>
+              <select id="trm-mense" className="trm-girdi" value={mense} onChange={(e) => setMense(e.target.value)}>
+                <option value="">Seçin</option>
+                {(TAKSONOMI[sel]?.mense || []).map((m) => <option key={m}>{m}</option>)}
+              </select>
+            </div>
+          )}
+          {yon === "al" && (
+            <>
+              <div className="trm-alan"><label htmlFor="trm-seviye">Teslimat seviyesi (işlem öncesi seçilir, sözleşmeye yazılır)</label>
+                <select id="trm-seviye" className="trm-girdi" value={seviye} onChange={(e) => setSeviye(e.target.value)}>
+                  {SEVIYELER.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
                 </select>
               </div>
-              <div className="field"><label>Kalite sınıfı</label>
-                <select className="select" value={kalite} onChange={(e) => setKalite(e.target.value)}>
-                  {KALITELER.map((k) => <option key={k}>{k}</option>)}
-                </select>
-              </div>
-            </div>
-            <div className="row2">
-              <div className="field"><label>Birim fiyat (₺/kg)</label><input className="input num" value={fiyat} onChange={(e) => setFiyat(e.target.value)} placeholder="Örn. 18.20" /></div>
-              <div className="field"><label>Miktar (ton)</label><input className="input num" value={ton} onChange={(e) => setTon(e.target.value)} placeholder="Asgari 1" /></div>
-            </div>
-            <div className="field"><label>Ad / unvan (isteğe bağlı)</label><input className="input" value={kim} onChange={(e) => setKim(e.target.value)} placeholder={yon === "sat" ? "Üretici veya işletme unvanı" : "İşletme unvanı"} /></div>
-            {yon === "sat" && (
-              <div className="field"><label>Menşe ili (zorunlu)</label>
-                <select className="select" value={mense} onChange={(e) => setMense(e.target.value)}>
-                  <option value="">Seçin</option>
-                  {(TAKSONOMI[sel]?.mense || []).map((m) => <option key={m}>{m}</option>)}
-                </select>
-              </div>
-            )}
-            {yon === "al" && (
-              <>
-                <div className="field"><label>Teslimat seviyesi (işlem öncesi seçilir, sözleşmeye yazılır)</label>
-                  <select className="select" value={seviye} onChange={(e) => setSeviye(e.target.value)}>
-                    {SEVIYELER.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
-                  </select>
+              {seviye === "S4" && (
+                <div className="trm-cift">
+                  <div className="trm-alan"><label htmlFor="trm-kat">Kat beyanı</label>
+                    <input id="trm-kat" className="trm-girdi rakam" value={kat} onChange={(e) => setKat(e.target.value)} placeholder="Örn. 2" />
+                  </div>
+                  <div className="trm-alan"><label htmlFor="trm-asansor">Asansör</label>
+                    <select id="trm-asansor" className="trm-girdi" value={asansor ? "var" : "yok"} onChange={(e) => setAsansor(e.target.value === "var")}>
+                      <option value="var">Var</option><option value="yok">Yok (asansörsüz tarife)</option>
+                    </select>
+                  </div>
                 </div>
-                {seviye === "S4" && (
-                  <div className="row2">
-                    <div className="field"><label>Kat beyanı</label><input className="input num" value={kat} onChange={(e) => setKat(e.target.value)} placeholder="Örn. 2" /></div>
-                    <div className="field"><label>Asansör</label>
-                      <select className="select" value={asansor ? "var" : "yok"} onChange={(e) => setAsansor(e.target.value === "var")}>
-                        <option value="var">Var</option><option value="yok">Yok (asansörsüz tarife)</option>
-                      </select>
-                    </div>
-                  </div>
-                )}
-                {seviye === "S4" && <p className="hint bad" style={{ marginBottom: 8 }}>Yanlış kat/asansör beyanında fark + %25 ceza alıcıya yazılır.</p>}
-              </>
-            )}
-            <div className={"hint " + (gecerli ? "ok" : "bad")} style={{ marginBottom: 8 }}>{bandNot}</div>
-            {gecerli && (
-              <label className="num" style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: ".8rem", color: "var(--ink2)", marginBottom: 12 }}>
-                <input type="checkbox" checked={blokeOnay} onChange={(e) => setBlokeOnay(e.target.checked)} />
-                <span>Teklifim için <b>{Math.round(f * parseFloat(ton) * 1000 * 0.05).toLocaleString("tr-TR")} ₺</b> (tutarın %5'i) güvence hesabımda bloke edilecek — ödeme değildir; eşleşmezse anında çözülür, eşleşirse bedele mahsup edilir. Eşleşme sonrası cayma cezaları blokeden tahsil edilir. Onaylıyorum.</span>
-              </label>
-            )}
-            <button className="btn btn-primary full" onClick={submit} disabled={!gecerli || !blokeOnay}>Teklifi yayınla</button>
-            {msg && <p className="hint ok" style={{ marginTop: 12 }}>{msg}</p>}
-            {hata && <p className="hint bad" style={{ marginTop: 12 }}>{hata}</p>}
-          </div>
+              )}
+              {seviye === "S4" && <p className="trm-not trm-not--olumsuz">Yanlış kat/asansör beyanında fark + %25 ceza alıcıya yazılır.</p>}
+            </>
+          )}
+          <div className={"trm-not " + (gecerli ? "trm-not--olumlu" : "trm-not--olumsuz")}>{bandNot}</div>
+          {gecerli && (
+            <label className="trm-onay">
+              <input type="checkbox" checked={blokeOnay} onChange={(e) => setBlokeOnay(e.target.checked)} />
+              <span>Teklifim için <b>{Math.round(f * parseFloat(ton) * 1000 * 0.05).toLocaleString("tr-TR")} ₺</b> (tutarın %5&apos;i) güvence hesabımda bloke edilecek — ödeme değildir; eşleşmezse anında çözülür, eşleşirse bedele mahsup edilir. Eşleşme sonrası cayma cezaları blokeden tahsil edilir. Onaylıyorum.</span>
+            </label>
+          )}
+          <button className="trm-dugme trm-dugme--yesil trm-dugme--tam" onClick={submit} disabled={!gecerli || !blokeOnay}>Teklifi yayınla</button>
+          {msg && <p className="trm-not trm-not--olumlu" style={{ marginTop: 12, marginBottom: 0 }}>{msg}</p>}
+          {hata && <p className="trm-not trm-not--olumsuz" style={{ marginTop: 12, marginBottom: 0 }}>{hata}</p>}
         </div>
+      </div>
 
-        <div className="pill-note" style={{ marginTop: 20 }}>
+      {/* Açık kart — koyu zemine düşen tek parlak nesne */}
+      <div className="trm-kemik">
+        <p className="trm-mono">
+          <span className="trm-nabiz" />
+          Güvence
+        </p>
+        <h2 className="trm-kemik__baslik">Eşleşen her işlem güvenceye alınır.</h2>
+        <p className="trm-kemik__metin">
+          Canlı görüntülü doğrulama, güvenceli ödeme ve otomatik HKS/rüsum
+          bildirimi ile tamamlanır. Teklif blokesi ödeme değildir; eşleşme
+          olmazsa anında çözülür.
+        </p>
+        <p style={{ marginTop: 24, display: "inline-flex", alignItems: "center", gap: 8, color: "#4d4947" }}>
           <IconKalkan size={16} />
-          Eşleşen her işlem canlı görüntülü doğrulama, güvenceli ödeme ve otomatik
-          HKS/rüsum bildirimi ile tamamlanır.
-        </div>
+          <span style={{ fontSize: 14 }}>Şeffaf Ticaret Kuralları kapsamındadır.</span>
+        </p>
       </div>
     </main>
   );
