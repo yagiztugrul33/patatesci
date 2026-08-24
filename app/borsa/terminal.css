@@ -51,6 +51,9 @@
   min-height: 100vh;
   font-weight: 400;
   letter-spacing: -0.011em;
+  /* Kök satır yüksekliği: globals.css gövdeye 1.6 veriyor; tasarım sistemi
+     1.5 üstünü yasaklar. Devralınan değeri burada kesiyoruz. */
+  line-height: 1.5;
 }
 
 /* Sayfa zemini kabukla dikişsiz olsun */
@@ -415,11 +418,12 @@ body:has(.trm) { background: #f4f6f2; }
 .trm-dugme--yesil:hover { background: #8fbe80; }
 .trm-dugme--yesil:disabled {
   background: var(--tr-yesil-yumusak);
-  color: #8a908a;
+  color: #5c6659; /* pasif metin de okunur: #e9f1e4 üstünde 5,19:1 */
   cursor: not-allowed;
 }
 .trm-dugme--tam { width: 100%; }
 .trm-dugme--kucuk {
+  min-height: 40px; /* tabloda satır eylemi de parmakla vurulabilir olmalı */
   padding: 7px 12px;
   font-size: 12px;
   font-family: var(--tr-mono);
@@ -457,7 +461,14 @@ body:has(.trm) { background: #f4f6f2; }
   color: var(--tr-metin);
   transition: border-color .16s cubic-bezier(.4,0,.2,1);
 }
-.trm-girdi:focus { outline: none; border-color: var(--tr-yesil-metin); }
+/* Odak: fare için ince kenarlık, klavye için gerçek halka. Önceki
+   "outline:none" klavye kullanıcısını görünür odaktan mahrum bırakıyordu. */
+.trm-girdi:focus { border-color: var(--tr-yesil-metin); }
+.trm-girdi:focus-visible {
+  outline: 2px solid var(--tr-yesil-metin);
+  outline-offset: 1px;
+  border-color: var(--tr-yesil-metin);
+}
 .trm-girdi::placeholder { color: #9a9694; }
 .trm-girdi.trm-rakam { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
 
@@ -496,7 +507,14 @@ body:has(.trm) { background: #f4f6f2; }
   margin-bottom: 16px;
   cursor: pointer;
 }
-.trm-onay input { margin-top: 3px; accent-color: var(--tr-yesil-metin); flex: none; }
+/* Onay kutusu dokunma hedefi: yerel 13px çok küçüktü */
+.trm-onay input {
+  margin-top: 1px;
+  accent-color: var(--tr-yesil-metin);
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
 .trm-onay b { color: var(--tr-metin); font-weight: 400; }
 
 /* Kaynak ibaresi — şeffaflık kuralı gereği her zaman görünür */
@@ -513,3 +531,17 @@ body:has(.trm) { background: #f4f6f2; }
 
 .trm-bolum { margin-top: 96px; }
 @media (max-width: 640px) { .trm-bolum { margin-top: 56px; } }
+
+/* Bölüm başlıkları gerçek h2 — belge taslağı (a11y) için. Görsel olarak mono
+   etiket kalır: h2'nin varsayılan kalın ağırlığı ve boşluğu sıfırlanır,
+   çünkü sistem 400 ağırlıkla konuşur. */
+.trm h2.trm-mono,
+.trm h3.trm-mono { margin: 0; font-weight: 400; font-size: 12px; }
+
+/* Hareket azaltma tercihi: geçişleri kapat */
+@media (prefers-reduced-motion: reduce) {
+  .trm *, .trm *::before, .trm *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}

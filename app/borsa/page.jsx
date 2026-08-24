@@ -177,7 +177,7 @@ export default function Borsa() {
 
       {/* Piyasa tablosu */}
       <section className="trm-bolum">
-        <p className="trm-mono trm-mono--koyu">Piyasa</p>
+        <h2 className="trm-mono trm-mono--koyu">Piyasa</h2>
         <div className="trm-kart" style={{ padding: 0, marginTop: 16 }}>
           <div className="trm-tablo-sar">
             <table className="trm-tablo">
@@ -236,9 +236,9 @@ export default function Borsa() {
         <div className="trm-kart">
           <div className="trm-kart__ust">
             <span className="trm-nabiz" />
-            <span className="trm-mono trm-mono--koyu">
+            <h2 className="trm-mono trm-mono--koyu">
               {cur ? cur.nm : ""} · {kalite} · emir defteri
-            </span>
+            </h2>
           </div>
           <div className="trm-emir">
             <div>
@@ -268,7 +268,7 @@ export default function Borsa() {
 
         <div className="trm-kart">
           <div className="trm-kart__ust">
-            <span className="trm-mono trm-mono--koyu">Teklif ver</span>
+            <h2 className="trm-mono trm-mono--koyu">Teklif ver</h2>
           </div>
           <div className="trm-yon">
             <button
@@ -334,7 +334,7 @@ export default function Borsa() {
               {seviye === "S4" && <p className="trm-not trm-not--olumsuz">Yanlış kat/asansör beyanında fark + %25 ceza alıcıya yazılır.</p>}
             </>
           )}
-          <div className={"trm-not " + (gecerli ? "trm-not--olumlu" : "trm-not--olumsuz")}>{bandNot}</div>
+          <div className={"trm-not " + (gecerli ? "trm-not--olumlu" : "trm-not--olumsuz")} role="status">{bandNot}</div>
           {gecerli && (
             <label className="trm-onay">
               <input type="checkbox" checked={blokeOnay} onChange={(e) => setBlokeOnay(e.target.checked)} />
@@ -342,8 +342,8 @@ export default function Borsa() {
             </label>
           )}
           <button className="trm-dugme trm-dugme--yesil trm-dugme--tam" onClick={submit} disabled={!gecerli || !blokeOnay}>Teklifi yayınla</button>
-          {msg && <p className="trm-not trm-not--olumlu" style={{ marginTop: 12, marginBottom: 0 }}>{msg}</p>}
-          {hata && <p className="trm-not trm-not--olumsuz" style={{ marginTop: 12, marginBottom: 0 }}>{hata}</p>}
+          {msg && <p className="trm-not trm-not--olumlu" role="status" style={{ marginTop: 12, marginBottom: 0 }}>{msg}</p>}
+          {hata && <p className="trm-not trm-not--olumsuz" role="alert" style={{ marginTop: 12, marginBottom: 0 }}>{hata}</p>}
         </div>
       </div>
 
