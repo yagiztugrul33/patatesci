@@ -114,13 +114,13 @@ export default function Borsa() {
       <div className="trm-cerceve">
         <div className="trm-cerceve__ust">
           <span className="trm-lamba"><i /><i /><i /></span>
-          <span className="trm-mono trm-mono--bone">
+          <span className="trm-mono trm-mono--koyu">
             ptx · {cur ? cur.nm.toLocaleLowerCase("tr") : "—"} · {kalite}
           </span>
         </div>
 
         <div className="trm-kutular">
-          <div className="trm-kutu">
+          <div className="trm-kutu trm-kutu--vurgu">
             <div className="trm-mono">PTX endeksi</div>
             <div className="trm-kutu__deger trm-kutu__deger--yesil">
               {endeks === null ? "—" : fmtTL(endeks)}
@@ -177,17 +177,17 @@ export default function Borsa() {
 
       {/* Piyasa tablosu */}
       <section className="trm-bolum">
-        <p className="trm-mono trm-mono--bone">Piyasa</p>
+        <p className="trm-mono trm-mono--koyu">Piyasa</p>
         <div className="trm-kart" style={{ padding: 0, marginTop: 16 }}>
           <div className="trm-tablo-sar">
             <table className="trm-tablo">
               <thead>
                 <tr>
                   <th>Ürün</th>
-                  <th className="rakam">Son fiyat (₺/kg)</th>
-                  <th className="rakam">Günlük değişim</th>
-                  <th className="rakam">Ankara Hal (orta)</th>
-                  <th className="rakam">Fark</th>
+                  <th className="trm-rakam">Son fiyat (₺/kg)</th>
+                  <th className="trm-rakam">Günlük değişim</th>
+                  <th className="trm-rakam">Ankara Hal (orta)</th>
+                  <th className="trm-rakam">Fark</th>
                   <th></th>
                 </tr>
               </thead>
@@ -203,15 +203,15 @@ export default function Borsa() {
                         {m.nm}
                       </span>
                     </td>
-                    <td className="rakam">{fmtSayi(m.last)}</td>
-                    <td className="rakam">
+                    <td className="trm-rakam">{fmtSayi(m.last)}</td>
+                    <td className="trm-rakam">
                       <span className={"trm-degisim " + (m.chg >= 0 ? "trm-degisim--yukari" : "trm-degisim--asagi")}>
                         {m.chg >= 0 ? <IconYukari size={12} /> : <IconAsagi size={12} />}
                         %{fmtSayi(Math.abs(m.chg), 1)}
                       </span>
                     </td>
-                    <td className="rakam">{h ? fmtSayi(h.orta) : "—"}</td>
-                    <td className="rakam">{fark === null ? "—" : (
+                    <td className="trm-rakam">{h ? fmtSayi(h.orta) : "—"}</td>
+                    <td className="trm-rakam">{fark === null ? "—" : (
                       <span className={"trm-degisim " + (fark <= 0 ? "trm-degisim--yukari" : "trm-degisim--asagi")}>%{fmtSayi(Math.abs(fark), 1)} {fark <= 0 ? "ucuz" : "pahalı"}</span>
                     )}</td>
                     <td className="sag">
@@ -236,7 +236,7 @@ export default function Borsa() {
         <div className="trm-kart">
           <div className="trm-kart__ust">
             <span className="trm-nabiz" />
-            <span className="trm-mono trm-mono--bone">
+            <span className="trm-mono trm-mono--koyu">
               {cur ? cur.nm : ""} · {kalite} · emir defteri
             </span>
           </div>
@@ -268,15 +268,15 @@ export default function Borsa() {
 
         <div className="trm-kart">
           <div className="trm-kart__ust">
-            <span className="trm-mono trm-mono--bone">Teklif ver</span>
+            <span className="trm-mono trm-mono--koyu">Teklif ver</span>
           </div>
           <div className="trm-yon">
             <button
-              className={"trm-dugme " + (yon === "sat" ? "trm-yon__aktif" : "trm-dugme--koyu")}
+              className={"trm-dugme " + (yon === "sat" ? "trm-yon__aktif" : "trm-dugme--sade")}
               onClick={() => setYon("sat")}
             >Satış teklifi</button>
             <button
-              className={"trm-dugme " + (yon === "al" ? "trm-yon__aktif" : "trm-dugme--koyu")}
+              className={"trm-dugme " + (yon === "al" ? "trm-yon__aktif" : "trm-dugme--sade")}
               onClick={() => setYon("al")}
             >Alış teklifi</button>
           </div>
@@ -295,10 +295,10 @@ export default function Borsa() {
           </div>
           <div className="trm-cift">
             <div className="trm-alan"><label htmlFor="trm-fiyat">Birim fiyat (₺/kg)</label>
-              <input id="trm-fiyat" className="trm-girdi rakam" value={fiyat} onChange={(e) => setFiyat(e.target.value)} placeholder="Örn. 18.20" />
+              <input id="trm-fiyat" className="trm-girdi trm-rakam" value={fiyat} onChange={(e) => setFiyat(e.target.value)} placeholder="Örn. 18.20" />
             </div>
             <div className="trm-alan"><label htmlFor="trm-ton">Miktar (ton)</label>
-              <input id="trm-ton" className="trm-girdi rakam" value={ton} onChange={(e) => setTon(e.target.value)} placeholder="Asgari 1" />
+              <input id="trm-ton" className="trm-girdi trm-rakam" value={ton} onChange={(e) => setTon(e.target.value)} placeholder="Asgari 1" />
             </div>
           </div>
           <div className="trm-alan"><label htmlFor="trm-kim">Ad / unvan (isteğe bağlı)</label>
@@ -322,7 +322,7 @@ export default function Borsa() {
               {seviye === "S4" && (
                 <div className="trm-cift">
                   <div className="trm-alan"><label htmlFor="trm-kat">Kat beyanı</label>
-                    <input id="trm-kat" className="trm-girdi rakam" value={kat} onChange={(e) => setKat(e.target.value)} placeholder="Örn. 2" />
+                    <input id="trm-kat" className="trm-girdi trm-rakam" value={kat} onChange={(e) => setKat(e.target.value)} placeholder="Örn. 2" />
                   </div>
                   <div className="trm-alan"><label htmlFor="trm-asansor">Asansör</label>
                     <select id="trm-asansor" className="trm-girdi" value={asansor ? "var" : "yok"} onChange={(e) => setAsansor(e.target.value === "var")}>
@@ -348,18 +348,18 @@ export default function Borsa() {
       </div>
 
       {/* Açık kart — koyu zemine düşen tek parlak nesne */}
-      <div className="trm-kemik">
+      <div className="trm-vurgu">
         <p className="trm-mono">
           <span className="trm-nabiz" />
           Güvence
         </p>
-        <h2 className="trm-kemik__baslik">Eşleşen her işlem güvenceye alınır.</h2>
-        <p className="trm-kemik__metin">
+        <h2 className="trm-vurgu__baslik">Eşleşen her işlem güvenceye alınır.</h2>
+        <p className="trm-vurgu__metin">
           Canlı görüntülü doğrulama, güvenceli ödeme ve otomatik HKS/rüsum
           bildirimi ile tamamlanır. Teklif blokesi ödeme değildir; eşleşme
           olmazsa anında çözülür.
         </p>
-        <p style={{ marginTop: 24, display: "inline-flex", alignItems: "center", gap: 8, color: "#4d4947" }}>
+        <p style={{ marginTop: 24, display: "inline-flex", alignItems: "center", gap: 8, color: "#2f5026" }}>
           <IconKalkan size={16} />
           <span style={{ fontSize: 14 }}>Şeffaf Ticaret Kuralları kapsamındadır.</span>
         </p>

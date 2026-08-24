@@ -1,52 +1,63 @@
 /* ============================================================================
-   BORSA TERMİNALİ — koyu enstrüman yüzeyi
+   BORSA TERMİNALİ — açık enstrüman yüzeyi, metrik yeşili ağırlıklı
    ----------------------------------------------------------------------------
-   Kaynak tasarım: "Factory — Style Reference" (koyu tema, terminal savaş odası).
-   Bu projeye uyarlama kararı: birincil vurgu METRİK YEŞİLİ #a0ca92.
-   Kaynak sistemde turuncu birincil, yeşil ikincil vurgudur; burada roller
-   yer değiştirdi — yeşil canlı veri + eylem dilini taşır, turuncu YALNIZCA
-   negatif sinyale (düşüş, band ihlali, uyarı) ayrıldı. Böylece renk hâlâ
-   "veri sesi" olarak kalır, dekorasyona dönüşmez.
+   Kaynak tasarım: "Factory — Style Reference". Oradan YAPI alındı, TEMA değil:
+   ağırlık 400 tipografi, sıkı negatif harf aralığı, mono enstrüman etiketleri,
+   gölgesiz derinlik (figür/zemin kontrastı), 3/10/20px yarıçap disiplini,
+   geniş bölüm boşluğu. Zemin koyu değil açık.
 
-   Yalnız /borsa yüzeyinde geçerlidir; .trm kökü dışına sızmaz. Site genelinin
-   açık teması (app/globals.css) değişmeden durur.
+   RENK KARARI — ölçümle verildi (WCAG kontrast hesabı):
+     #a0ca92 açık zeminde METİN OLARAK KULLANILAMAZ — beyaz üstünde 1,85:1.
+     Ama ZEMİN olarak güçlüdür: üstünde #101010 metin 10,29:1.
+   Bu yüzden metrik yeşili ağırlığını DOLGULARLA taşır (birincil düğme, vurgu
+   paneli, band rayı, aktif taraf, seçili satır, kutucuk rayı). Yeşil metin
+   gerektiğinde aynı tondan koyu türev #446e37 kullanılır (zeminde 5,47:1 ·
+   kartta 5,95:1). Turuncu yalnız negatif sinyaldir; metin olarak #b3440d
+   (5,15:1), işaret olarak #ee6018.
+
+   Yalnız /borsa yüzeyinde geçerlidir; site geneli (globals.css) değişmez.
    ========================================================================== */
 
 .trm {
-  /* ---- Renk jetonları ---- */
-  --tr-canvas: #101010; /* zemin — her şeyin ölçüldüğü boşluk */
-  --tr-lift: #1d1a18;   /* bir kademe yukarı: kılcal çizgi, dolgu */
-  --tr-stroke: #3d3a39; /* kenarlık, hayalet düğme çerçevesi */
-  --tr-graphite: #4d4947;
-  --tr-granite: #8a8380; /* soluk gövde metni */
-  --tr-stone: #b8b3b0;   /* üçüncül metin, kolon başlığı */
-  --tr-bone: #eeeeee;    /* birincil metin + açık kart yüzeyi */
-  --tr-chalk: #fafafa;
+  /* ---- Nötr iskelet ---- */
+  --tr-zemin: #f4f6f2;   /* sayfa zemini — yeşile çalan çok soluk taş */
+  --tr-kart: #ffffff;    /* kart yüzeyi — açık zemine düşen figür */
+  --tr-cizgi: #e2e6de;   /* kılcal ayraç */
+  --tr-cizgi-koyu: #cfd6c9;
+  --tr-metin: #101010;   /* birincil metin — 17,5:1 */
+  --tr-soluk: #5f5b59;   /* ikincil gövde — 6,18:1 */
+  --tr-ucuncul: #6b6664; /* mono etiket, kolon başlığı — 5,66:1 */
 
-  --tr-green: #a0ca92;      /* BİRİNCİL — canlı veri, yükseliş, eylem */
-  --tr-green-dim: #4a5f42;  /* yeşilin sönük hali: ray zemini, pasif iz */
-  --tr-orange: #ee6018;     /* YALNIZ negatif: düşüş, band ihlali, uyarı */
+  /* ---- Metrik yeşili ---- */
+  --tr-yesil: #a0ca92;         /* DOLGU — ağırlığı bu taşır */
+  --tr-yesil-metin: #446e37;   /* METİN/ikon — aynı aileden koyu türev */
+  --tr-yesil-derin: #2f5026;   /* yüksek vurgulu yeşil metin — 8,4:1 */
+  --tr-yesil-yumusak: #e9f1e4; /* yeşil wash — tonlu yüzey */
+  --tr-yesil-cizgi: #c3ddb8;
 
-  /* ---- Tipografi ---- */
+  /* ---- Negatif sinyal ---- */
+  --tr-turuncu: #ee6018;       /* işaret/dolgu */
+  --tr-turuncu-metin: #b3440d; /* metin — 5,15:1 */
+  --tr-turuncu-yumusak: #fdeee6;
+
   --tr-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  /* ---- Yarıçap: sistem yumuşak değil ---- */
-  --tr-r-sm: 3px;  /* düğme, nav */
-  --tr-r-lg: 10px; /* kart */
-  --tr-r-xl: 20px; /* en büyük panel */
+  --tr-r-sm: 3px;
+  --tr-r-lg: 10px;
+  --tr-r-xl: 20px;
 
-  background: var(--tr-canvas);
-  color: var(--tr-bone);
+  background: var(--tr-zemin);
+  color: var(--tr-metin);
   min-height: 100vh;
-  /* Gövde metni de dahil her şey tek aile; ağırlık 400 — otorite sıkı
-     harf aralığından gelir, kalınlıktan değil. */
   font-weight: 400;
   letter-spacing: -0.011em;
 }
 
-/* Koyu yüzeyde tarayıcı varsayılanlarını (form kontrolleri, seçim) hizala */
-.trm ::selection { background: var(--tr-green); color: var(--tr-canvas); }
-.trm :focus-visible { outline: 2px solid var(--tr-green); outline-offset: 2px; border-radius: 2px; }
+/* Sayfa zemini kabukla dikişsiz olsun */
+body:has(.trm) { background: #f4f6f2; }
+
+.trm ::selection { background: var(--tr-yesil); color: #101010; }
+.trm :focus-visible { outline: 2px solid var(--tr-yesil-metin); outline-offset: 2px; border-radius: 2px; }
 
 .trm-kabuk {
   max-width: 1200px;
@@ -55,8 +66,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Enstrüman sesi: mono 12px büyük harf, sıkı aralık.
-   Kullanıcı mono gördüğünde sistem yüzeyine baktığını bilir.
+   Enstrüman sesi: mono 12px büyük harf
    ------------------------------------------------------------------------ */
 .trm-mono {
   font-family: var(--tr-mono);
@@ -64,25 +74,24 @@
   line-height: 1;
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  color: var(--tr-stone);
+  color: var(--tr-ucuncul);
 }
-.trm-mono--bone { color: var(--tr-bone); }
-.trm-mono--yesil { color: var(--tr-green); }
+.trm-mono--koyu { color: var(--tr-metin); }
+.trm-mono--yesil { color: var(--tr-yesil-metin); }
 
-/* Canlı göstergesi: 6px yeşil disk, etiketin hemen önünde */
+/* Canlı göstergesi */
 .trm-nabiz {
   display: inline-block;
   width: 6px; height: 6px;
   border-radius: 50%;
-  background: var(--tr-green);
+  background: var(--tr-yesil-metin);
   margin-right: 8px;
   vertical-align: middle;
   flex: none;
 }
-.trm-nabiz--turuncu { background: var(--tr-orange); }
 
 /* ---------------------------------------------------------------------------
-   Üst şerit — kalıcı terminal başlığı
+   Üst şerit
    ------------------------------------------------------------------------ */
 .trm-serit {
   display: flex;
@@ -90,7 +99,7 @@
   gap: 16px;
   flex-wrap: wrap;
   padding: 20px 0;
-  border-bottom: 1px solid var(--tr-lift);
+  border-bottom: 1px solid var(--tr-cizgi);
   margin-bottom: 40px;
 }
 .trm-serit__ad {
@@ -98,27 +107,27 @@
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--tr-bone);
+  color: var(--tr-metin);
   display: inline-flex;
   align-items: center;
 }
 .trm-serit__ara { flex: 1 1 auto; }
 
 /* ---------------------------------------------------------------------------
-   Başlık bloğu
+   Başlık
    ------------------------------------------------------------------------ */
 .trm-baslik {
   font-size: 44px;
   line-height: 1.12;
   letter-spacing: -0.025em;
   font-weight: 400;
-  color: var(--tr-bone);
+  color: var(--tr-metin);
   margin: 16px 0 0;
 }
 .trm-alt {
   font-size: 16px;
   line-height: 1.5;
-  color: var(--tr-granite);
+  color: var(--tr-soluk);
   max-width: 60ch;
   margin: 16px 0 0;
 }
@@ -127,11 +136,11 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Gösterge paneli çerçevesi — ürünün canlı önizlemesi
+   Gösterge paneli
    ------------------------------------------------------------------------ */
 .trm-cerceve {
-  background: #0d0d0d;
-  border: 1px solid var(--tr-lift);
+  background: var(--tr-kart);
+  border: 1px solid var(--tr-cizgi);
   border-radius: var(--tr-r-xl);
   overflow: hidden;
   margin-top: 40px;
@@ -141,58 +150,63 @@
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  background: var(--tr-lift);
-  border-bottom: 1px solid #000;
+  background: var(--tr-yesil-yumusak);
+  border-bottom: 1px solid var(--tr-yesil-cizgi);
 }
 .trm-lamba { display: inline-flex; gap: 6px; flex: none; }
 .trm-lamba i {
   width: 10px; height: 10px; border-radius: 50%;
-  background: var(--tr-graphite);
+  background: var(--tr-cizgi-koyu);
   display: block;
 }
+/* İlk lamba canlı göstergesi: dolu yeşil */
+.trm-lamba i:first-child { background: var(--tr-yesil); }
 
-/* Metrik kutucuğu: zemini yok, kılcal ayraçla tanımlanır */
 .trm-kutular {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 .trm-kutu {
   padding: 20px;
-  border-right: 1px solid var(--tr-lift);
-  border-bottom: 1px solid var(--tr-lift);
+  border-right: 1px solid var(--tr-cizgi);
+  border-bottom: 1px solid var(--tr-cizgi);
   min-width: 0;
 }
 .trm-kutu__deger {
   font-size: 36px;
   line-height: 1.1;
   letter-spacing: -0.031em;
-  color: var(--tr-bone);
+  color: var(--tr-metin);
   margin-top: 12px;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
 }
-.trm-kutu__deger--yesil { color: var(--tr-green); }
+/* Endeks: yeşilin en görünür yeri — derin türev, büyük punto */
+.trm-kutu__deger--yesil { color: var(--tr-yesil-derin); }
 .trm-kutu__not {
   font-size: 14px;
   line-height: 1.43;
-  color: var(--tr-granite);
+  color: var(--tr-soluk);
   margin-top: 8px;
+}
+/* Vurgulu kutucuk: yeşil wash + üstte tam genişlik yeşil ray */
+.trm-kutu--vurgu {
+  background: var(--tr-yesil-yumusak);
+  box-shadow: inset 0 3px 0 var(--tr-yesil);
 }
 
 /* ---------------------------------------------------------------------------
    BAND KONUM RAYI — gerçek veriyle mikro görselleştirme
    ----------------------------------------------------------------------------
-   Kaynak tasarımda burada "sparkline" var; ancak /api/market yalnızca son
-   fiyat + günlük değişim döndürür, ZAMAN SERİSİ YOK. Uydurma bir çizgi
-   çizmek yerine elimizdeki gerçek veriyi gösteriyoruz: ±%15 bandı içinde
-   son fiyatın nerede durduğu. Ray zemini bandın tamamı, işaret son fiyat,
-   orta çentik band merkezi (hal referansı × kalite katsayısı).
+   /api/market yalnızca son fiyat + günlük değişim döndürür, zaman serisi yok.
+   Uydurma sparkline yerine ±%15 bandı içindeki gerçek konum gösterilir; band
+   dışına çıkınca işaret turuncuya döner.
    ------------------------------------------------------------------------ */
 .trm-ray {
   position: relative;
-  height: 4px;
-  background: var(--tr-lift);
-  border-radius: 2px;
+  height: 6px;
+  background: var(--tr-yesil);
+  border-radius: 3px;
   margin-top: 16px;
 }
 .trm-ray__merkez {
@@ -200,17 +214,18 @@
   top: -3px; bottom: -3px;
   width: 1px;
   left: 50%;
-  background: var(--tr-graphite);
+  background: var(--tr-yesil-derin);
+  opacity: .45;
 }
 .trm-ray__isaret {
   position: absolute;
-  top: -3px;
-  width: 2px; height: 10px;
-  background: var(--tr-green);
-  border-radius: 1px;
-  transform: translateX(-1px);
+  top: -4px;
+  width: 3px; height: 14px;
+  background: var(--tr-yesil-derin);
+  border-radius: 2px;
+  transform: translateX(-1.5px);
 }
-.trm-ray__isaret--disarida { background: var(--tr-orange); }
+.trm-ray__isaret--disarida { background: var(--tr-turuncu); }
 .trm-ray__uc {
   display: flex;
   justify-content: space-between;
@@ -218,7 +233,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Tablo — kolon başlıkları mono, satırlar kılcal ayraçlı
+   Tablo
    ------------------------------------------------------------------------ */
 .trm-tablo-sar { overflow-x: auto; }
 .trm-tablo {
@@ -233,32 +248,31 @@
   line-height: 1;
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  color: var(--tr-stone);
+  color: var(--tr-ucuncul);
   font-weight: 400;
   text-align: left;
   padding: 14px 16px;
-  border-bottom: 1px solid var(--tr-stroke);
+  border-bottom: 1px solid var(--tr-cizgi-koyu);
   white-space: nowrap;
 }
 .trm-tablo td {
   padding: 14px 16px;
-  border-bottom: 1px solid var(--tr-lift);
-  color: var(--tr-bone);
+  border-bottom: 1px solid var(--tr-cizgi);
+  color: var(--tr-metin);
   vertical-align: middle;
 }
 .trm-tablo tbody tr:last-child td { border-bottom: none; }
 .trm-tablo .sag { text-align: right; }
-.trm-tablo .rakam {
+.trm-tablo .trm-rakam {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
   text-align: right;
   white-space: nowrap;
 }
-/* Seçili satır: solda yeşil ray — dolgu değil, işaret */
-.trm-tablo tr.secili td { background: #161616; }
-.trm-tablo tr.secili td:first-child { box-shadow: inset 2px 0 0 var(--tr-green); }
+/* Seçili satır: yeşil wash + solda dolu yeşil ray */
+.trm-tablo tr.secili td { background: var(--tr-yesil-yumusak); }
+.trm-tablo tr.secili td:first-child { box-shadow: inset 3px 0 0 var(--tr-yesil-metin); }
 
-/* Değişim rozeti: yükseliş yeşil, düşüş turuncu — zeminsiz, yalnız renk */
 .trm-degisim {
   display: inline-flex;
   align-items: center;
@@ -266,15 +280,15 @@
   font-variant-numeric: tabular-nums;
   font-size: 14px;
 }
-.trm-degisim--yukari { color: var(--tr-green); }
-.trm-degisim--asagi { color: var(--tr-orange); }
+.trm-degisim--yukari { color: var(--tr-yesil-metin); }
+.trm-degisim--asagi { color: var(--tr-turuncu-metin); }
 
 /* ---------------------------------------------------------------------------
    Kartlar
    ------------------------------------------------------------------------ */
-/* Koyu kart: zemin dolgusu yok — kart kenarlıkla ima edilir */
 .trm-kart {
-  border: 1px solid var(--tr-lift);
+  background: var(--tr-kart);
+  border: 1px solid var(--tr-cizgi);
   border-radius: var(--tr-r-lg);
   padding: 20px;
   min-width: 0;
@@ -285,34 +299,36 @@
   gap: 8px;
   padding-bottom: 16px;
   margin-bottom: 16px;
-  border-bottom: 1px solid var(--tr-lift);
+  border-bottom: 1px solid var(--tr-cizgi);
   flex-wrap: wrap;
 }
 
-/* Açık kart: koyu zemine düşen tek parlak nesne — sistemin imza hamlesi */
-.trm-kemik {
-  background: var(--tr-bone);
-  color: var(--tr-canvas);
+/* VURGU PANELİ — metrik yeşilin tam dolgulu kullanıldığı tek büyük yüzey.
+   Koyu temadaki "açık kart" hamlesinin açık zemindeki karşılığı: sayfadaki
+   en doygun nesne. Üstündeki metin #101010 (10,29:1). */
+.trm-vurgu {
+  background: var(--tr-yesil);
+  color: #101010;
   border-radius: var(--tr-r-lg);
   padding: 24px;
   margin-top: 40px;
 }
-.trm-kemik__baslik {
+.trm-vurgu__baslik {
   font-size: 36px;
   line-height: 1.1;
   letter-spacing: -0.031em;
   font-weight: 400;
   margin: 16px 0 0;
-  color: var(--tr-canvas);
+  color: #101010;
 }
-.trm-kemik__metin {
+.trm-vurgu__metin {
   font-size: 16px;
   line-height: 1.5;
-  color: #3d3a39;
+  color: #1d2a17;
   margin: 16px 0 0;
   max-width: 60ch;
 }
-.trm-kemik .trm-mono { color: #4d4947; }
+.trm-vurgu .trm-mono { color: #2f5026; }
 
 /* ---------------------------------------------------------------------------
    Izgara
@@ -329,21 +345,38 @@
 .trm-emir { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 @media (max-width: 420px) { .trm-emir { grid-template-columns: 1fr; } }
 
+/* Emir defteri sabit derinlikte ve kendi içinde kaydırılır — açık emir sayısı
+   arttıkça panel sınırsız uzayıp iki kolonlu düzeni bozuyordu. */
+.trm-emir__liste {
+  margin-top: 12px;
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tr-cizgi-koyu) transparent;
+}
+.trm-emir__liste::-webkit-scrollbar { width: 6px; }
+.trm-emir__liste::-webkit-scrollbar-track { background: transparent; }
+.trm-emir__liste::-webkit-scrollbar-thumb {
+  background: var(--tr-cizgi-koyu);
+  border-radius: 3px;
+}
+.trm-emir__liste::-webkit-scrollbar-thumb:hover { background: var(--tr-yesil-metin); }
+
 .trm-satir {
   display: flex;
   justify-content: space-between;
   gap: 12px;
   padding: 10px 0;
-  border-bottom: 1px solid var(--tr-lift);
+  border-bottom: 1px solid var(--tr-cizgi);
   font-size: 14px;
   font-variant-numeric: tabular-nums;
 }
 .trm-satir:last-child { border-bottom: none; }
-.trm-satir__kim { color: var(--tr-granite); font-size: 12px; }
-.trm-bos { color: var(--tr-granite); font-size: 14px; line-height: 1.43; margin: 12px 0 0; }
+.trm-satir__kim { color: var(--tr-soluk); font-size: 12px; }
+.trm-bos { color: var(--tr-soluk); font-size: 14px; line-height: 1.43; margin: 12px 0 0; }
 
 /* ---------------------------------------------------------------------------
-   Düğmeler — kromatik dolgu yalnız birincil eylemde
+   Düğmeler
    ------------------------------------------------------------------------ */
 .trm-dugme {
   display: inline-flex;
@@ -362,43 +395,45 @@
               color .16s cubic-bezier(.4,0,.2,1),
               border-color .16s cubic-bezier(.4,0,.2,1);
 }
-/* Koyu dolgu: nötr eylem */
-.trm-dugme--koyu { background: #1f1d1c; color: var(--tr-bone); }
-.trm-dugme--koyu:hover { background: #2a2726; }
+/* Nötr eylem: ince çerçeveli beyaz */
+.trm-dugme--sade {
+  background: var(--tr-kart);
+  color: var(--tr-metin);
+  border: 1px solid var(--tr-cizgi-koyu);
+}
+.trm-dugme--sade:hover { border-color: var(--tr-yesil-metin); color: var(--tr-yesil-metin); }
 
-/* Hayalet: kenarlıkla tanımlı tipografik düğme, asla dolmaz */
 .trm-dugme--hayalet {
   background: transparent;
-  color: var(--tr-bone);
-  border: 1px solid var(--tr-stroke);
+  color: var(--tr-soluk);
+  border: 1px solid var(--tr-cizgi-koyu);
 }
-.trm-dugme--hayalet:hover { border-color: var(--tr-bone); color: var(--tr-chalk); }
+.trm-dugme--hayalet:hover { border-color: var(--tr-yesil-metin); color: var(--tr-yesil-metin); }
 
-/* Yeşil dolgu — BİRİNCİL eylem.
-   Kaynak sistem kromatik düğme dolgusunu yasaklar; bu projede "yeşil ağırlıklı"
-   talebi gereği birincil eylem yeşile alındı. Metin koyu (#101010) tutuldu:
-   #101010 üzerinde #a0ca92 kontrastı 4.5'in çok üzerinde. */
-.trm-dugme--yesil { background: var(--tr-green); color: var(--tr-canvas); }
-.trm-dugme--yesil:hover { background: #b0d6a3; }
+/* BİRİNCİL — metrik yeşili dolgu, koyu metin (10,29:1) */
+.trm-dugme--yesil { background: var(--tr-yesil); color: #101010; }
+.trm-dugme--yesil:hover { background: #8fbe80; }
 .trm-dugme--yesil:disabled {
-  background: var(--tr-lift);
-  color: var(--tr-graphite);
+  background: var(--tr-yesil-yumusak);
+  color: #8a908a;
   cursor: not-allowed;
 }
 .trm-dugme--tam { width: 100%; }
-.trm-dugme--kucuk { padding: 7px 12px; font-size: 12px; font-family: var(--tr-mono); text-transform: uppercase; letter-spacing: -0.02em; }
-
-/* Yön seçici: aktif taraf yeşil çerçeveyle işaretlenir */
-.trm-yon { display: flex; gap: 8px; margin-bottom: 20px; }
-.trm-yon .trm-dugme { flex: 1; }
-.trm-yon__aktif {
-  background: transparent;
-  color: var(--tr-green);
-  border: 1px solid var(--tr-green);
+.trm-dugme--kucuk {
+  padding: 7px 12px;
+  font-size: 12px;
+  font-family: var(--tr-mono);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
 }
 
+/* Yön seçici: aktif taraf dolu yeşil */
+.trm-yon { display: flex; gap: 8px; margin-bottom: 20px; }
+.trm-yon .trm-dugme { flex: 1; }
+.trm-yon__aktif { background: var(--tr-yesil); color: #101010; border: 1px solid var(--tr-yesil); }
+
 /* ---------------------------------------------------------------------------
-   Form alanları — koyu yüzeyde enstrüman girdisi
+   Form alanları
    ------------------------------------------------------------------------ */
 .trm-alan { margin-bottom: 16px; min-width: 0; }
 .trm-alan > label {
@@ -408,26 +443,23 @@
   line-height: 1.2;
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  color: var(--tr-stone);
+  color: var(--tr-ucuncul);
   margin-bottom: 8px;
 }
 .trm-girdi {
   width: 100%;
-  background: var(--tr-lift);
-  border: 1px solid var(--tr-stroke);
+  background: var(--tr-kart);
+  border: 1px solid var(--tr-cizgi-koyu);
   border-radius: var(--tr-r-sm);
   padding: 11px 12px;
   font-family: inherit;
   font-size: 14px;
-  color: var(--tr-bone);
+  color: var(--tr-metin);
   transition: border-color .16s cubic-bezier(.4,0,.2,1);
 }
-.trm-girdi:focus { outline: none; border-color: var(--tr-green); }
-.trm-girdi::placeholder { color: var(--tr-graphite); }
-/* Sayısal girdiler tabular hizalanır */
-.trm-girdi.rakam { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
-select.trm-girdi { appearance: none; background-image: none; }
-select.trm-girdi option { background: var(--tr-lift); color: var(--tr-bone); }
+.trm-girdi:focus { outline: none; border-color: var(--tr-yesil-metin); }
+.trm-girdi::placeholder { color: #9a9694; }
+.trm-girdi.trm-rakam { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
 
 .trm-cift { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 @media (max-width: 420px) { .trm-cift { grid-template-columns: 1fr; } }
@@ -440,25 +472,32 @@ select.trm-girdi option { background: var(--tr-lift); color: var(--tr-bone); }
   line-height: 1.43;
   padding: 12px;
   border-radius: var(--tr-r-sm);
-  border: 1px solid var(--tr-lift);
+  border: 1px solid var(--tr-cizgi);
   margin: 0 0 12px;
 }
-.trm-not--olumlu { color: var(--tr-green); border-color: var(--tr-green-dim); }
-.trm-not--olumsuz { color: var(--tr-orange); border-color: #5a2a10; }
+.trm-not--olumlu {
+  color: var(--tr-yesil-derin);
+  background: var(--tr-yesil-yumusak);
+  border-color: var(--tr-yesil-cizgi);
+}
+.trm-not--olumsuz {
+  color: var(--tr-turuncu-metin);
+  background: var(--tr-turuncu-yumusak);
+  border-color: #f6cdb8;
+}
 
-/* Bloke onayı: yoğun metin, okunur satır yüksekliği */
 .trm-onay {
   display: flex;
   align-items: flex-start;
   gap: 10px;
   font-size: 14px;
   line-height: 1.43;
-  color: var(--tr-granite);
+  color: var(--tr-soluk);
   margin-bottom: 16px;
   cursor: pointer;
 }
-.trm-onay input { margin-top: 3px; accent-color: var(--tr-green); flex: none; }
-.trm-onay b { color: var(--tr-bone); font-weight: 400; }
+.trm-onay input { margin-top: 3px; accent-color: var(--tr-yesil-metin); flex: none; }
+.trm-onay b { color: var(--tr-metin); font-weight: 400; }
 
 /* Kaynak ibaresi — şeffaflık kuralı gereği her zaman görünür */
 .trm-kaynak {
@@ -466,80 +505,11 @@ select.trm-girdi option { background: var(--tr-lift); color: var(--tr-bone); }
   font-size: 12px;
   line-height: 1.2;
   letter-spacing: -0.02em;
-  color: var(--tr-granite);
+  color: var(--tr-soluk);
   padding: 12px 16px;
-  border-top: 1px solid var(--tr-lift);
+  border-top: 1px solid var(--tr-cizgi);
   margin: 0;
 }
 
-/* Bölüm ritmi: sayfa nefes alır */
 .trm-bolum { margin-top: 96px; }
 @media (max-width: 640px) { .trm-bolum { margin-top: 56px; } }
-
-/* ---------------------------------------------------------------------------
-   Site kabuğunu bu rotada koyuya al
-   ----------------------------------------------------------------------------
-   Kök layout'taki <Nav> ve <footer> açık temalı; koyu terminalin üstünde/
-   altında açık şerit bırakırlardı. Rota dosyalarına dokunmadan, yalnız
-   .trm içeren sayfada :has() ile devralınıyor. :has() desteklenmeyen eski
-   tarayıcıda kabuk açık kalır — bozulmaz, yalnız daha az bütünleşik görünür.
-   ------------------------------------------------------------------------ */
-body:has(.trm) { background: #101010; }
-
-body:has(.trm) .nav {
-  background: rgba(16, 16, 16, .97);
-  border-bottom-color: #1d1a18;
-  color: #eeeeee;
-}
-body:has(.trm) .nav a { color: #b8b3b0; }
-body:has(.trm) .nav a:hover { color: #fafafa; }
-/* Nav'daki birincil düğme terminal diline uyar: yeşil dolgu, koyu metin */
-body:has(.trm) .nav .btn-primary {
-  background: #a0ca92;
-  color: #101010;
-  border-radius: 3px;
-}
-body:has(.trm) .nav .btn-primary:hover { background: #b0d6a3; }
-
-body:has(.trm) footer {
-  background: #101010;
-  border-top-color: #1d1a18;
-  color: #8a8380;
-}
-body:has(.trm) footer a { color: #8a8380; }
-body:has(.trm) footer a:hover { color: #eeeeee; }
-body:has(.trm) .footer-note { border-top-color: #1d1a18; color: #8a8380; }
-
-/* Marka işareti koyu zeminde: Logo.jsx renkleri satır içi stil/öznitelik
-   olarak basar ve nav'da "dark" tonu (açık zemin için) kullanılır — siyah
-   üstünde okunmaz. Bileşene prop geçmek kök layout'u değiştirmeyi
-   gerektirdiğinden, bu rotada açık ton CSS ile devralınır.
-   Wordmark satır içi style taşıdığı için !important zorunlu; SVG renkleri
-   öznitelik olduğundan normal özgüllükle geçilir. */
-body:has(.trm) .nav a[aria-label] span span,
-body:has(.trm) .footer-grid span span { color: #eeeeee !important; }
-
-body:has(.trm) .nav a[aria-label] svg [stroke],
-body:has(.trm) .footer-grid svg [stroke] { stroke: #a0ca92; }
-body:has(.trm) .nav a[aria-label] svg circle[fill],
-body:has(.trm) .nav a[aria-label] svg path[fill],
-body:has(.trm) .footer-grid svg circle[fill],
-body:has(.trm) .footer-grid svg path[fill] { fill: #a0ca92; }
-
-/* Emir defteri sabit derinlikte: açık emir sayısı arttıkça panel sınırsız
-   uzayıp iki kolonlu düzeni bozuyordu. Gerçek borsa terminallerinde defter
-   sabit yükseklikte olur ve kendi içinde kaydırılır. */
-.trm-emir__liste {
-  margin-top: 12px;
-  max-height: 300px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--tr-stroke) transparent;
-}
-.trm-emir__liste::-webkit-scrollbar { width: 6px; }
-.trm-emir__liste::-webkit-scrollbar-track { background: transparent; }
-.trm-emir__liste::-webkit-scrollbar-thumb {
-  background: var(--tr-stroke);
-  border-radius: 3px;
-}
-.trm-emir__liste::-webkit-scrollbar-thumb:hover { background: var(--tr-graphite); }
