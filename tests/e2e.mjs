@@ -43,19 +43,31 @@ const J = (c, govde) => ({ method: "POST", headers: { "Content-Type": "applicati
   const cA = await kayit("alici");
   const cC = await kayit("alici"); // ilgisiz üçüncü kullanıcı
 
+  // --- Piyasa bandı: sabit fiyat yazmak yerine (referans fiyat zamanla
+  // değişebilir — bkz. DENETIM-KAYDI "sabit sayı yazmak yanlıştı") canlı
+  // bandı bir "asgari fiyat" hata mesajından okuyup ona göre geçerli bir
+  // fiyat türetiyoruz. Kesinlikle bant dışı olacağı garanti bir fiyatla
+  // (asgari işlem tutarı sınırı içinde) reddi tetikleyip mesajı ayrıştırıyoruz.
+  const probeStatus = await fetch(B + "/api/offers", J(cS, { yon: "sat", urun: "patates", kalite: "1. Sınıf", fiyat: 0.01, ton: 5, mense: "Konya" }));
+  const probeBody = await probeStatus.json();
+  const bantAsgari = Number(probeBody.error?.match(/asgari geçerli fiyat ([\d.]+)/)?.[1]);
+  if (!Number.isFinite(bantAsgari)) throw new Error(`Piyasa bandı asgari değeri ayrıştırılamadı: ${JSON.stringify(probeBody)}`);
+  const fiyatGecerli = +(bantAsgari * 1.02).toFixed(2); // bandın hemen içinde, güvenli marj
+  const fiyatAlici = +(bantAsgari * 1.03).toFixed(2); // satıştan biraz yüksek, o da bant içinde
+
   // --- Menşe kuralı (NFC ve NFD) ---
-  esit("menşesiz satış reddi", (await fetch(B + "/api/offers", J(cS, { yon: "sat", urun: "patates", kalite: "1. Sınıf", fiyat: 39, ton: 5 }))).status, 422);
-  esit("uydurma menşe reddi", (await fetch(B + "/api/offers", J(cS, { yon: "sat", urun: "patates", kalite: "1. Sınıf", fiyat: 39, ton: 5, mense: "Paris" }))).status, 422);
-  esit("menşe NFD kabulü", (await fetch(B + "/api/offers", J(cS, { yon: "sat", urun: "patates", kalite: "1. Sınıf", fiyat: 39, ton: 5, mense: "Niğde".normalize("NFD") }))).status, 201);
+  esit("menşesiz satış reddi", (await fetch(B + "/api/offers", J(cS, { yon: "sat", urun: "patates", kalite: "1. Sınıf", fiyat: fiyatGecerli, ton: 5 }))).status, 422);
+  esit("uydurma menşe reddi", (await fetch(B + "/api/offers", J(cS, { yon: "sat", urun: "patates", kalite: "1. Sınıf", fiyat: fiyatGecerli, ton: 5, mense: "Paris" }))).status, 422);
+  esit("menşe NFD kabulü", (await fetch(B + "/api/offers", J(cS, { yon: "sat", urun: "patates", kalite: "1. Sınıf", fiyat: fiyatGecerli, ton: 5, mense: "Niğde".normalize("NFD") }))).status, 201);
 
   // --- Sınır değerler ---
-  esit("sınırsız tonaj reddi", (await fetch(B + "/api/offers", J(cS, { yon: "sat", urun: "patates", kalite: "1. Sınıf", fiyat: 39, ton: 1e308, mense: "Konya" }))).status, 422);
-  esit("asgari 1 ton kuralı", (await fetch(B + "/api/offers", J(cS, { yon: "sat", urun: "patates", kalite: "1. Sınıf", fiyat: 39, ton: 0.5, mense: "Konya" }))).status, 422);
+  esit("sınırsız tonaj reddi", (await fetch(B + "/api/offers", J(cS, { yon: "sat", urun: "patates", kalite: "1. Sınıf", fiyat: fiyatGecerli, ton: 1e308, mense: "Konya" }))).status, 422);
+  esit("asgari 1 ton kuralı", (await fetch(B + "/api/offers", J(cS, { yon: "sat", urun: "patates", kalite: "1. Sınıf", fiyat: fiyatGecerli, ton: 0.5, mense: "Konya" }))).status, 422);
   esit("bant dışı fiyat reddi", (await fetch(B + "/api/offers", J(cS, { yon: "sat", urun: "patates", kalite: "1. Sınıf", fiyat: 999, ton: 5, mense: "Konya" }))).status, 422);
 
   // --- Eşleşme ve yetki ---
-  esit("geçerli satış teklifi", (await fetch(B + "/api/offers", J(cS, { yon: "sat", urun: "patates", kalite: "1. Sınıf", fiyat: 39, ton: 5, mense: "Nevşehir" }))).status, 201);
-  esit("alış teklifi (eşleşme)", (await fetch(B + "/api/offers", J(cA, { yon: "al", urun: "patates", kalite: "1. Sınıf", fiyat: 39.5, ton: 5 }))).status, 201);
+  esit("geçerli satış teklifi", (await fetch(B + "/api/offers", J(cS, { yon: "sat", urun: "patates", kalite: "1. Sınıf", fiyat: fiyatGecerli, ton: 5, mense: "Nevşehir" }))).status, 201);
+  esit("alış teklifi (eşleşme)", (await fetch(B + "/api/offers", J(cA, { yon: "al", urun: "patates", kalite: "1. Sınıf", fiyat: fiyatAlici, ton: 5 }))).status, 201);
   const emir = await (await fetch(B + "/api/orders", { headers: { Cookie: cA } })).json();
   const id = emir.orders?.[0]?.id;
   esit("sipariş oluştu", typeof id === "number", true);
